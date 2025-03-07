@@ -2,8 +2,11 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import AvalancheRiskMap from './components/AvalancheRiskMap';
+import TrentinoDataViewer from './components/TrentinoDataViewer';
+import Home from './components/Home';
 
-const Home = () => <div>Benvenuto nella Home Page!</div>;
+import "./styles/Home.css"
+
 const Mappa = () => <div>Visualizza Mappa (puoi aggiungere la tua mappa qui)</div>;
 
 const App = () => {
@@ -13,8 +16,9 @@ const App = () => {
     <div>
       <Navbar setView={setView} />
       {view === 'home' && <Home />}
-      {view === 'mappa' && <Mappa />}
+      {view === 'mappa' && <sitemap />}
       {view === 'rischio-valanghe' && <AvalancheRiskMap />}
+      {view === 'dati-trentino' && <TrentinoDataViewer />}
     </div>
   );
 };
