@@ -27,15 +27,15 @@ export default function Home() {
 
       <section className="features">
         <div className="feature">
-          <Image src="/icon1.png" alt="Paesaggi" width={50} height={50} />
+          <Image src="/trek.png" alt="Paesaggi" width={50} height={50} />
           <p>Paesaggi mozzafiato</p>
         </div>
         <div className="feature">
-          <Image src="/icon2.png" alt="Percorsi" width={50} height={50} />
+          <Image src="/trial.png" alt="Percorsi" width={50} height={50} />
           <p>Percorsi per tutti i livelli</p>
         </div>
         <div className="feature">
-          <Image src="/icon3.png" alt="Bivacchi" width={50} height={50} />
+          <Image src="/camp.png" alt="Bivacchi" width={50} height={50} />
           <p>Bivacchi e rifugi accoglienti</p>
         </div>
       </section>
