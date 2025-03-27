@@ -15,7 +15,8 @@ export default function Home() {
             <li><Link href="/bivacchi">Bivacchi e Rifugi</Link></li>
           </ul>
         </nav>
-        <button className="contact-btn">Contattaci</button>
+        <button className="contact-btn">REGISTRATI</button>
+        <a href="/login">login</a>
       </header>
 
       <section className="hero">
