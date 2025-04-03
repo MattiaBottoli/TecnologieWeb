@@ -1,5 +1,6 @@
 "use client";
 
+import "../../styles/loginregistrati.css";
 import React, { useState } from "react";
 
 interface UserData {
@@ -98,8 +99,15 @@ const Registrati: React.FC = () => {
             />
           </section>
 
+          <section>
+              <button type="submit">CREA</button>
+            </section>
+
+          <br></br>
           <footer>
-            <button type="submit">CREA</button>
+            <a href="/login" className="hover:underline">
+                  LOGIN
+            </a>
           </footer>
         </fieldset>
       </form>

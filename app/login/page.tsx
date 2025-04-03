@@ -1,5 +1,7 @@
 "use client";
 
+import "../../styles/loginregistrati.css";
+
 import React, { useState } from "react";
 // import { useNavigate } from "react-router-dom"; // Per il reindirizzamento
 
@@ -50,9 +52,8 @@ const Login: React.FC = () => {
     return (
       <div className="container">
         <form onSubmit={handleSubmit}>
-          <fieldset>
             <header>
-              <h1>ACCEDI</h1>
+              <h2>ACCEDI:</h2>
               <h4>Inserisci le tue credenziali di accesso.</h4>
             </header>
             {error && <p style={{ color: "red" }}>{error}</p>}
@@ -79,20 +80,17 @@ const Login: React.FC = () => {
                 required
               />
             </section>
-            <br />
+            <br/>
             <section>
               <button type="submit">ACCEDI</button>
             </section>
 
             <footer>
-              <p>
-                <strong>Non hai ancora un account? </strong>
+              <h4>Non hai ancora un account? </h4>
                 <a href="/registrati" className="hover:underline">
                   REGISTRATI
                 </a>
-              </p>
             </footer>
-          </fieldset>
         </form>
       </div>
     );
