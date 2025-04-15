@@ -10,7 +10,6 @@ const app = express();
 const PORT = 5000;
 const MONGO_URI = "mongodb://localhost:27017/TrentinoExplorer"; // Cambia l'URI se il database è su un server remoto
 const DB_NAME = "local"; // Nome del database
-const COLLECTION_COMPRENSORI = "Comprensori";
 const COLLECTION_UTENTI = "Utenti";
 const COLLECTION_PRENOTAZIONI = "Prenotazioni";
 const COLLECTION_BIVACCHI = "Bivacchi";
@@ -20,21 +19,6 @@ const COLLECTION_PERCORSI = "Percorsi";
 app.use(cors()); // Per evitare problemi di CORS
 app.use(express.json()); // Per gestire richieste JSON
 
-app.get('/api/comprensori', async (req, res) => {
- const client = new MongoClient(MONGO_URI);
- try {
-     await client.connect();
-     const db = client.db(DB_NAME);
-     const collection = db.collection(COLLECTION_COMPRENSORI);
-     const comprensori = await collection.find().toArray();
-     res.json(comprensori); // Risponde con i dati in JSON
- } catch (error) {
-     console.error("Errore nel recupero dei dati:", error);
-     res.status(500).json({ message: "Errore interno del server" });
- } finally {
-     await client.close();
- }
-});
 
 app.get("/api/bivacchi", async (req, res) => {
   const client = new MongoClient(MONGO_URI);
@@ -183,6 +167,71 @@ app.post("/api/register", async (req, res) => {
 
     } catch (error) {
       console.error("Errore nella programmazione:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    } finally {
+      await client.close();
+    }
+  });
+
+  app.delete("/api/prenotazioni/delete", async (req, res) => {
+    const client = new MongoClient(MONGO_URI);
+    try {
+      await client.connect();
+      const db = client.db(DB_NAME);
+      const collection = db.collection(COLLECTION_PRENOTAZIONI);
+    
+      const id = req.headers["id_prenotazione"];
+
+      if (!ObjectId.isValid(id)) {
+        return res.status(400).json({ message: "ID non valido" });
+      }
+      const result = await collection.deleteOne({ _id: new ObjectId(id) });
+  
+      if (result.deletedCount === 0) {
+        return res.status(404).json({ message: "Prenotazione non trovata" });
+      }
+  
+      res.json({ message: "Prenotazione eliminata con successo" });
+  
+    } catch (error) {
+      console.error("Errore nella cancellazione:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    } finally {
+      await client.close();
+    }
+  });
+  
+  app.put("/api/prenotazioni/update", async (req, res) => {
+    const client = new MongoClient(MONGO_URI);
+    try {
+      await client.connect();
+      const db = client.db(DB_NAME);
+      const collection = db.collection(COLLECTION_PRENOTAZIONI);
+  
+      const { id_prenotazione, nuova_data, nuovo_percorso, nuovo_bivacco } = req.body;
+  
+      if (!id_prenotazione || !nuova_data || !nuovo_percorso || !nuovo_bivacco) {
+        return res.status(400).json({ message: "Dati mancanti per la modifica" });
+      }
+  
+      const result = await collection.updateOne(
+        { _id: new ObjectId(id_prenotazione) },
+        {
+          $set: {
+            data: nuova_data,
+            percorso: nuovo_percorso,
+            bivacco: nuovo_bivacco,
+          },
+        }
+      );
+  
+      if (result.modifiedCount === 1) {
+        res.json({ message: "Prenotazione aggiornata con successo" });
+      } else {
+        res.status(404).json({ message: "Prenotazione non trovata o dati identici" });
+      }
+    } catch (error) {
+      console.error("Errore nella modifica:", error);
       res.status(500).json({ message: "Errore interno del server" });
     } finally {
       await client.close();

@@ -2,20 +2,20 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(to bottom, #0a351c, #2e8651);
+  background: linear-gradient(to bottom, #0d2e1b, #14532d);
   color: white;
   text-align: center;
 }
 
 /* Contenitore principale */
-.bivacchi-container, .percorsi-container {
+.bivacchi-container, .percorsi-container, .prenotazioni-container {
   padding: 50px 25px;
   max-width: 1300px;
   margin: auto;
 }
 
 /* Titolo */
-.bivacchi-title, .percorsi-title {
+.bivacchi-title, .percorsi-title, .prenotazioni-title {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 25px;
@@ -24,7 +24,7 @@ body {
 }
 
 /* Griglia */
-.bivacchi-grid, .percorsi-grid {
+.bivacchi-grid, .percorsi-grid, .prenotazioni-grid{
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 25px;
@@ -33,7 +33,7 @@ body {
 }
 
 /* Stile card */
-.bivacco-card, .percorsi-card {
+.bivacco-card, .percorsi-card, .prenotazioni-card{
   background: rgba(255, 255, 255, 0.12);
   border-radius: 18px;
   padding: 22px;
@@ -43,19 +43,19 @@ body {
   border-left: 5px solid #34d399;
 }
 
-.bivacco-card:hover, .percorsi-card:hover {
+.bivacco-card:hover, .percorsi-card:hover, .prenotazioni-card:hover {
   transform: scale(1.08);
   background: rgba(255, 255, 255, 0.22);
 }
 
 /* Titolo card */
-.bivacco-card h2, .percorsi-card h2 {
+.bivacco-card h2, .percorsi-card h2, .prenotazioni-card h2{
   font-size: 1.6rem;
   margin-bottom: 12px;
 }
 
 /* Testo descrizione */
-.bivacco-card p, .percorsi-card p {
+.bivacco-card p, .percorsi-card p, .prenotazioni-card p {
   font-size: 1rem;
   margin-bottom: 10px;
   line-height: 1.4;
@@ -125,7 +125,19 @@ body {
   font-style: italic;
 }
 
-/* Responsività */
+.delete-mode h2 {
+  color: #d30303;
+}
+
+.delete-mode .red-btn, .update-mode .red-btn {
+  background: #d30303;
+}
+
+.delete-mode .red-btn:hover, .update-mode .red-btn:hover {
+  background: linear-gradient(135deg, #d30303, #790000);
+}
+
+/* Responsività  */
 @media (max-width: 768px) {
   .bivacchi-grid, .percorsi-grid {
       grid-template-columns: 1fr;
