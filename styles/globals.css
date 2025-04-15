@@ -8,18 +8,6 @@ body {
   text-align: center;
 }
 
-/* HEADER */
-.header-blocked {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 50px;
-  background: rgba(0, 20, 0, 0.9);
-  border-radius: 20px;
-  margin: 5px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6);
-}
-
 .logo img {
   width: 60px;
   transition: transform 0.3s ease;
@@ -58,7 +46,7 @@ nav ul li a:hover {
 }
 
 .contact-btn:hover {
-  background: #34c759;
+  background: #34d399;
   border-color:  rgba(0, 20, 0, 0.9);
 }
 

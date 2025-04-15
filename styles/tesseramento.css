@@ -1,0 +1,129 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #0a351c, #2e8651);
+    color: white;
+    text-align: center;
+  }
+  
+  /* Contenitore principale */
+  .tesseramento-container {
+    max-width: 768px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: left;
+  }
+  
+  /* Titolo principale */
+  .tesseramento-container h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #ffffff;
+    text-align: center;
+  }
+  
+  /* Messaggio di stato */
+  .tesseramento-container p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  /* Messaggio di stato positivo */
+  .tesseramento-container p.success {
+    color: #4BB543;
+    font-weight: 600;
+  }
+  
+  /* Messaggio di stato negativo */
+  .tesseramento-container p.warning {
+    color: #FFA500;
+    font-weight: 600;
+  }
+  
+  /* Sottotitolo */
+  .tesseramento-container h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    color: #ffffff;
+  }
+  
+  /* Lista preferiti */
+  .tesseramento-container ul {
+    padding-left: 1.5rem;
+    color: #cccccc;
+    list-style-type: disc;
+    margin-bottom: 1rem;
+  }
+  
+  /* Voce della lista */
+  .tesseramento-container ul li {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  /* Separatore */
+  .tesseramento-container hr {
+    margin: 2rem 0;
+    border: 0;
+    border-top: 1px solid #666;
+  }
+  
+  /* Bottone */
+  .tesseramento-container button {
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #2563eb;
+    color: white;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+  }
+  
+  .tesseramento-container button:hover {
+    background-color: #1d4ed8;
+  }
+  
+  /* Navbar */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  
+  .navbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 1rem;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar a:hover {
+    color: #ffffffb3;
+  }
+  
+  .navbar button {
+    padding: 0.5rem 1rem;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .navbar button:hover {
+    background-color: #1d4ed8;
+  }
+  

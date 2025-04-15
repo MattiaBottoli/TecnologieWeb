@@ -1,138 +1,136 @@
-.header-blocked {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 50px;
-    background: rgba(0, 20, 0, 0.8);
-    border-radius: 20px 20px 20px 20px;
-    margin: 2.5px;
-  }
-
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(to bottom, #0f3d21, #1a472a);
-    color: white;
-    text-align: center;
-  }
-  
-  /* Contenitore principale */
-  .bivacchi-container {
-    padding: 40px 20px;
-    max-width: 1200px;
-    margin: auto;
-  }
-  
-  /* Titolo */
-  .bivacchi-title {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  /* Griglia dei bivacchi */
-  .bivacchi-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    justify-content: center;
-    align-items: stretch;
-  }
-  
-  /* Stile card bivacco */
-  .bivacco-card {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s ease, background 0.3s;
-    text-align: left;
-  }
-  
-  .bivacco-card:hover {
-    transform: scale(1.1);
-    background: rgba(255, 255, 255, 0.2);
-  }
-  
-  /* Titolo card */
-  .bivacco-card h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-  }
-  
-  /* Testo descrizione */
-  .bivacco-card p {
-    font-size: 1rem;
-    margin-bottom: 8px;
-  }
-  
-  .bivacco-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .heart-icon {
-    cursor: pointer;
-    transition: transform 0.2s ease;
-  }
-  
-  .heart-icon:hover {
-    transform: scale(1.1);
-  }
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom, #0a351c, #2e8651);
+  color: white;
+  text-align: center;
+}
 
-  /* Effetto island */
-  .bivacco-card::before {
-    content: "";
-    display: block;
-    height: 5px;
-    width: 40%;
-    background: #34c759;
-    border-radius: 50px;
-    margin-bottom: 10px;
-  }
-  /* Stile per la barra di ricerca */
+/* Contenitore principale */
+.bivacchi-container, .percorsi-container {
+  padding: 50px 25px;
+  max-width: 1300px;
+  margin: auto;
+}
+
+/* Titolo */
+.bivacchi-title, .percorsi-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Griglia */
+.bivacchi-grid, .percorsi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
+  justify-content: center;
+  align-items: stretch;
+}
+
+/* Stile card */
+.bivacco-card, .percorsi-card {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s ease, background 0.3s;
+  text-align: left;
+  border-left: 5px solid #34d399;
+}
+
+.bivacco-card:hover, .percorsi-card:hover {
+  transform: scale(1.08);
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* Titolo card */
+.bivacco-card h2, .percorsi-card h2 {
+  font-size: 1.6rem;
+  margin-bottom: 12px;
+}
+
+/* Testo descrizione */
+.bivacco-card p, .percorsi-card p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.bivacco-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.heart-icon {
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s;
+}
+
+.heart-icon:hover {
+  transform: scale(1.15);
+  filter: drop-shadow(0px 0px 6px #ff3e3e);
+}
+
+/* Effetto decorativo */
+.bivacco-card::before, .percorsi-card::before {
+  content: "";
+  display: block;
+  height: 5px;
+  width: 50%;
+  background: #10b981;
+  border-radius: 50px;
+  margin-bottom: 12px;
+}
+
+/* Stile barra di ricerca */
 .search-container {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .search-input {
-    width: 60%;
-    padding: 10px;
-    font-size: 1rem;
-    border-radius: 20px;
-    border: none;
-    outline: none;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    transition: 0.3s ease;
-  }
-  
-  .search-input::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-  }
-  
-  .search-input:focus {
-    background: rgba(255, 255, 255, 0.3);
-  }
-  
-  /* Nessun risultato */
-  .no-results {
-    font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.7);
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  
-  /* Responsività */
-  @media (max-width: 768px) {
-    .bivacchi-grid {
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.search-input {
+  width: 65%;
+  padding: 12px;
+  font-size: 1.1rem;
+  border-radius: 25px;
+  border: none;
+  outline: none;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.18);
+  color: white;
+  transition: 0.3s ease;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.search-input:focus {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.4);
+}
+
+/* Nessun risultato */
+.no-results {
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.75);
+  text-align: center;
+  margin-top: 20px;
+  font-style: italic;
+}
+
+/* Responsività */
+@media (max-width: 768px) {
+  .bivacchi-grid, .percorsi-grid {
       grid-template-columns: 1fr;
-    }
   }
-  
-  
+  .search-input {
+      width: 85%;
+  }
+}

@@ -8,7 +8,9 @@ export default function Home() {
       <section className="hero">
         <h1>Benvenuto in Trentino Explorer</h1>
         <p>Immergiti nella bellezza naturale del Trentino. Pianifica la tua avventura con percorsi, bivacchi e esperienze uniche.</p>
-        <button className="explore-btn">Esplora il Trentino →</button>
+        <Link href="/esplora">
+          <button className="explore-btn">Esplora il Trentino →</button>
+        </Link>
       </section>
       
       {/* Features Section */}
