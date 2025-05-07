@@ -41,7 +41,7 @@ input:focus {
   outline: none;
 }
 
-button {
+.btnlog {
   width: 90%;
   padding: 14px;
   background: linear-gradient(135deg, #469bf6, #1e69d2);
@@ -55,11 +55,11 @@ button {
   transition: background 0.3s, transform 0.2s;
 }
 
-button:hover {
+.btnlog:hover {
   background: linear-gradient(135deg, #1e69d2, #004aad);
   transform: scale(1.02);
 }
 
-button:active {
+.btnlog:active {
   transform: scale(0.98);
 }

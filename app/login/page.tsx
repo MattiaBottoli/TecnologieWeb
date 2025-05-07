@@ -80,7 +80,7 @@ const Login: React.FC = () => {
           </section>
           <br />
           <section>
-            <button type="submit">ACCEDI</button>
+            <button type="submit" className="btnlog">ACCEDI</button>
           </section>
         </fieldset>
       </form>

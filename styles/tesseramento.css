@@ -1,129 +1,99 @@
-body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(to bottom, #0a351c, #2e8651);
-    color: white;
-    text-align: center;
-  }
-  
-  /* Contenitore principale */
-  .tesseramento-container {
-    max-width: 768px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: left;
-  }
-  
-  /* Titolo principale */
-  .tesseramento-container h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: #ffffff;
-    text-align: center;
-  }
-  
-  /* Messaggio di stato */
-  .tesseramento-container p {
-    font-size: 1.1rem;
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-  
-  /* Messaggio di stato positivo */
-  .tesseramento-container p.success {
-    color: #4BB543;
-    font-weight: 600;
-  }
-  
-  /* Messaggio di stato negativo */
-  .tesseramento-container p.warning {
-    color: #FFA500;
-    font-weight: 600;
-  }
-  
-  /* Sottotitolo */
-  .tesseramento-container h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-top: 1rem;
-    color: #ffffff;
-  }
-  
-  /* Lista preferiti */
-  .tesseramento-container ul {
-    padding-left: 1.5rem;
-    color: #cccccc;
-    list-style-type: disc;
-    margin-bottom: 1rem;
-  }
-  
-  /* Voce della lista */
-  .tesseramento-container ul li {
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-  }
-  
-  /* Separatore */
-  .tesseramento-container hr {
-    margin: 2rem 0;
-    border: 0;
-    border-top: 1px solid #666;
-  }
-  
-  /* Bottone */
-  .tesseramento-container button {
-    margin-top: 1rem;
-    padding: 0.75rem 1.5rem;
-    background-color: #2563eb;
-    color: white;
-    border-radius: 0.5rem;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 1rem;
-  }
-  
-  .tesseramento-container button:hover {
-    background-color: #1d4ed8;
-  }
-  
-  /* Navbar */
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: rgba(0, 0, 0, 0.7);
-  }
-  
-  .navbar a {
-    color: white;
-    text-decoration: none;
-    margin: 0 1rem;
-    font-size: 1rem;
-    transition: color 0.3s ease;
-  }
-  
-  .navbar a:hover {
-    color: #ffffffb3;
-  }
-  
-  .navbar button {
-    padding: 0.5rem 1rem;
-    background-color: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 0.375rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .navbar button:hover {
-    background-color: #1d4ed8;
-  }
-  
+.container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 24px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: #2c3e50;
+  font-family: 'Inter', sans-serif;
+}
+
+h1, h4 {
+  text-align: center;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 26px;
+  margin-bottom: 1rem;
+}
+
+h4 {
+  font-size: 18px;
+  opacity: 0.9;
+  margin-top: 2rem;
+}
+
+.favorites-list {
+  padding-left: 1.5rem;
+  color: #555;
+  margin-top: 0.5rem;
+}
+
+.empty-info {
+  font-size: 14px;
+  color: #888;
+  text-align: center;
+}
+
+.success-text {
+  color: #16a34a;
+  font-weight: 600;
+  text-align: center;
+}
+
+.warning-text {
+  color: #d97706;
+  font-weight: 600;
+  text-align: center;
+}
+
+.loading-text {
+  text-align: center;
+  font-size: 16px;
+  padding: 2rem;
+}
+
+.divider {
+  margin: 2rem 0;
+  border: none;
+  border-top: 1px solid #e0e0e0;
+}
+
+.centered {
+  text-align: center;
+}
+
+.btnlog {
+  width: 90%;
+  max-width: 300px;
+  padding: 14px;
+  background: linear-gradient(135deg, #469bf6, #1e69d2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-size: 17px;
+  font-weight: 600;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.btnlog:hover {
+  background: linear-gradient(135deg, #1e69d2, #004aad);
+  transform: scale(1.02);
+}
+
+.btnlog:active {
+  transform: scale(0.98);
+}
+
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 1.5rem;
+  align-items: center;
+}

@@ -80,7 +80,7 @@ export default function Registrati() {
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
           </section>
           <section>
-            <button type="submit">CREA</button>
+            <button type="submit" className="btnlog">CREA</button>
           </section>
           <footer>
             <p><strong>Hai già un account? </strong><a href="/login">ACCEDI</a></p>

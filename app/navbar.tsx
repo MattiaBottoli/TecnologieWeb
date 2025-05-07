@@ -19,10 +19,11 @@ export default function Navbar() {
       </div>
       <nav>
         <ul>
-          <li><Link href="/">Homepage</Link></li>
-          <li><Link href="/percorsi">Percorsi e Avventure</Link></li>
-          <li><Link href="/bivacchi">Bivacchi e Rifugi</Link></li>
+          <li><Link href="/bivacchi">Visualizza Bivacchi e percorsi</Link></li> 
           <li><Link href="/tesserati">Tesseramento</Link></li>
+          <li><Link href="#">Social</Link></li>
+          <li><Link href="/escursioni">Escursioni</Link></li>  
+          <li><Link href="/aggiungi">Aggiungi</Link></li>
         </ul>
       </nav>
       
@@ -33,7 +34,7 @@ export default function Navbar() {
             <button className="contact-btn" onClick={() => setMenuOpen(!menuOpen)}>Profilo</button>
             {menuOpen && (
               <div className="dropdown">
-                <Link href="/prenotazioni">In programma</Link>
+                <Link href="/escursioni">In programma</Link>
                 <Link href="/preferiti">Preferiti</Link>
               </div>
             )}

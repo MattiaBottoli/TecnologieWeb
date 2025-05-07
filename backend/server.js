@@ -135,12 +135,52 @@ app.post("/api/register", async (req, res) => {
       await client.connect();
       const db = client.db(DB_NAME);
       const collection = db.collection(COLLECTION_PRENOTAZIONI);
-      const mail=req.headers["user_email"];
-      const prenotazioni = await collection.find({mail}).toArray();
-      res.json(prenotazioni);
+  
+      const { bivacco, data } = req.query;
+  
+      // Se sono presenti i parametri di filtro, esegui una query filtrata
+      if (bivacco && data) {
+        const prenotazioni = await collection.find({ bivacco, data }).toArray();
+        return res.json(prenotazioni);
+      }
+  
+      // Altrimenti, usa l'header user_email per restituire le prenotazioni dell'utente
+      const mail = req.headers["user_email"];
+      if (mail) {
+        const prenotazioni = await collection.find({ mail }).toArray();
+        return res.json(prenotazioni);
+      }
+  
+      // Se mancano tutti i parametri, restituisci errore
+      res.status(400).json({ message: "Parametri mancanti: specifica bivacco e data o user_email" });
+  
     } catch (error) {
       console.error("Errore nel recupero delle prenotazioni:", error);
       res.status(500).json({ message: "Errore interno del server", prenotazioni: [] });
+    } finally {
+      await client.close();
+    }
+  });
+
+  app.get("/api/prenotazioni/:id", async (req, res) => {
+    const client = new MongoClient(MONGO_URI);
+    try {
+      await client.connect();
+      const db = client.db(DB_NAME);
+      const collection = db.collection(COLLECTION_PRENOTAZIONI);
+  
+      const { idPrenotazioneToEdit } = req.params;
+  
+      const prenotazione = await collection.findOne({ _id: new ObjectId(idPrenotazioneToEdit) });
+  
+      if (!prenotazione) {
+        return res.status(404).json({ message: "Prenotazione non trovata" });
+      }
+  
+      res.json(prenotazione);
+    } catch (error) {
+      console.error("Errore nel recupero della prenotazione:", error);
+      res.status(500).json({ message: "Errore interno del server" });
     } finally {
       await client.close();
     }
@@ -153,13 +193,15 @@ app.post("/api/register", async (req, res) => {
       const db = client.db(DB_NAME);
       const collection = db.collection(COLLECTION_PRENOTAZIONI);
   
-      const { mail, data, percorso, bivacco } = req.body;
+      const { mail, numpartecipanti, data, percorso, bivacco, fasciaOraria } = req.body;
   
       const newProgramma = {
         mail,
+        numpartecipanti,
         data,
         percorso,
         bivacco,
+        fasciaOraria,
       };
 
       const result = await collection.insertOne(newProgramma);
@@ -173,34 +215,6 @@ app.post("/api/register", async (req, res) => {
     }
   });
 
-  app.delete("/api/prenotazioni/delete", async (req, res) => {
-    const client = new MongoClient(MONGO_URI);
-    try {
-      await client.connect();
-      const db = client.db(DB_NAME);
-      const collection = db.collection(COLLECTION_PRENOTAZIONI);
-    
-      const id = req.headers["id_prenotazione"];
-
-      if (!ObjectId.isValid(id)) {
-        return res.status(400).json({ message: "ID non valido" });
-      }
-      const result = await collection.deleteOne({ _id: new ObjectId(id) });
-  
-      if (result.deletedCount === 0) {
-        return res.status(404).json({ message: "Prenotazione non trovata" });
-      }
-  
-      res.json({ message: "Prenotazione eliminata con successo" });
-  
-    } catch (error) {
-      console.error("Errore nella cancellazione:", error);
-      res.status(500).json({ message: "Errore interno del server" });
-    } finally {
-      await client.close();
-    }
-  });
-  
   app.put("/api/prenotazioni/update", async (req, res) => {
     const client = new MongoClient(MONGO_URI);
     try {
@@ -232,6 +246,34 @@ app.post("/api/register", async (req, res) => {
       }
     } catch (error) {
       console.error("Errore nella modifica:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    } finally {
+      await client.close();
+    }
+  });
+
+  app.delete("/api/prenotazioni/delete", async (req, res) => {
+    const client = new MongoClient(MONGO_URI);
+    try {
+      await client.connect();
+      const db = client.db(DB_NAME);
+      const collection = db.collection(COLLECTION_PRENOTAZIONI);
+    
+      const id = req.headers["id_prenotazione"];
+
+      if (!ObjectId.isValid(id)) {
+        return res.status(400).json({ message: "ID non valido" });
+      }
+      const result = await collection.deleteOne({ _id: new ObjectId(id) });
+  
+      if (result.deletedCount === 0) {
+        return res.status(404).json({ message: "Prenotazione non trovata" });
+      }
+  
+      res.json({ message: "Prenotazione eliminata con successo" });
+  
+    } catch (error) {
+      console.error("Errore nella cancellazione:", error);
       res.status(500).json({ message: "Errore interno del server" });
     } finally {
       await client.close();
@@ -308,7 +350,69 @@ app.post("/api/register", async (req, res) => {
       await client.close();
     }
   });
+
+  app.get("/api/escursioni", async (req, res) => {
+    const client = new MongoClient(MONGO_URI);
+    try {
+      await client.connect();
+      const db = client.db(DB_NAME);
+      const collection = db.collection("Escursioni");
   
+      const escursioni = await collection.find().toArray();
+      res.json(escursioni);
+    } catch (error) {
+      console.error("Errore nel recupero delle escursioni:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    } finally {
+      await client.close();
+    }
+  });
+
+  app.post("/api/escursioni/:id/iscrivi", async (req, res) => {
+    const client = new MongoClient(MONGO_URI);
+    try {
+      const { id } = req.params;
+      const { utenteEmail } = req.body;
+  
+      if (!utenteEmail) {
+        return res.status(400).json({ message: "Email utente mancante." });
+      }
+  
+      await client.connect();
+      const db = client.db(DB_NAME);
+      const collection = db.collection("Escursioni");
+  
+      const escursione = await collection.findOne({ _id: new ObjectId(id) });
+  
+      if (!escursione) {
+        return res.status(404).json({ message: "Escursione non trovata." });
+      }
+  
+      if (escursione.partecipanti.includes(utenteEmail)) {
+        return res.status(400).json({ message: "Utente già iscritto." });
+      }
+  
+      if (escursione.partecipanti.length >= escursione.maxPartecipanti) {
+        return res.status(400).json({ message: "Escursione al completo." });
+      }
+  
+      await collection.updateOne(
+        { _id: new ObjectId(id) },
+        { $push: { partecipanti: utenteEmail } }
+      );
+  
+      const updated = await collection.findOne({ _id: new ObjectId(id) });
+      res.json(updated);
+    } catch (error) {
+      console.error("Errore nell'iscrizione:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    } finally {
+      await client.close();
+    }
+  });
+  
+
+  app.get("/prenotazioni/")
 
 // Avvio del server
 app.listen(PORT, () => {

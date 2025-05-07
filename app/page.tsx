@@ -1,9 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import "../styles/globals.css";
+
+
+
 export default function Home() {
   return (
     <main>
+      
       {/* Hero Section */}
       <section className="hero">
         <h1>Benvenuto in Trentino Explorer</h1>
