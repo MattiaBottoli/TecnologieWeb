@@ -169,9 +169,9 @@ app.post("/api/register", async (req, res) => {
       const db = client.db(DB_NAME);
       const collection = db.collection(COLLECTION_PRENOTAZIONI);
   
-      const { idPrenotazioneToEdit } = req.params;
+      const idPrenotazione  = req.params.id;
   
-      const prenotazione = await collection.findOne({ _id: new ObjectId(idPrenotazioneToEdit) });
+      const prenotazione = await collection.findOne({ _id: new ObjectId(idPrenotazione) });
   
       if (!prenotazione) {
         return res.status(404).json({ message: "Prenotazione non trovata" });
@@ -222,19 +222,17 @@ app.post("/api/register", async (req, res) => {
       const db = client.db(DB_NAME);
       const collection = db.collection(COLLECTION_PRENOTAZIONI);
   
-      const { id_prenotazione, nuova_data, nuovo_percorso, nuovo_bivacco } = req.body;
-  
-      if (!id_prenotazione || !nuova_data || !nuovo_percorso || !nuovo_bivacco) {
-        return res.status(400).json({ message: "Dati mancanti per la modifica" });
-      }
+      const { id_prenotazione, numpartecipanti, data, percorso, bivacco, fasciaOraria } = req.body;
   
       const result = await collection.updateOne(
         { _id: new ObjectId(id_prenotazione) },
         {
           $set: {
-            data: nuova_data,
-            percorso: nuovo_percorso,
-            bivacco: nuovo_bivacco,
+            data: data,
+            numpartecipanti: numpartecipanti,
+            percorso: percorso,
+            bivacco: bivacco,
+            fasciaOraria: fasciaOraria,
           },
         }
       );
@@ -410,9 +408,6 @@ app.post("/api/register", async (req, res) => {
       await client.close();
     }
   });
-  
-
-  app.get("/prenotazioni/")
 
 // Avvio del server
 app.listen(PORT, () => {

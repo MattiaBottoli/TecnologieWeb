@@ -116,8 +116,8 @@ export default function EscursioniUnificate() {
     }
   };
 
-  const handleModifica = (id: string) => {
-    router.push(`/esplora/programmazione?idPrenotazione=${id}`);
+  const handleModifica = (idPrenotazione: string) => {
+    router.push(`/escursioni/modifica?idPrenotazione=${idPrenotazione}`);
   };
 
   return (
