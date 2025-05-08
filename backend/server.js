@@ -409,6 +409,53 @@ app.post("/api/register", async (req, res) => {
     }
   });
 
+  app.post("/api/bivacchi", async (req, res) => {
+    const client = new MongoClient(MONGO_URI);
+    try {
+      await client.connect();
+      const db = client.db(DB_NAME);
+      const collection = db.collection(COLLECTION_BIVACCHI);
+  
+      const nuovoBivacco = req.body;
+  
+      if (!nuovoBivacco.nome || !nuovoBivacco.descrizione) {
+        return res.status(400).json({ message: "Dati mancanti per il bivacco" });
+      }
+  
+      const result = await collection.insertOne(nuovoBivacco);
+      res.status(201).json({ message: "Bivacco aggiunto con successo", id: result.insertedId });
+    } catch (error) {
+      console.error("Errore nell'aggiunta del bivacco:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    } finally {
+      await client.close();
+    }
+  });
+  
+  // Aggiunta di un nuovo percorso
+  app.post("/api/percorsi", async (req, res) => {
+    const client = new MongoClient(MONGO_URI);
+    try {
+      await client.connect();
+      const db = client.db(DB_NAME);
+      const collection = db.collection(COLLECTION_PERCORSI);
+  
+      const nuovoPercorso = req.body;
+  
+      if (!nuovoPercorso.nome || !nuovoPercorso.difficolta) {
+        return res.status(400).json({ message: "Dati mancanti per il percorso" });
+      }
+  
+      const result = await collection.insertOne(nuovoPercorso);
+      res.status(201).json({ message: "Percorso aggiunto con successo", id: result.insertedId });
+    } catch (error) {
+      console.error("Errore nell'aggiunta del percorso:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    } finally {
+      await client.close();
+    }
+  });
+
 // Avvio del server
 app.listen(PORT, () => {
   console.log(`Server in esecuzione su http://localhost:${PORT}`);

@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useAuth } from "../../../context/AuthContext";
-import "../../../styles/loginregistrati.css";
+///import "../../../styles/loginregistrati.css";
 
 interface Percorso {
   _id: string;
@@ -39,7 +39,7 @@ interface Prenotazione {
 
 export default function PrenotazioneEscursione() {
   const [mode, setMode] = useState<string>("setPercorso");
-  
+  const [date, setDate] = useState<string>("");
   const [partecipanti, setPartecipanti] = useState<number>(1);
   const [selectedPercorso, setSelectedPercorso] = useState<string>("");
   const [selectedBivacco, setSelectedBivacco] = useState<string>("");
@@ -50,8 +50,6 @@ export default function PrenotazioneEscursione() {
   const { isLoggedIn, email } = useAuth();
   const [error, setError] = useState<string>("");
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const idPrenotazioneToEdit = searchParams.get("idPrenotazione");
 
   const fasceOrarie = [
     "9:00-10:00", "10:00-11:00", "12:00-13:00", 
@@ -60,39 +58,27 @@ export default function PrenotazioneEscursione() {
   ];
 
   const today = new Date().toISOString().split('T')[0];
-  const [date, setDate] = useState<string>(today);
 
   useEffect(() => {
     if (!isLoggedIn) {
       router.push("/registrati");
       return;
     }
-
     fetch("http://localhost:5000/api/percorsi")
       .then((res) => res.json())
       .then((data) => {
         setPercorsi(data);
         if (data.length > 0) setSelectedPercorso(data[0].nome);
-      });
+      })
+      .catch((error) => console.error("Errore nel recupero dei percorsi:", error));
 
     fetch("http://localhost:5000/api/bivacchi")
       .then((res) => res.json())
-      .then((data) => setBivacchi(data));
+      .then((data) => {
+        setBivacchi(data);
+      })
+      .catch((error) => console.error("Errore nel recupero dei bivacchi:", error));
   }, [isLoggedIn, router]);
-
-  useEffect(() => {
-    if (idPrenotazioneToEdit) {
-      fetch(`http://localhost:5000/api/prenotazioni/?${idPrenotazioneToEdit}`)
-        .then(res => res.json())
-        .then((data: Prenotazione) => {
-          setDate(data.data);
-          setPartecipanti(data.numpartecipanti);
-          setSelectedPercorso(data.percorso);
-          setSelectedBivacco(data.bivacco);
-          setFasciaOraria(data.fasciaOraria);
-        });
-    }
-  }, [idPrenotazioneToEdit]);
 
   useEffect(() => {
     if (mode === "setBivacco" && selectedBivacco && date) {
@@ -110,26 +96,20 @@ export default function PrenotazioneEscursione() {
     }
   };
 
-  const changeMode = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const changeMode = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setMode("setBivacco");
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setError("");
 
     try {
-      const method = idPrenotazioneToEdit ? "PUT" : "POST";
-      const endpoint = idPrenotazioneToEdit 
-        ? "http://localhost:5000/api/prenotazioni/update"
-        : "http://localhost:5000/api/programmi";
-
-      const response = await fetch(endpoint, {
-        method,
+      const response = await fetch("http://localhost:5000/api/programmi", {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...(idPrenotazioneToEdit && { id_prenotazione: idPrenotazioneToEdit }),
           mail: email,
           numpartecipanti: partecipanti,
           data: date,
@@ -139,15 +119,15 @@ export default function PrenotazioneEscursione() {
         }),
       });
 
-      const data = await response.json();
+      const data: { message: string; user?: Prenotazione } = await response.json();
 
       if (response.ok) {
-        alert(idPrenotazioneToEdit ? "Prenotazione aggiornata!" : "Prenotazione effettuata!");
-        router.push("/prenotazioni");
+        alert("Prenotazione effettuata con successo!");
+        router.push("/escursioni");
       } else {
         setError(data.message);
       }
-    } catch {
+    } catch (error) {
       setError("Errore nella connessione al server");
     }
   };
@@ -165,12 +145,12 @@ export default function PrenotazioneEscursione() {
     setSelectedBivacco("");
     setFasciaOraria("");
     setMode("setPercorso");
-  };
+  }
 
   return (
     <div className="container">
       <header>
-        <h1>{idPrenotazioneToEdit ? "Modifica Prenotazione" : "Programma un'Escursione"}</h1>
+        <h1>Programma un'Escursione</h1>
       </header>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
@@ -178,20 +158,40 @@ export default function PrenotazioneEscursione() {
       {mode === "setPercorso" ? (
         <form onSubmit={changeMode}>
           <section>
+            <p>Seleziona la data, il numero di partecipanti e il percorso.</p>
+          </section>
+          <section>
             <label>Data</label>
-            <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required min={today} />
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              required
+              min={today}
+            />
           </section>
           <br />
           <section>
             <label>Numero Partecipanti</label>
-            <input type="number" value={partecipanti} onChange={(e) => setPartecipanti(e.target.valueAsNumber)} required />
+            <input 
+              type="number"
+              value={partecipanti}
+              onChange={(e) => setPartecipanti(e.target.valueAsNumber)}
+              required
+            />
           </section>
           <br/>
           <section>
             <label>Percorso</label>
-            <select value={selectedPercorso} onChange={(e) => setSelectedPercorso(e.target.value)} required>
+            <select
+              value={selectedPercorso}
+              onChange={(e) => setSelectedPercorso(e.target.value)}
+              required
+            >
               {percorsi.map((percorso) => (
-                <option key={percorso._id} value={percorso.nome}>{percorso.nome}</option>
+                <option key={percorso._id} value={percorso.nome}>
+                  {percorso.nome}
+                </option>
               ))}
             </select>
           </section>
@@ -203,6 +203,13 @@ export default function PrenotazioneEscursione() {
       ) : (
         <form onSubmit={handleSubmit}>
           <section>
+            <p>
+              Seleziona il bivacco/rifugio e la fascia oraria nel quale desiderate accamparvi.
+              Vi consigliamo i bivacchi che si trovano nella stessa localitÃ  del percorso selezionato.
+            </p>
+          </section>
+          <br />
+          <section>
             <label>BIVACCO</label>
             <select
               value={selectedBivacco}
@@ -211,14 +218,15 @@ export default function PrenotazioneEscursione() {
             >
               <option value="">SELEZIONA UN BIVACCO</option>
               {bivacchi
-                .filter(b => b.localita === percorsi.find(p => p.nome === selectedPercorso)?.localita)
-                .map(b => (
-                  <option key={b._id} value={b.nome}>{b.nome}</option>
+                .filter((bivacco) => bivacco.localita === percorsi.find((p) => p.nome === selectedPercorso)?.localita)
+                .map((bivacco) => (
+                  <option key={bivacco._id} value={bivacco.nome}>
+                    {bivacco.nome}
+                  </option>
                 ))}
             </select>
           </section>
-
-          {selectedBivacco !== "" && (
+          {selectedBivacco != "" && (
             <section>
               <h2>Fasce Orarie Disponibili</h2>
               <table className="fasce-orarie">
@@ -243,7 +251,7 @@ export default function PrenotazioneEscursione() {
                             onClick={() => setFasciaOraria(fascia)}
                             style={{ backgroundColor: fasciaOraria === fascia ? "lightgreen" : undefined }}
                           >
-                            {fasciaOraria === fascia ? "Selezionato" : "Seleziona"}
+                            {fasciaOraria === fascia ? "Selezionato" : ""}
                           </button>
                         </td>
                       </tr>
@@ -256,10 +264,12 @@ export default function PrenotazioneEscursione() {
           <br />
           <footer>
             <button type="submit" disabled={!fasciaOraria}>INVIA</button>
-            <button type="button" onClick={handleIndietro}>INDIETRO</button>
           </footer>
         </form>
       )}
+      {mode === "setBivacco" && (
+        <button onClick={() => handleIndietro()}>INDIETRO</button>
+      )}
     </div>
-  );
+  )
 }

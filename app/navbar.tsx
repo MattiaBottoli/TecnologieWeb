@@ -36,6 +36,7 @@ export default function Navbar() {
               <div className="dropdown">
                 <Link href="/escursioni">In programma</Link>
                 <Link href="/preferiti">Preferiti</Link>
+                <Link href="/profilo">Profilo</Link>
               </div>
             )}
           </>
