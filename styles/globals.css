@@ -1108,7 +1108,7 @@ hr {
   border-radius: 5px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background-color: rgba(255, 255, 255, 0.05);
-  color: var(--text-light);
+  color: black;
   font-size: 1em;
   box-sizing: border-box; /* Include padding e border nella larghezza */
   -webkit-appearance: none; /* Rimuove lo stile predefinito per i campi input */
@@ -1578,7 +1578,6 @@ hr {
   text-decoration: underline;
 }
 
-/* --- CSS PROFILO --- */
 .Profilo-Container {
   max-width: 900px;
   margin: 120px auto 60px auto;
@@ -1600,12 +1599,12 @@ hr {
 }
 
 .Profilo-Container .profile-section {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--card-bg-dark);
   padding: 25px;
   border-radius: 10px;
   margin-bottom: 30px;
   text-align: left;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--card-border-dark);
 }
 
 .Profilo-Container .profile-section p {
@@ -1657,291 +1656,366 @@ hr {
 
 .Profilo-Container button.delete-mode,
 .Profilo-Container .red-btn {
-  background-color: #dc3545; /* Rosso per eliminare */
+  background-color: var(--red-alert);
 }
 
 .Profilo-Container button.delete-mode:hover,
 .Profilo-Container .red-btn:hover {
-  background-color: #c82333;
+  background-color: var(--red-alert-dark);
 }
 
 .Profilo-Container h1.warning-text {
-  color: #ffc107; /* Giallo/Arancione per avvisi */
+  color: var(--yellow-warning);
   font-size: 2.2em;
   margin-top: 30px;
 }
 
 .Profilo-Container .tesseramento-box {
-    background: rgba(255, 255, 255, 0.08);
-    padding: 30px;
-    border-radius: 10px;
-    margin-top: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--card-bg-dark);
+  padding: 30px;
+  border-radius: 10px;
+  margin-top: 30px;
+  border: 1px solid var(--card-border-dark);
 }
 
 .Profilo-Container .tesseramento-box .btnlog {
-    margin-top: 25px;
+  margin-top: 25px;
 }
 
-.Profilo-Container .post-form,
-.Profilo-Container .programmazione-section {
-  background: rgba(255, 255, 255, 0.08);
+.Profilo-Container .post-form {
+  background: var(--card-bg-dark);
   padding: 25px;
   border-radius: 10px;
   margin-bottom: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--card-border-dark);
 }
 
-.Profilo-Container .post-form p,
-.Profilo-Container .programmazione-section p {
+.Profilo-Container .post-form p {
   font-size: 1.1em;
   color: var(--text-medium);
   margin-bottom: 20px;
 }
 
-.Profilo-Container .list {
-  list-style: none;
-  padding: 0;
-  margin-top: 15px;
-  max-height: 200px; /* Limita altezza per scroll */
-  overflow-y: auto; /* Abilita scroll verticale */
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  background-color: rgba(0, 0, 0, 0.1);
+/* --- Nuovi stili per la sezione Preferiti (da Tailwind) --- */
+.favorites-heading {
+  font-size: 1.5rem; /* Corrisponde a text-xl */
+  font-weight: 600; /* Corrisponde a font-semibold */
+  color: var(--text-light); /* Adattato per il tema scuro */
+  margin-top: 2.5rem; /* Corrisponde a mt-8 */
+  margin-bottom: 1rem; /* Corrisponde a mb-4 */
+  text-align: center;
 }
 
-.Profilo-Container .list li {
-  padding: 10px 15px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  color: var(--text-light);
-  font-size: 0.95em;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.preferiti-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem; /* Corrisponde a gap-6 */
+  margin-top: 20px;
 }
 
-.Profilo-Container .list li:last-child {
-  border-bottom: none;
+.bivacco-card,
+.percorso-card {
+  background-color: var(--card-bg-dark); /* Corrisponde a bg-gray-50, adattato */
+  padding: 1rem; /* Corrisponde a p-4 */
+  border-radius: 0.5rem; /* Corrisponde a rounded-lg */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.12); /* Corrisponde a shadow-sm */
+  border: 1px solid var(--card-border-dark); /* Corrisponde a border border-gray-200, adattato */
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Modifica Profilo Container */
+.bivacco-card:hover,
+.percorso-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.card-image {
+  width: 100%; /* Corrisponde a w-full */
+  height: 8rem; /* Corrisponde a h-32 */
+  object-fit: cover; /* Corrisponde a object-cover */
+  margin-bottom: 0.75rem; /* Corrisponde a mb-3 */
+  border-radius: 0.25rem; /* Corrisponde a rounded */
+}
+
+.card-title {
+  font-size: 1.125rem; /* Corrisponde a text-lg */
+  font-weight: 700; /* Corrisponde a font-bold */
+  margin-bottom: 0.25rem; /* Corrisponde a mb-1 */
+  color: var(--text-light); /* Corrisponde a text-gray-800, adattato */
+}
+
+.card-text {
+  color: var(--text-medium); /* Corrisponde a text-gray-600, adattato */
+  font-size: 0.875rem; /* Corrisponde a text-sm */
+  line-height: 1.4;
+  margin-bottom: 5px;
+}
+
+.card-button {
+  margin-top: 1rem; /* Corrisponde a mt-4 */
+  color: white;
+  font-weight: 700; /* Corrisponde a font-bold */
+  padding: 0.5rem 1rem; /* Corrisponde a py-2 px-4 */
+  border-radius: 0.25rem; /* Corrisponde a rounded */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Corrisponde a transition duration-300 */
+  width: 100%; /* Corrisponde a w-full */
+  border: none;
+  cursor: pointer;
+}
+
+.card-button-bivacco {
+  background-color: #3b82f6; /* Corrisponde a bg-blue-500 */
+}
+
+.card-button-bivacco:hover {
+  background-color: #2563eb; /* Corrisponde a hover:bg-blue-600 */
+  transform: translateY(-2px);
+}
+
+.card-button-percorso {
+  background-color: #22c55e; /* Corrisponde a bg-green-500 */
+}
+
+.card-button-percorso:hover {
+  background-color: #16a34a; /* Corrisponde a hover:bg-green-600 */
+  transform: translateY(-2px);
+}
+
+.info-text {
+  margin-top: 2rem; /* Corrisponde a mt-8 */
+  color: var(--text-medium);
+  font-size: 1.1em;
+}
+
+.info-link {
+  color: var(--primary-accent-light); /* Corrisponde a text-blue-500 */
+  text-decoration: none;
+  transition: text-decoration 0.3s ease;
+}
+
+.info-link:hover {
+  text-decoration: underline; /* Corrisponde a hover:underline */
+}
+
+/* --- Modifica Profilo Container --- */
 .ModificaProfilo-container {
-    max-width: 600px;
-    margin: 80px auto;
-    padding: 30px;
-    background-color: #141d23;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-    color: var(--text-light);
-    text-align: center;
+  max-width: 600px;
+  margin: 80px auto;
+  padding: 30px;
+  background-color: #141d23;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  color: var(--text-light);
+  text-align: center;
 }
 
 .ModificaProfilo-container h1 {
-    font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-    font-size: 2.5em;
-    color: var(--text-light);
-    text-shadow: 0px 3px 6px var(--shadow-dark);
-    margin-bottom: 30px;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 2.5em;
+  color: var(--text-light);
+  text-shadow: 0px 3px 6px var(--shadow-dark);
+  margin-bottom: 30px;
 }
 
 .ModificaProfilo-container form {
-    background: rgba(255, 255, 255, 0.08);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    margin-bottom: 20px;
-    text-align: left;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--card-bg-dark);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  margin-bottom: 20px;
+  text-align: left;
+  border: 1px solid var(--card-border-dark);
 }
 
 .ModificaProfilo-container section {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .ModificaProfilo-container label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: var(--text-light);
-    font-size: 1.05em;
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--text-light);
+  font-size: 1.05em;
 }
 
 .ModificaProfilo-container input[type="text"],
 .ModificaProfilo-container input[type="email"] {
-    width: 100%;
-    padding: 12px;
-    border-radius: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background-color: rgba(255, 255, 255, 0.05);
-    color: var(--text-light);
-    font-size: 1em;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-light);
+  font-size: 1em;
+  box-sizing: border-box;
 }
 
 .ModificaProfilo-container input[type="text"]:focus,
 .ModificaProfilo-container input[type="email"]:focus {
-    border-color: var(--primary-accent-light);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(46, 134, 222, 0.3);
+  border-color: var(--primary-accent-light);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(46, 134, 222, 0.3);
 }
 
 .ModificaProfilo-container footer {
-    text-align: center;
-    margin-top: 20px;
+  text-align: center;
+  margin-top: 20px;
 }
 
 .ModificaProfilo-container button[type="submit"] {
-    background-color: var(--primary-accent);
-    color: white;
-    padding: 14px 30px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 1.1em;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-right: 15px; /* Spazio tra i bottoni */
+  background-color: var(--primary-accent);
+  color: white;
+  padding: 14px 30px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-right: 15px;
 }
 
 .ModificaProfilo-container button[type="submit"]:hover {
-    background-color: var(--primary-accent-dark);
-    transform: translateY(-3px);
+  background-color: var(--primary-accent-dark);
+  transform: translateY(-3px);
 }
 
 .ModificaProfilo-container button[onClick*="router.push('/profilo')"] {
-    background-color: #6c757d; /* Un colore neutro per ANNULLA */
-    color: white;
-    padding: 14px 30px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 1.1em;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  background-color: var(--gray-button);
+  color: white;
+  padding: 14px 30px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .ModificaProfilo-container button[onClick*="router.push('/profilo')"]:hover {
-    background-color: #5a6268;
-    transform: translateY(-3px);
+  background-color: var(--gray-button-dark);
+  transform: translateY(-3px);
 }
 
-/* Pagamento Container */
+/* --- Pagamento Container --- */
 .Pagamento-Container {
-    max-width: 500px;
-    margin: 80px auto;
-    padding: 30px;
-    background-color: #141d23;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-    color: var(--text-light);
-    text-align: center;
+  max-width: 500px;
+  margin: 80px auto;
+  padding: 30px;
+  background-color: #141d23;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  color: var(--text-light);
+  text-align: center;
 }
 
 .Pagamento-Container h1 {
-    font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-    font-size: 2.5em;
-    color: var(--text-light);
-    text-shadow: 0px 3px 6px var(--shadow-dark);
-    margin-bottom: 30px;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 2.5em;
+  color: var(--text-light);
+  text-shadow: 0px 3px 6px var(--shadow-dark);
+  margin-bottom: 30px;
 }
 
 .Pagamento-Container .payment-form {
-    background: rgba(255, 255, 255, 0.08);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    margin-top: 20px;
-    text-align: left;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--card-bg-dark);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  margin-top: 20px;
+  text-align: left;
+  border: 1px solid var(--card-border-dark);
 }
 
 .Pagamento-Container label {
-    display: block;
-    margin-bottom: 15px;
-    font-weight: 600;
-    color: var(--text-light);
-    font-size: 1.05em;
+  display: block;
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: var(--text-light);
+  font-size: 1.05em;
 }
 
 .Pagamento-Container input[type="text"],
 .Pagamento-Container input[type="month"],
 .Pagamento-Container input[type="password"] {
-    width: 100%;
-    padding: 12px;
-    border-radius: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background-color: rgba(255, 255, 255, 0.05);
-    color: var(--text-light);
-    font-size: 1em;
-    box-sizing: border-box;
-    margin-top: 5px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-light);
+  font-size: 1em;
+  box-sizing: border-box;
+  margin-top: 5px;
 }
 
 .Pagamento-Container input[type="text"]:focus,
 .Pagamento-Container input[type="month"]:focus,
 .Pagamento-Container input[type="password"]:focus {
-    border-color: var(--primary-accent-light);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(46, 134, 222, 0.3);
+  border-color: var(--primary-accent-light);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(46, 134, 222, 0.3);
 }
 
-.Pagamento-Container .btnlog { /* Questo è il bottone "Paga e Tesserati" */
-    background-color: var(--primary-accent);
-    color: white;
-    padding: 14px 30px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 1.1em;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    width: 100%; /* Occupa tutta la larghezza */
-    margin-top: 25px; /* Spazio sopra */
-    margin-bottom: 15px; /* Spazio sotto per il prossimo bottone */
+.Pagamento-Container .btnlog {
+  background-color: var(--primary-accent);
+  color: white;
+  padding: 14px 30px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%;
+  margin-top: 25px;
+  margin-bottom: 15px;
 }
 
 .Pagamento-Container .btnlog:hover {
-    background-color: var(--primary-accent-dark);
-    transform: translateY(-3px);
+  background-color: var(--primary-accent-dark);
+  transform: translateY(-3px);
 }
 
 .Pagamento-Container .btnlog:disabled {
-    background-color: #6c757d;
-    cursor: not-allowed;
-    opacity: 0.7;
-    transform: none;
-    box-shadow: none;
+  background-color: var(--gray-button);
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+  box-shadow: none;
 }
 
 .Pagamento-Container button:not(.btnlog) { /* Questo è il bottone "ANNULLA" */
-    background-color: #6c757d;
-    color: white;
-    padding: 12px 25px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 1em;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    width: 100%;
+  background-color: var(--gray-button);
+  color: white;
+  padding: 12px 25px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1em;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%;
 }
 
 .Pagamento-Container button:not(.btnlog):hover {
-    background-color: #5a6268;
-    transform: translateY(-2px);
+  background-color: var(--gray-button-dark);
+  transform: translateY(-2px);
 }
 
-/* Responsive per Profilo, Pagamento, ModificaProfilo */
+/* --- Responsive per Profilo, Pagamento, ModificaProfilo --- */
 @media (max-width: 768px) {
   .Profilo-Container,
   .Pagamento-Container,
@@ -1972,16 +2046,12 @@ hr {
     padding: 10px 20px;
     font-size: 0.9em;
     margin-right: 10px;
-    margin-bottom: 10px; /* Aggiunto spazio tra i bottoni su schermi piccoli */
+    margin-bottom: 10px;
   }
 
   .Pagamento-Container .btnlog,
   .Pagamento-Container button:not(.btnlog) {
-      margin-bottom: 10px; /* Uniforma lo spazio tra i bottoni di pagamento */
-  }
-
-  .Profilo-Container .list {
-    max-height: 150px;
+    margin-bottom: 10px;
   }
 }
 
@@ -2001,8 +2071,144 @@ hr {
   .Profilo-Container button,
   .Pagamento-Container button,
   .ModificaProfilo-container button {
-    width: 100%; /* Bottoni a tutta larghezza */
+    width: 100%;
     margin-right: 0;
     margin-bottom: 10px;
   }
+
+  .favorites-heading {
+      font-size: 1.3rem; /* Regolato per schermi molto piccoli */
+  }
+
+  .card-title {
+      font-size: 1rem;
+  }
+
+  .card-text {
+      font-size: 0.8rem;
+  }
+
+  .info-text {
+      font-size: 0.9em;
+  }
+}
+
+
+/* Stili per il contenitore principale della pagina Ricordi */
+.Ricordi-Container {
+    max-width: 900px;
+    margin: 130px auto 200px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    font-family: 'Inter', sans-serif;
+    color: #333;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* Stili per il titolo principale */
+.Ricordi-Container h1 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Stili per il contenitore delle singole escursioni */
+.Ricordi-Container > div { /* Questo seleziona il div che mappa le escursioni */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+/* Stili per ogni singola card di escursione */
+.Ricordi-Container > div > div {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.Ricordi-Container > div > div:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Stili per i paragrafi all'interno delle card */
+.Ricordi-Container p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.Ricordi-Container p strong {
+    color: #333;
+    font-weight: 600;
+}
+
+/* Stili per il messaggio "Non ci sono escursioni passate." */
+.Ricordi-Container > p { /* Seleziona il p diretto figlio di Ricordi-Container */
+    font-size: 1.1rem;
+    color: #777;
+    margin-top: 30px;
+    flex-grow: 1; /* Permette a questo paragrafo di occupare lo spazio disponibile */
+}
+
+/* Stili per il pulsante "TORNA AL PROFILO" */
+.Ricordi-Container button {
+    background-color: #007bff; /* Blu primario */
+    color: white;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-top: 30px; /* Questo margin-top spingerà il bottone verso il basso */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.Ricordi-Container button:hover {
+    background-color: #0056b3; /* Blu più scuro al hover */
+    transform: translateY(-2px);
+}
+
+/* Media Queries per la responsività */
+@media (max-width: 768px) {
+    .Ricordi-Container {
+        margin: 20px;
+        padding: 20px;
+    }
+ 
+
+    .Ricordi-Container > div {
+        grid-template-columns: 1fr; /* Una colonna su schermi più piccoli */
+    }
+
+    .Ricordi-Container button {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .Ricordi-Container {
+        margin: 15px;
+        padding: 15px;
+    }
+
+    .Ricordi-Container h1 {
+        font-size: 1.8rem;
+    }
 }

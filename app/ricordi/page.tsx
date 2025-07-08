@@ -44,7 +44,7 @@ export default function RicordiPage() {
   }, [email, isLoggedIn, isTesserato])
 
   return (
-    <div className="container">
+    <div className="Ricordi-Container">
       <h1>Le tue escursioni passate</h1>
       {escursioni.length > 0 ? (
         <div>

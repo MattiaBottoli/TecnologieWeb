@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../../context/AuthContext"; // Assumendo che questo percorso sia corretto
+import { useAuth } from "../../context/AuthContext";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -14,6 +14,11 @@ interface Bivacco {
   altitudine: number;
   immagineUrl?: string; // Reso opzionale
   localita?: string; // Aggiunto per potenziale visualizzazione
+  sentiero?: string; // Aggiunto per visualizzazione
+  altezza?: number; // Aggiunto per visualizzazione (se diverso da altitudine)
+  capienza?: number; // Aggiunto per visualizzazione
+  latitudine?: number; // Aggiunto per visualizzazione
+  longitudine?: number; // Aggiunto per visualizzazione
   type: 'bivacco'; // Campo aggiunto dal backend per distinguere
 }
 
@@ -24,6 +29,10 @@ interface Percorso {
   difficolta: string;
   durata: string;
   immagineUrl?: string; // Se i percorsi hanno immagini
+  localita?: string; // Aggiunto per visualizzazione
+  sentiero?: string; // Aggiunto per visualizzazione
+  pendenza_massima?: string; // Aggiunto per visualizzazione
+  lunghezza?: string; // Aggiunto per visualizzazione
   type: 'percorso'; // Campo aggiunto dal backend per distinguere
 }
 
@@ -64,7 +73,9 @@ export default function ProfiloUtentePage() {
           return;
         }
         if (!email) {
-          setError("Email utente non disponibile. Effettua nuovamente il login.");
+          setError(
+            "Email utente non disponibile. Effettua nuovamente il login."
+          );
           setIsLoading(false);
           router.push("/login");
           return;
@@ -83,13 +94,16 @@ export default function ProfiloUtentePage() {
           throw new Error("Errore nel recupero dei dati utente.");
         }
         if (!favoritesRes.ok) {
-          console.error(`Errore nel recupero preferiti: ${favoritesRes.status}`);
+          console.error(
+            `Errore nel recupero preferiti: ${favoritesRes.status}`
+          );
           throw new Error("Errore nel recupero dei preferiti.");
         }
 
         const userData: { user: User } = await userRes.json();
         // favoritesData.favorites conterrà sia bivacchi che percorsi con il campo 'type'
-        const favoritesData: { favorites: (Bivacco | Percorso)[] } = await favoritesRes.json();
+        const favoritesData: { favorites: (Bivacco | Percorso)[] } =
+          await favoritesRes.json();
 
         setUser(userData.user);
 
@@ -102,7 +116,9 @@ export default function ProfiloUtentePage() {
 
       } catch (err: any) {
         console.error("Errore durante il fetch di utente e preferiti:", err);
-        setError(err.message || "Si è verificato un errore inaspettato. Riprova più tardi.");
+        setError(
+          err.message || "Si è verificato un errore inaspettato. Riprova più tardi."
+        );
       } finally {
         setIsLoading(false);
       }
@@ -119,8 +135,7 @@ export default function ProfiloUtentePage() {
       });
       const data = await response.json();
 
-      if (!response.ok)
-        throw new Error(data.message);
+      if (!response.ok) throw new Error(data.message);
 
       alert(data.message);
       logout();
@@ -141,7 +156,9 @@ export default function ProfiloUtentePage() {
       <div className="container">
         <h2>Utente non trovato</h2>
         <p>Devi essere loggato per vedere il tuo profilo.</p>
-        <Link href="/login"><button className="btnlog">Login</button></Link>
+        <Link href="/login">
+          <button className="btnlog">Login</button>
+        </Link>
       </div>
     );
   }
@@ -151,11 +168,21 @@ export default function ProfiloUtentePage() {
       <h1>I TUOI DATI</h1>
 
       <div className="profile-section">
-        <p><strong>Nome:</strong> {user.nome}</p>
-        <p><strong>Cognome:</strong> {user.cognome}</p>
-        <p><strong>Username:</strong> {user.username}</p>
-        <p><strong>Email:</strong> {user.mail}</p>
-        <p><strong>Tesserato:</strong> {user.tesserato ? "✅ Sì" : "❌ No"}</p>
+        <p>
+          <strong>Nome:</strong> {user.nome}
+        </p>
+        <p>
+          <strong>Cognome:</strong> {user.cognome}
+        </p>
+        <p>
+          <strong>Username:</strong> {user.username}
+        </p>
+        <p>
+          <strong>Email:</strong> {user.mail}
+        </p>
+        <p>
+          <strong>Tesserato:</strong> {user.tesserato ? "✅ Sì" : "❌ No"}
+        </p>
 
         {user.tesserato && user.tesseraImg && (
           <div className="tessera">
@@ -167,7 +194,9 @@ export default function ProfiloUtentePage() {
         {!deleteMode ? (
           <>
             <button onClick={() => handleModifica(user._id)}>Modifica profilo</button>
-            <button className="delete-mode" onClick={() => setDeleteMode(!deleteMode)}>Rimuovi Account</button>
+            <button className="delete-mode" onClick={() => setDeleteMode(!deleteMode)}>
+              Rimuovi Account
+            </button>
           </>
         ) : (
           <>
@@ -183,30 +212,54 @@ export default function ProfiloUtentePage() {
           <h1>SEZIONE TESSERATO</h1>
           <section className="post-form">
             <p>RICORDI: Visualizza le tue vecchie escursioni.</p>
-            <Link href={("/ricordi")}>
+            <Link href={"/ricordi"}>
               <button>Vai a Ricordi</button>
             </Link>
           </section>
 
+        <hr />
           <section>
+            <h1>PREFERITI: </h1>
             <div className="profile-section">
-              <p>PREFERITI: Questi sono i tuoi bivacchi e percorsi preferiti: </p>
+              
               {error && <p style={{ color: "red" }}>{error}</p>}
 
               {/* Sezione Bivacchi Preferiti */}
-              <h2 className="text-xl font-semibold text-gray-700 mt-6 mb-4">Bivacchi Preferiti</h2>
+              <h2 className="favorites-heading">---- BIVACCHI PREFERITI ----</h2>
               {favoriteBivacchi.length > 0 ? (
-                <div className="preferiti-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="preferiti-grid">
                   {favoriteBivacchi.map((bivacco) => (
-                    <div key={bivacco._id} className="bivacco-card bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200">
+                    <div key={bivacco._id} className="bivacco-card">
                       {bivacco.immagineUrl && (
-                        <Image src={bivacco.immagineUrl} alt={bivacco.nome} width={200} height={150} className="w-full h-32 object-cover mb-3 rounded" />
+                        <Image
+                          src={bivacco.immagineUrl}
+                          alt={bivacco.nome}
+                          width={200}
+                          height={150}
+                          className="card-image"
+                        />
                       )}
-                      <h3 className="text-lg font-bold mb-1 text-gray-800">{bivacco.nome}</h3>
-                      <p className="text-gray-600 text-sm">Altitudine: {bivacco.altitudine}m</p>
-                      {bivacco.localita && <p className="text-gray-600 text-sm">Località: {bivacco.localita}</p>}
-                      <Link href={`/bivacchi`}>
-                        <button className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 w-full">
+                      <h3 className="card-title">{bivacco.nome}</h3>
+                      <p className="card-text">Località: {bivacco.localita}</p>
+                      <p className="card-text">Sentiero: {bivacco.sentiero}</p>
+                      <p className="card-text">Altitudine: {bivacco.altitudine} m</p>
+                      {bivacco.altezza !== undefined && bivacco.altezza !== null && (
+                        <p className="card-text">Altezza: {bivacco.altezza} m</p>
+                      )}
+                      {bivacco.capienza !== undefined && bivacco.capienza !== null && (
+                        <p className="card-text">Capienza: {bivacco.capienza} persone</p>
+                      )}
+                      {bivacco.descrizione && (
+                        <p className="card-text">Descrizione: {bivacco.descrizione}</p>
+                      )}
+                      {bivacco.latitudine !== undefined && bivacco.latitudine !== null && (
+                        <p className="card-text">Latitudine: {bivacco.latitudine}</p>
+                      )}
+                      {bivacco.longitudine !== undefined && bivacco.longitudine !== null && (
+                        <p className="card-text">Longitudine: {bivacco.longitudine}</p>
+                      )}
+                      <Link href={{ pathname: '/bivacchi', query: { view: 'percorsi' } }}>
+                        <button className="card-button card-button-percorso">
                           Vedi Dettagli
                         </button>
                       </Link>
@@ -214,23 +267,37 @@ export default function ProfiloUtentePage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-600">Nessun bivacco preferito trovato.</p>
+                <p className="card-text">Nessun bivacco preferito trovato.</p>
               )}
 
               {/* Sezione Percorsi Preferiti */}
-              <h2 className="text-xl font-semibold text-gray-700 mt-8 mb-4">Percorsi Preferiti</h2>
+              <h2 className="favorites-heading">---- PERCORSI PREFERITI ----</h2>
               {favoritePercorsi.length > 0 ? (
-                <div className="preferiti-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="preferiti-grid">
                   {favoritePercorsi.map((percorso) => (
-                    <div key={percorso._id} className="percorso-card bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200">
+                    <div key={percorso._id} className="percorso-card">
                       {percorso.immagineUrl && (
-                        <Image src={percorso.immagineUrl} alt={percorso.nome} width={200} height={150} className="w-full h-32 object-cover mb-3 rounded" />
+                        <Image
+                          src={percorso.immagineUrl}
+                          alt={percorso.nome}
+                          width={200}
+                          height={150}
+                          className="card-image"
+                        />
                       )}
-                      <h3 className="text-lg font-bold mb-1 text-gray-800">{percorso.nome}</h3>
-                      <p className="text-gray-600 text-sm">Difficoltà: {percorso.difficolta}</p>
-                      <p className="text-gray-600 text-sm">Durata: {percorso.durata}</p>
-                      <Link href={`/bivacchi`}>
-                        <button className="mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300 w-full">
+                      <h3 className="card-title">{percorso.nome}</h3>
+                      <p className="card-text">Località: {percorso.localita}</p>
+                      <p className="card-text">Sentiero: {percorso.sentiero}</p>
+                      <p className="card-text">Difficoltà: {percorso.difficolta}</p>
+                      {percorso.pendenza_massima && (
+                        <p className="card-text">Pendenza Massima: {percorso.pendenza_massima}</p>
+                      )}
+                      {percorso.lunghezza && (
+                        <p className="card-text">Lunghezza: {percorso.lunghezza}</p>
+                      )}
+                      <p className="card-text">Durata: {percorso.durata}</p>
+                      <Link href={{ pathname: '/bivacchi', query: { view: 'percorsi' } }}>
+                        <button className="card-button card-button-percorso">
                           Vedi Dettagli
                         </button>
                       </Link>
@@ -238,20 +305,26 @@ export default function ProfiloUtentePage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-600">Nessun percorso preferito trovato.</p>
+                <p className="card-text">Nessun percorso preferito trovato.</p>
               )}
 
-              <p className="mt-8">Scopri quale sarà la tua prossima meta! {" "}
-                <Link href="/bivacchi" className="text-blue-500 hover:underline">CLICCA QUI</Link>
-              </p>
-              <p>Sei pronto a programmare un'escursione? {" "}
-                <Link href="/programmazione" className="text-blue-500 hover:underline">CLICCA QUI</Link>
-              </p>
+              <hr/>
 
+              <p className="info-text">
+                Scopri quale sarà la tua prossima meta!{" "}
+                <Link href="/bivacchi" className="info-link">
+                  CLICCA QUI
+                </Link>
+              </p>
+              <p className="info-text">
+                Sei pronto a programmare un'escursione?{" "}
+                <Link href="/programmazione" className="info-link">
+                  CLICCA QUI
+                </Link>
+              </p>
             </div>
           </section>
         </>
-
       ) : (
         <section className="tesseramento-box">
           <h1 className="warning-text">Tesserati per accedere alle sezione esclusiva!</h1>

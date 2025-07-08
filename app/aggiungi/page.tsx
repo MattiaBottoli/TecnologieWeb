@@ -114,25 +114,51 @@ export default function AddPage() {
 
             {/* BIVACCO FORM */}
             {view === "bivacco" ? (
-              <>
-                <input type="text" placeholder="Nome" value={bivacco.nome} onChange={e => setBivacco({ ...bivacco, nome: e.target.value })} required />
-                <input type="text" placeholder="Località" value={bivacco.localita} onChange={e => setBivacco({ ...bivacco, localita: e.target.value })} required />
-                <input type="text" placeholder="Sentiero" value={bivacco.sentiero} onChange={e => setBivacco({ ...bivacco, sentiero: e.target.value })} required />
-                <input type="number" placeholder="Altezza" value={bivacco.altezza} onChange={e => setBivacco({ ...bivacco, altezza: Number(e.target.value) })} required />
-                <input type="number" placeholder="Capienza" value={bivacco.capienza} onChange={e => setBivacco({ ...bivacco, capienza: Number(e.target.value) })} required />
-                <input type="text" placeholder="Descrizione" value={bivacco.descrizione} onChange={e => setBivacco({ ...bivacco, descrizione: e.target.value })} required />
-                <input type="number" placeholder="Latitudine" value={bivacco.latitudine} onChange={e => setBivacco({ ...bivacco, latitudine: Number(e.target.value) })} required />
-                <input type="number" placeholder="Longitudine" value={bivacco.longitudine} onChange={e => setBivacco({ ...bivacco, longitudine: Number(e.target.value) })} required />
-              </>
+            <>
+              <label htmlFor="nomeBivacco">Nome:</label>
+              <input type="text" id="nomeBivacco" placeholder="Nome" value={bivacco.nome} onChange={e => setBivacco({ ...bivacco, nome: e.target.value })} required />
+
+              <label htmlFor="localitaBivacco">Località:</label>
+              <input type="text" id="localitaBivacco" placeholder="Località" value={bivacco.localita} onChange={e => setBivacco({ ...bivacco, localita: e.target.value })} required />
+
+              <label htmlFor="sentieroBivacco">Sentiero:</label>
+              <input type="text" id="sentieroBivacco" placeholder="Sentiero" value={bivacco.sentiero} onChange={e => setBivacco({ ...bivacco, sentiero: e.target.value })} required />
+
+              <label htmlFor="altezzaBivacco">Altitudine:</label>
+              <input type="number" id="altezzaBivacco" placeholder="Altezza" value={bivacco.altezza} onChange={e => setBivacco({ ...bivacco, altezza: Number(e.target.value) })} required />
+
+              <label htmlFor="capienzaBivacco">Capienza:</label>
+              <input type="number" id="capienzaBivacco" placeholder="Capienza" value={bivacco.capienza} onChange={e => setBivacco({ ...bivacco, capienza: Number(e.target.value) })} required />
+
+              <label htmlFor="descrizioneBivacco">Descrizione:</label>
+              <input type="text" id="descrizioneBivacco" placeholder="Descrizione" value={bivacco.descrizione} onChange={e => setBivacco({ ...bivacco, descrizione: e.target.value })} required />
+
+              <label htmlFor="latitudineBivacco">Latitudine:</label>
+              <input type="number" id="latitudineBivacco" placeholder="Latitudine" value={bivacco.latitudine} onChange={e => setBivacco({ ...bivacco, latitudine: Number(e.target.value) })} required />
+
+              <label htmlFor="longitudineBivacco">Longitudine:</label>
+              <input type="number" id="longitudineBivacco" placeholder="Longitudine" value={bivacco.longitudine} onChange={e => setBivacco({ ...bivacco, longitudine: Number(e.target.value) })} required />
+            </>
             ) : (
-              <>
-                <input type="text" placeholder="Nome" value={percorso.nome} onChange={e => setPercorso({ ...percorso, nome: e.target.value })} required />
-                <input type="text" placeholder="Località" value={percorso.localita} onChange={e => setPercorso({ ...percorso, localita: e.target.value })} required />
-                <input type="text" placeholder="Sentiero" value={percorso.sentiero} onChange={e => setPercorso({ ...percorso, sentiero: e.target.value })} required />
-                <input type="text" placeholder="Difficoltà" value={percorso.difficolta} onChange={e => setPercorso({ ...percorso, difficolta: e.target.value })} required />
-                <input type="text" placeholder="Pendenza Massima" value={percorso.pendenza_massima} onChange={e => setPercorso({ ...percorso, pendenza_massima: e.target.value })} required />
-                <input type="text" placeholder="Lunghezza" value={percorso.lunghezza} onChange={e => setPercorso({ ...percorso, lunghezza: e.target.value })} required />
-              </>
+            <>
+              <label htmlFor="nomePercorso">Nome:</label>
+              <input type="text" id="nomePercorso" placeholder="Nome" value={percorso.nome} onChange={e => setPercorso({ ...percorso, nome: e.target.value })} required />
+
+              <label htmlFor="localitaPercorso">Località:</label>
+              <input type="text" id="localitaPercorso" placeholder="Località" value={percorso.localita} onChange={e => setPercorso({ ...percorso, localita: e.target.value })} required />
+
+              <label htmlFor="sentieroPercorso">Sentiero:</label>
+              <input type="text" id="sentieroPercorso" placeholder="Sentiero" value={percorso.sentiero} onChange={e => setPercorso({ ...percorso, sentiero: e.target.value })} required />
+
+              <label htmlFor="difficoltaPercorso">Difficoltà:</label>
+              <input type="text" id="difficoltaPercorso" placeholder="Difficoltà" value={percorso.difficolta} onChange={e => setPercorso({ ...percorso, difficolta: e.target.value })} required />
+
+              <label htmlFor="pendenzaMassimaPercorso">Pendenza Massima:</label>
+              <input type="text" id="pendenzaMassimaPercorso" placeholder="Pendenza Massima" value={percorso.pendenza_massima} onChange={e => setPercorso({ ...percorso, pendenza_massima: e.target.value })} required />
+
+              <label htmlFor="lunghezzaPercorso">Lunghezza:</label>
+              <input type="text" id="lunghezzaPercorso" placeholder="Lunghezza" value={percorso.lunghezza} onChange={e => setPercorso({ ...percorso, lunghezza: e.target.value })} required />
+            </>
             )}
 
             <button type="submit" className="btnlog">Aggiungi</button>
