@@ -54,6 +54,7 @@ export default function ModificaPrenotazione() {
   const [isLoading, setIsLoading] = useState(true);
   const [bivaccoPrev, setBivaccoPrev] =useState<string>("");
   const [oraPrev, setOraPrev] = useState<string>("");
+  const [saltaBivacco, setSaltaBivacco] = useState(false);
 
   const fasceOrarie = [
     "9:00-10:00", "10:00-11:00", "12:00-13:00",
@@ -90,6 +91,15 @@ export default function ModificaPrenotazione() {
           setSelectedPercorso(data.percorso);
           setOraPrev(data.fasciaOraria);
           setBivaccoPrev(data.bivacco);
+          if (data.bivacco==="Nessun bivacco selezionato" && data.fasciaOraria==="Nessuna fascia oraria selezionata") {
+            setSaltaBivacco(true);
+            setSelectedBivacco("");
+            setFasciaOraria("");
+          } else {
+            setSaltaBivacco(false);
+            setSelectedBivacco(data.bivacco);
+            setFasciaOraria(data.fasciaOraria);
+          }
         })
         .finally(()=>setIsLoading(false))
         .catch((error) => console.error("Errore nel recupero della prenotazione:", error));
@@ -154,7 +164,7 @@ export default function ModificaPrenotazione() {
   }
 
   return (
-    <div className="container">
+    <div className="Modifica-Container">
       <header><h1>Modifica Prenotazione</h1></header>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
@@ -183,7 +193,12 @@ export default function ModificaPrenotazione() {
         <form onSubmit={handleSubmit}>
           <section>
             <label>Bivacco</label>
-            <select value={selectedBivacco} onChange={e => setSelectedBivacco(e.target.value)} required>
+            <select value={selectedBivacco} onChange={(e) => {
+                setSelectedBivacco(e.target.value)
+                if (e.target.value!==""){
+                  setSaltaBivacco(false)
+                }
+              }}>
               <option value="">Seleziona un bivacco</option>
               {bivacchi
                 .filter(b => b.localita === percorsi.find(p => p.nome === selectedPercorso)?.localita)
@@ -226,9 +241,23 @@ export default function ModificaPrenotazione() {
               </table>
             </section>
           )}
-
+          <section>
+            <label>Non voglio prenotare un bivacco
+              <input
+              type="checkbox"
+              checked={saltaBivacco}
+              onChange={(e)=>{
+                setSaltaBivacco(e.target.checked)
+                if (e.target.checked){
+                  setSelectedBivacco("");
+                  setFasciaOraria("");
+                }
+              }}  
+              />
+            </label>
+          </section>
           <footer>
-            <button type="submit" disabled={!fasciaOraria}>MODIFICA</button>
+            <button type="submit" disabled={!fasciaOraria && !saltaBivacco}>MODIFICA</button>
           </footer>
         </form>
       )}

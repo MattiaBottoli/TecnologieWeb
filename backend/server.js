@@ -14,6 +14,7 @@ const COLLECTION_UTENTI = "Utenti";
 const COLLECTION_PRENOTAZIONI = "Prenotazioni";
 const COLLECTION_BIVACCHI = "Bivacchi";
 const COLLECTION_PERCORSI = "Percorsi";
+const today = new Date().toISOString().split('T')[0];
 
 
 app.use(cors()); // Per evitare problemi di CORS
@@ -59,18 +60,24 @@ app.post("/api/register", async (req, res) => {
       const db = client.db(DB_NAME);
       const collection = db.collection(COLLECTION_UTENTI);
   
-      const { nome, cognome, mail, password, tesserato,preferiti = [] } = req.body;
+      const { nome, cognome, username, mail, password, tesserato,preferiti = [] } = req.body;
 
       const user = await collection.findOne({ mail });
       if (user) {
         return res.status(401).json({ message: "Hai già creato un account con questa mail!"});
       }
+      const nickname = await collection.findOne({ username });
+      if (nickname) {
+        return res.status(401).json({ message: "Username non valido!"});
+      }
+
       // Crittografia della password
       const hashedPassword = await bcrypt.hash(password, 10);
   
       const newUser = {
         nome,
         cognome,
+        username,
         mail,
         password: hashedPassword, // Salviamo la password crittografata
         tesserato,
@@ -129,6 +136,109 @@ app.post("/api/register", async (req, res) => {
     }
   });
 
+  app.delete("/api/profilo/delete", async(req, res)=>{
+      const client = new MongoClient(MONGO_URI);
+    try {
+      await client.connect();
+      const db = client.db(DB_NAME);
+      const collection = db.collection(COLLECTION_UTENTI);
+
+      const id = req.headers["id_prenotazione"];
+
+      if (!ObjectId.isValid(id)) {
+        return res.status(400).json({ message: "ID non valido" });
+      }
+      const result = await collection.deleteOne({ _id: new ObjectId(id) });
+  
+      if (result.deletedCount === 0) {
+        return res.status(404).json({ message: "Utente non trovato" });
+      }
+  
+      res.json({ message: "Utente eliminato con successo" });
+  
+    } catch (error) {
+      console.error("Errore nella cancellazione:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    } finally {
+      await client.close();
+    }
+  });
+
+  app.get("/api/profilo/:id", async(req,res) => {
+    const client = new MongoClient(MONGO_URI);
+    try {
+      await client.connect();
+      const db = client.db(DB_NAME);
+      const collection = db.collection(COLLECTION_UTENTI);
+  
+      const idUtente  = req.params.id;
+  
+      const utente = await collection.findOne({ _id: new ObjectId(idUtente) });
+  
+      if (!utente) {
+        return res.status(404).json({ message: "Utente non trovato" });
+      }
+  
+      res.json(utente);
+    } catch (error) {
+      console.error("Errore nel recupero della prenotazione:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    } finally {
+      await client.close();
+    }
+  })
+
+  app.put("/api/profilo/update", async (req, res) => {
+  const client = new MongoClient(MONGO_URI);
+  try {
+    await client.connect();
+    const db = client.db(DB_NAME);
+    const collection = db.collection(COLLECTION_UTENTI);
+
+    const { idUtente, nome, cognome, username, mail } = req.body;
+
+    if (!ObjectId.isValid(idUtente)) {
+      return res.status(400).json({ message: "ID utente non valido" });
+    }
+
+    const emailEsistente = await collection.findOne({
+      mail: mail,
+      _id: { $ne: new ObjectId(idUtente) }
+    });
+
+    if (emailEsistente) {
+      return res.status(400).json({ message: "Email non valida." });
+    }
+
+    const usernameEsistente = await collection.findOne({
+      username: username,
+      _id: { $ne: new ObjectId(idUtente) }
+    });
+
+    if (usernameEsistente) {
+      return res.status(400).json({ message: "Username non valido." });
+    }
+
+    // Aggiornamento utente
+    const result = await collection.updateOne(
+      { _id: new ObjectId(idUtente) },
+      { $set: { nome, cognome, username, mail} }
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ message: "Utente non trovato" });
+    }
+
+    res.json({ message: "Profilo aggiornato con successo" });
+  } catch (error) {
+    console.error("Errore nell'aggiornamento del profilo:", error);
+    res.status(500).json({ message: "Errore interno del server" });
+  } finally {
+    await client.close();
+  }
+});
+
+
   app.get("/api/prenotazioni", async (req, res) => {
     const client = new MongoClient(MONGO_URI);
     try {
@@ -147,7 +257,10 @@ app.post("/api/register", async (req, res) => {
       // Altrimenti, usa l'header user_email per restituire le prenotazioni dell'utente
       const mail = req.headers["user_email"];
       if (mail) {
-        const prenotazioni = await collection.find({ mail }).toArray();
+        const prenotazioni = await collection.find({ 
+          mail,
+          data: { $gte: today } 
+        }).toArray();
         return res.json(prenotazioni);
       }
   
@@ -194,14 +307,22 @@ app.post("/api/register", async (req, res) => {
       const collection = db.collection(COLLECTION_PRENOTAZIONI);
   
       const { mail, numpartecipanti, data, percorso, bivacco, fasciaOraria } = req.body;
+
+      let bivaccoSelezionato = bivacco;
+      let fasciaOrariaSelezionata = fasciaOraria;
+
+      if(!bivacco && !fasciaOraria){
+        bivaccoSelezionato = "Nessun bivacco selezionato";
+        fasciaOrariaSelezionata = "Nessuna fascia oraria selezionata";
+      }
   
       const newProgramma = {
         mail,
         numpartecipanti,
         data,
         percorso,
-        bivacco,
-        fasciaOraria,
+        bivacco: bivaccoSelezionato,
+        fasciaOraria: fasciaOrariaSelezionata,
       };
 
       const result = await collection.insertOne(newProgramma);
@@ -223,6 +344,14 @@ app.post("/api/register", async (req, res) => {
       const collection = db.collection(COLLECTION_PRENOTAZIONI);
   
       const { id_prenotazione, numpartecipanti, data, percorso, bivacco, fasciaOraria } = req.body;
+
+      let bivaccoSelezionato = bivacco;
+      let fasciaOrariaSelezionata = fasciaOraria;
+
+      if(!bivacco && !fasciaOraria){
+        bivaccoSelezionato = "Nessun bivacco selezionato";
+        fasciaOrariaSelezionata = "Nessuna fascia oraria selezionata";
+      }
   
       const result = await collection.updateOne(
         { _id: new ObjectId(id_prenotazione) },
@@ -231,16 +360,16 @@ app.post("/api/register", async (req, res) => {
             data: data,
             numpartecipanti: numpartecipanti,
             percorso: percorso,
-            bivacco: bivacco,
-            fasciaOraria: fasciaOraria,
+            bivacco: bivaccoSelezionato,
+            fasciaOraria: fasciaOrariaSelezionata,
           },
         }
       );
   
-      if (result.modifiedCount === 1) {
+      if (result.matchedCount === 1) {
         res.json({ message: "Prenotazione aggiornata con successo" });
       } else {
-        res.status(404).json({ message: "Prenotazione non trovata o dati identici" });
+        res.status(404).json({ message: "Prenotazione non trovata!" });
       }
     } catch (error) {
       console.error("Errore nella modifica:", error);
@@ -296,8 +425,10 @@ app.post("/api/register", async (req, res) => {
       delete user.password;
   
       res.status(200).json({user: {
+        _id: user._id,
         nome: user.nome,
         cognome: user.cognome,
+        username: user.username,
         mail: user.mail,
         tesserato: user.tesserato || false,
         preferiti: Array.isArray(user.preferiti) ? user.preferiti : [],
@@ -355,8 +486,8 @@ app.post("/api/register", async (req, res) => {
       await client.connect();
       const db = client.db(DB_NAME);
       const collection = db.collection("Escursioni");
-  
-      const escursioni = await collection.find().toArray();
+
+      const escursioni = await collection.find({ giorno: { $gte: today } }).toArray();
       res.json(escursioni);
     } catch (error) {
       console.error("Errore nel recupero delle escursioni:", error);
@@ -455,6 +586,168 @@ app.post("/api/register", async (req, res) => {
       await client.close();
     }
   });
+
+  app.get("/api/ricordi", async (req, res) => {
+  const client = new MongoClient(MONGO_URI);
+    try {
+      await client.connect();
+      const db = client.db(DB_NAME);
+      const collection = db.collection(COLLECTION_PRENOTAZIONI);
+
+      const mail = req.headers["user_email"];
+      if (mail) {
+        const prenotazioni = await collection.find({ 
+          mail,
+          data: { $lt: today } 
+        })
+        .sort({data: 1})
+        .toArray();
+        return res.json(prenotazioni);
+      }
+      res.status(400).json({ message: "Email mancante!" });
+  
+    } catch (error) {
+      console.error("Errore nel recupero delle prenotazioni:", error);
+      res.status(500).json({ message: "Errore interno del server", prenotazioni: [] });
+    } finally {
+      await client.close();
+    }
+})
+
+
+// GET /api/user/favorites - Recupera i preferiti di un utente con i dettagli completi
+app.get('/api/user/favorites', async (req, res) => {
+    const client = new MongoClient(MONGO_URI);
+    try {
+        await client.connect();
+        const db = client.db(DB_NAME);
+        const utentiCollection = db.collection(COLLECTION_UTENTI);
+        const bivacchiCollection = db.collection(COLLECTION_BIVACCHI);
+        const percorsiCollection = db.collection(COLLECTION_PERCORSI);
+
+        const userMail = req.headers["user_email"];
+        if (!userMail) {
+            return res.status(401).json({ message: "Utente non autenticato. Fornire 'user_email' nell'header." });
+        }
+
+        const user = await utentiCollection.findOne({ mail: userMail });
+
+        if (!user) {
+            return res.status(404).json({ message: "Utente non trovato." });
+        }
+
+        const userFavorites = Array.isArray(user.preferiti) ? user.preferiti : [];
+        
+        const allFavoriteDetailsPromises = userFavorites.map(async (id) => {
+            if (!ObjectId.isValid(id)) {
+                console.warn(`ID preferito non valido: ${id}`);
+                return null;
+            }
+
+            const objectId = new ObjectId(id);
+            
+            // Tentativo di trovare come bivacco
+            const bivacco = await bivacchiCollection.findOne({ _id: objectId });
+            if (bivacco) {
+                return { ...bivacco, type: 'bivacco' };
+            }
+            
+            // Se non è un bivacco, tentativo di trovare come percorso
+            const percorso = await percorsiCollection.findOne({ _id: objectId });
+            if (percorso) {
+                return { ...percorso, type: 'percorso' };
+            }
+            
+            console.warn(`ID preferito ${id} non trovato né in bivacchi né in percorsi.`);
+            return null; // ID non trovato in nessuna delle due collezioni
+        });
+
+        const detailedFavorites = (await Promise.all(allFavoriteDetailsPromises)).filter(item => item !== null);
+
+        // Deduplicazione (anche se gli _id dovrebbero essere unici, è una buona pratica)
+        const uniqueDetailedFavorites = [];
+        const seenIds = new Set();
+        for (const item of detailedFavorites) {
+            if (!seenIds.has(item._id.toString())) {
+                uniqueDetailedFavorites.push(item);
+                seenIds.add(item._id.toString());
+            }
+        }
+
+        res.status(200).json({ favorites: uniqueDetailedFavorites });
+    } catch (error) {
+        console.error('Errore server durante il recupero dei preferiti:', error);
+        res.status(500).json({ message: 'Errore interno del server.' });
+    } finally {
+        await client.close();
+    }
+});
+
+
+// POST /api/user/favorites - Aggiunge/rimuove un bivacco/percorso dai preferiti
+app.post('/api/user/favorites', async (req, res) => {
+  const client = new MongoClient(MONGO_URI);
+  try {
+    await client.connect();
+    const db = client.db(DB_NAME);
+    const collection = db.collection(COLLECTION_UTENTI);
+
+    const userMail = req.headers["user_email"]; // Ottieni l'email dall'header
+    const { itemId, action } = req.body;
+
+    // Se l'utente non è loggato (mail non presente), disabilita la funzionalità
+    if (!userMail) {
+      return res.status(401).json({ message: "Non autenticato. Effettua il login per gestire i preferiti." });
+    }
+
+    // Validazione di base
+    if (!itemId || !['add', 'remove'].includes(action)) {
+      return res.status(400).json({ message: 'Dati mancanti o azione non valida.' });
+    }
+
+    const user = await collection.findOne({ mail: userMail });
+
+    if (!user) {
+      return res.status(404).json({ message: 'Utente non trovato.' });
+    }
+
+    // Assicurati che l'array preferiti esista
+    if (!user.preferiti) {
+      user.preferiti = [];
+    }
+
+    if (action === 'add') {
+      if (!user.preferiti.includes(itemId)) {
+        user.preferiti.push(itemId);
+        await collection.updateOne(
+          { mail: userMail },
+          { $set: { preferiti: user.preferiti } }
+        );
+        return res.status(200).json({ message: 'Elemento aggiunto ai preferiti.', preferiti: user.preferiti });
+      } else {
+        return res.status(200).json({ message: 'Elemento già nei preferiti.', preferiti: user.preferiti });
+      }
+    } else if (action === 'remove') {
+      const initialLength = user.preferiti.length;
+      user.preferiti = user.preferiti.filter(favId => favId !== itemId);
+      if (user.preferiti.length < initialLength) { // Controlla se è stato effettivamente rimosso qualcosa
+        await collection.updateOne(
+          { mail: userMail },
+          { $set: { preferiti: user.preferiti } }
+        );
+        return res.status(200).json({ message: 'Elemento rimosso dai preferiti.', preferiti: user.preferiti });
+      } else {
+        return res.status(200).json({ message: 'Elemento non trovato nei preferiti.', preferiti: user.preferiti });
+      }
+    }
+  } catch (error) {
+    console.error('Errore server durante l\'aggiornamento dei preferiti:', error);
+    res.status(500).json({ message: 'Errore interno del server.' });
+  } finally {
+    await client.close();
+  }
+});
+
 
 // Avvio del server
 app.listen(PORT, () => {

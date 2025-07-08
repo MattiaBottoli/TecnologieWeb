@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation"; // Hook per il reindirizzamento
 import { useAuth } from "../../context/AuthContext"; // Importa il contesto
-import "../../styles/loginregistrati.css";
+
 
 interface User {
   nome: string;
@@ -47,7 +47,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="container">
+    <div className="Login-Container">
       <form onSubmit={handleSubmit}>
         <fieldset>
           <header>

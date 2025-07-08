@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "../../context/AuthContext";
 import { useRouter } from "next/navigation";
-import "../../styles/escursioni.css";
 
 interface Escursione {
   _id: string;
@@ -121,7 +120,7 @@ export default function EscursioniUnificate() {
   };
 
   return (
-    <div className="pagina-escursioni-unificate">
+    <div className="Escursioni-Container">
       <h1>Escursioni Disponibili</h1>
       {error && <div className="error-message">{error}</div>}
 
@@ -197,7 +196,7 @@ export default function EscursioniUnificate() {
       <footer>
         <h2>
           Vuoi programmare un'escursione?{" "}
-          <Link href="/esplora/programmazione">CLICCA QUI</Link>
+          <Link href="/programmazione">CLICCA QUI</Link>
         </h2>
       </footer>
     </div>

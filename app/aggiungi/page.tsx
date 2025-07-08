@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import "../../styles/loginregistrati.css"
 
 interface Bivacco {
   nome: string
@@ -96,12 +95,12 @@ export default function AddPage() {
   }
 
   return (
-    <div className="container">
+    <div className="Aggiungi-Container">
       {!view ? (
         <div className="view-selector">
-          <h1>Scegli cosa vuoi aggiungere:</h1>
-          <button onClick={() => setView("bivacco")}>Aggiungi Bivacco</button>
-          <button onClick={() => setView("percorso")}>Aggiungi Percorso</button>
+          <h1>Inserisci un bivacco o un percorso:</h1>
+          <button className="btnlog" onClick={() => setView("bivacco")}>Aggiungi Bivacco</button>
+          <button className="btnlog" onClick={() => setView("percorso")}>Aggiungi Percorso</button>
         </div>
       ) : (
         <form onSubmit={handleSubmit}>

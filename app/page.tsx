@@ -3,72 +3,104 @@ import Link from "next/link";
 
 import "../styles/globals.css";
 
-
-
 export default function Home() {
   return (
     <main>
-      
       {/* Hero Section */}
       <section className="hero">
         <h1>Benvenuto in Trentino Explorer</h1>
         <p>Immergiti nella bellezza naturale del Trentino. Pianifica la tua avventura con percorsi, bivacchi e esperienze uniche.</p>
-        <Link href="/esplora">
-          <button className="explore-btn">Esplora il Trentino →</button>
+        <Link href="/programmazione" passHref> {/* passHref is good practice with custom elements */}
+          <button className="explore-btn">PROGRAMMA UN ESCURSIONE →</button>
         </Link>
       </section>
-      
+
       {/* Features Section */}
       <section className="features">
-        <Link href="/paesaggi">
-        <button className="contact-btn">
-        <div className="feature">
-          <Image src="/trek.png" alt="Paesaggi" width={50} height={50} />
-          <p>Paesaggi mozzafiato</p>
-        </div>
-        </button>
+        <Link href="/aggiungi" passHref>
+          {/* Use a div with a descriptive class for the feature card */}
+          <div className="feature-card">
+            <Image src="/trek.png" alt="Paesaggi" width={70} height={70} /> {/* Adjust size to match CSS */}
+            <p>Aggiungi un'esperienza</p>
+          </div>
         </Link>
-        <Link href="/percorsi">
-        <button className="contact-btn">
-        <div className="feature">
-          <Image src="/trial.png" alt="Percorsi" width={50} height={50} />
-          <p>Percorsi per tutti i livelli</p>
-        </div>
-        </button>
+        <Link href="/bivacchi?view=percorsi" passHref>
+          <div className="feature-card">
+            <Image src="/trial.png" alt="Percorsi" width={70} height={70} />
+            <p>Percorsi per tutti i livelli</p>
+          </div>
         </Link>
-        <Link href="/bivacchi">
-        <button className="contact-btn">
-        <div className="feature">
-          <Image src="/camp.png" alt="Bivacchi" width={50} height={50} />
-          <p>Bivacchi e rifugi accoglienti</p>
-        </div>
-        </button>
+        <Link href="/bivacchi?view=bivacchi" passHref>
+          <div className="feature-card">
+            <Image src="/camp.png" alt="Bivacchi" width={70} height={70} />
+            <p>Bivacchi e rifugi accoglienti</p>
+          </div>
         </Link>
       </section>
-      
-      <hr />
-      
+
+<hr />
+
+<div className="container">
+  <header>
+    <h1>Ritrova te stesso tra le meraviglie del Trentino</h1>
+  </header>
+
+  <section>
+    <p>
+      Hai bisogno di staccare dalla routine quotidiana? 
+      <Link href="/programmazione">Pianifica la tua escursione ideale</Link> e immergiti nella natura incontaminata del Trentino. 
+      Che tu voglia condividere l'avventura con la tua famiglia, esplorare nuovi sentieri con gli amici o affrontare la montagna in solitaria, 
+      troverai l’itinerario perfetto per te.
+    </p>
+  </section>
+
+  <section>
+    <p>
+      Non sai da dove iniziare? Nessun problema. Dai un'occhiata alla nostra selezione di <Link href="/bivacchi?view=bivacchi">bivacchi e rifugi</Link>, 
+      luoghi magici immersi tra boschi, laghi alpini e cime spettacolari. 
+      Perfetti per una pausa rigenerante o per una notte sotto le stelle in alta quota.
+    </p>
+  </section>
+
+  <section>
+    <p>
+      Desideri vivere la montagna a 360°? <strong>Diventa parte della nostra community</strong>. 
+      Con il tesseramento accedi a contenuti esclusivi: guide approfondite, percorsi segreti, eventi speciali, e la possibilità di lasciare recensioni e foto. 
+      <Link href="/profilo">Scopri tutti i vantaggi del tesseramento</Link> e unisciti agli amanti dell'outdoor come te.
+    </p>
+  </section>
+
+  <footer>
+    <p>
+      Trentino Explorer è molto più di un semplice sito: è la porta d'accesso al tuo prossimo respiro d’aria pura. <br />
+      Zaino in spalla, scarponi ai piedi… l’avventura ti aspetta.
+    </p>
+  </footer>
+</div>
+
+<hr />
+
+
       {/* About Section */}
       <section className="about">
         <h2>Chi siamo</h2>
         <p>Trentino Explorer è il punto di riferimento per gli amanti della montagna. Scopri itinerari, rifugi e avventure uniche immerse nella natura.</p>
       </section>
-      
+
       <hr />
+
       
+
       {/* Contact Section */}
       <section className="contact">
         <h2>Contattaci</h2>
         <p>Hai domande o suggerimenti? Scrivici e saremo felici di aiutarti!</p>
         <button className="contact-btn">Contattaci</button>
       </section>
-      
+
       <hr />
+
       
-      {/* Footer */}
-      <footer className="footer">
-        <p>© 2025 Trentino Explorer. Tutti i diritti riservati.</p>
-      </footer>
     </main>
   );
 }

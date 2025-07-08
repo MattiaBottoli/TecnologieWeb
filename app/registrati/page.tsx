@@ -2,11 +2,11 @@
 "use client"
 
 import { useState } from "react"
-import "../../styles/loginregistrati.css"
 
 interface UserData {
   nome: string
   cognome: string
+  username: string
   mail: string
   password: string
   tesserato: boolean
@@ -16,6 +16,7 @@ interface UserData {
 export default function Registrati() {
   const [nome, setNome] = useState("")
   const [cognome, setCognome] = useState("")
+  const [username, setUsername] = useState("")
   const [mail, setMail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -26,6 +27,7 @@ export default function Registrati() {
     const userData: UserData = {
       nome,
       cognome,
+      username,
       mail,
       password,
       tesserato: false,
@@ -44,8 +46,10 @@ export default function Registrati() {
         alert("Registrazione completata!")
         setNome("")
         setCognome("")
+        setUsername("")
         setMail("")
         setPassword("")
+        setError("")
       } else {
         setError(data.message)
       }
@@ -53,9 +57,8 @@ export default function Registrati() {
       console.error("Errore registrazione:", err)
     }
   }
-
   return (
-    <div className="container">
+    <div className="Registrati-Container">
       <form onSubmit={handleSubmit}>
         <fieldset>
           <header>
@@ -65,19 +68,23 @@ export default function Registrati() {
           {error && <p style={{ color: "red" }}>{error}</p>}
           <section>
             <label>NOME</label>
-            <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} required />
+            <input placeholder="Inserisci il tuo Nome..." type="text" value={nome} onChange={(e) => setNome(e.target.value)} required />
           </section>
           <section>
             <label>COGNOME</label>
-            <input type="text" value={cognome} onChange={(e) => setCognome(e.target.value)} required />
+            <input placeholder="Inserisci il tuo Cognome..." type="text" value={cognome} onChange={(e) => setCognome(e.target.value)} required />
+          </section>
+          <section>
+            <label>USERNAME</label>
+            <input placeholder="Inserisci il tuo Username..." type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
           </section>
           <section>
             <label>E-MAIL</label>
-            <input type="email" value={mail} onChange={(e) => setMail(e.target.value)} required />
+            <input placeholder="Inserisci la tua Email..." type="email" value={mail} onChange={(e) => setMail(e.target.value)} required />
           </section>
           <section>
             <label>PASSWORD</label>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <input placeholder="Inserisci la Password..." type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
           </section>
           <section>
             <button type="submit" className="btnlog">CREA</button>

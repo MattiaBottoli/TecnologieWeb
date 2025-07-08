@@ -14,6 +14,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <body>
           <Navbar />
           <main>{children}</main>
+        
+        <footer className="footer">
+          <p>© 2025 Trentino Explorer. Tutti i diritti riservati.</p>
+        </footer>
         </body>
       </html>
     </AuthProvider>

@@ -1,14 +1,11 @@
 "use client";
 
-import "../styles/nav.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "../context/AuthContext";
-import { useState } from "react";
 
 export default function Navbar() {
   const { isLoggedIn, logout } = useAuth();
-  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header className="header">
@@ -19,11 +16,9 @@ export default function Navbar() {
       </div>
       <nav>
         <ul>
-          <li><Link href="/bivacchi">Visualizza Bivacchi e percorsi</Link></li> 
-          <li><Link href="/tesserati">Tesseramento</Link></li>
-          <li><Link href="#">Social</Link></li>
-          <li><Link href="/escursioni">Escursioni</Link></li>  
-          <li><Link href="/aggiungi">Aggiungi</Link></li>
+          <li><Link href="/bivacchi">SCOPRI</Link></li> 
+          <li><Link href="/escursioni">PROGRAMMA</Link></li>  
+          <li><Link href="/aggiungi">AGGIUNGI</Link></li>
         </ul>
       </nav>
       
@@ -31,14 +26,9 @@ export default function Navbar() {
         {isLoggedIn ? (
           <>
             <button className="contact-btn" onClick={logout}>Logout</button>
-            <button className="contact-btn" onClick={() => setMenuOpen(!menuOpen)}>Profilo</button>
-            {menuOpen && (
-              <div className="dropdown">
-                <Link href="/escursioni">In programma</Link>
-                <Link href="/preferiti">Preferiti</Link>
-                <Link href="/profilo">Profilo</Link>
-              </div>
-            )}
+            <Link href="/profilo">
+                <button className="contact-btn">Profilo</button>
+            </Link>
           </>
         ) : (
           <>

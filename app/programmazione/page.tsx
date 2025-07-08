@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../../../context/AuthContext";
-///import "../../../styles/loginregistrati.css";
+import { useAuth } from "../../context/AuthContext";
 
 interface Percorso {
   _id: string;
@@ -50,6 +49,7 @@ export default function PrenotazioneEscursione() {
   const { isLoggedIn, email } = useAuth();
   const [error, setError] = useState<string>("");
   const router = useRouter();
+  const [saltaBivacco, setSaltaBivacco] = useState(false);
 
   const fasceOrarie = [
     "9:00-10:00", "10:00-11:00", "12:00-13:00", 
@@ -148,7 +148,7 @@ export default function PrenotazioneEscursione() {
   }
 
   return (
-    <div className="container">
+    <div className="Modifica-Container">
       <header>
         <h1>Programma un'Escursione</h1>
       </header>
@@ -205,7 +205,7 @@ export default function PrenotazioneEscursione() {
           <section>
             <p>
               Seleziona il bivacco/rifugio e la fascia oraria nel quale desiderate accamparvi.
-              Vi consigliamo i bivacchi che si trovano nella stessa localitÃ  del percorso selezionato.
+              Vi consigliamo i bivacchi che si trovano nella stessa localitÃ   del percorso selezionato.
             </p>
           </section>
           <br />
@@ -213,8 +213,12 @@ export default function PrenotazioneEscursione() {
             <label>BIVACCO</label>
             <select
               value={selectedBivacco}
-              onChange={(e) => setSelectedBivacco(e.target.value)}
-              required
+              onChange={(e) => {
+                setSelectedBivacco(e.target.value)
+                if (e.target.value!==""){
+                  setSaltaBivacco(false)
+                }
+              }}
             >
               <option value="">SELEZIONA UN BIVACCO</option>
               {bivacchi
@@ -262,8 +266,23 @@ export default function PrenotazioneEscursione() {
             </section>
           )}
           <br />
+          <section>
+            <label>Non voglio prenotare un bivacco
+              <input
+              type="checkbox"
+              checked={saltaBivacco}
+              onChange={(e)=>{
+                setSaltaBivacco(e.target.checked)
+                if (e.target.checked){
+                  setSelectedBivacco("");
+                  setFasciaOraria("");
+                }
+              }}  
+              />
+            </label>
+          </section>
           <footer>
-            <button type="submit" disabled={!fasciaOraria}>INVIA</button>
+            <button type="submit" disabled={!fasciaOraria && !saltaBivacco}>INVIA</button>
           </footer>
         </form>
       )}
