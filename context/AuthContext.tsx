@@ -7,7 +7,7 @@ interface AuthContextType {
   isLoggedIn: boolean;
   email: string;
   tesserato: boolean;
-  login: (userEmail: string, isTesserato?: boolean) => void;
+  login: (userEmail: string, isTesserato: boolean) => void;
   logout: () => void;
   isTesserato: () => boolean;
 }
@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [tesserato, setTesserato] = useState(false);
   const router=useRouter();
 
-  const login = (userEmail: string, isTesserato = false) => {
+  const login = (userEmail: string, isTesserato: boolean) => {
     setIsLoggedIn(true);
     setEmail(userEmail);
     setTesserato(isTesserato);

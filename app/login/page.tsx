@@ -9,6 +9,7 @@ interface User {
   nome: string;
   cognome: string;
   mail: string;
+  tesserato: boolean
 }
 
 const Login: React.FC = () => {
@@ -34,7 +35,7 @@ const Login: React.FC = () => {
       const data: { message: string; user?: User } = await response.json();
 
       if (response.ok && data.user) {
-        login(mail); // Imposta lo stato di autenticazione globale
+        login(mail, data.user.tesserato); // Imposta lo stato di autenticazione globale
         router.push("/"); // Reindirizza alla homepage
       } else {
         setError(data.message);
