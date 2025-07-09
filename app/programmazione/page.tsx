@@ -176,7 +176,10 @@ export default function PrenotazioneEscursione() {
             <input 
               type="number"
               value={partecipanti}
-              onChange={(e) => setPartecipanti(e.target.valueAsNumber)}
+              onChange={(e) => {
+                const val = e.target.value
+                setPartecipanti(val === "" ? 1 : Number(val))
+              }}
               required
             />
           </section>

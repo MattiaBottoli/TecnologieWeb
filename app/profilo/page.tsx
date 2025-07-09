@@ -262,7 +262,7 @@ export default function ProfiloUtentePage() {
                         <button className="card-button card-button-percorso">
                           Vedi Dettagli
                         </button>
-                      </Link>
+                      </Link> 
                     </div>
                   ))}
                 </div>

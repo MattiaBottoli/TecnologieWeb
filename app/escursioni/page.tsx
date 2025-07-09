@@ -68,6 +68,7 @@ export default function EscursioniUnificate() {
       .catch(() => {
         setError("Errore nel caricamento delle tue prenotazioni.");
       });
+      
   }, [isLoggedIn, email]);
 
   const handleIscrizione = async (idEscursione: string) => {
@@ -90,11 +91,35 @@ export default function EscursioniUnificate() {
       if (!response.ok) throw new Error(result.message || "Errore durante l'iscrizione.");
 
       setEscursioni(prev => prev.map(e => (e._id === idEscursione ? result : e)));
-      alert("Iscrizione avvenuta con successo!");
     } catch (e: any) {
       alert(e.message);
     }
   };
+
+  const handleDisiscrizione = async (idEscursione: string) => {
+    if (!email) {
+      alert("Devi effettuare il login per iscriverti!");
+      return;
+    }
+      const response = await fetch(
+        `http://localhost:5000/api/escursioni/${idEscursione}/disiscrivi`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ utenteEmail: email }),
+        }
+      );
+
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.message || "Errore durante la disiscrizione.");
+
+      setEscursioni(prev => prev.map(e => (e._id === idEscursione ? result : e)));
+    try{
+
+    }catch (e: any) {
+      alert(e.message);
+    }
+  }
 
   const confirmDelete = async (id: string) => {
     try {
@@ -144,7 +169,13 @@ export default function EscursioniUnificate() {
 
               {isLoggedIn ? (
                 e.partecipanti.includes(email) ? (
-                  <span className="iscritto-label">Già iscritto</span>
+                  <>
+                    <span className="iscritto-label">Già iscritto</span>
+                    <button onClick={() => handleDisiscrizione(e._id)} className="iscriviti-button">
+                      Disiscriviti
+                    </button>
+                  </>
+                  
                 ) : e.partecipanti.length >= e.maxPartecipanti ? (
                   <span className="completo-label">Completo</span>
                 ) : (

@@ -2,6 +2,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation";
 
 interface UserData {
   nome: string
@@ -20,6 +21,7 @@ export default function Registrati() {
   const [mail, setMail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const router=useRouter()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -43,13 +45,7 @@ export default function Registrati() {
 
       const data = await res.json()
       if (res.ok) {
-        alert("Registrazione completata!")
-        setNome("")
-        setCognome("")
-        setUsername("")
-        setMail("")
-        setPassword("")
-        setError("")
+        router.push("/login")
       } else {
         setError(data.message)
       }

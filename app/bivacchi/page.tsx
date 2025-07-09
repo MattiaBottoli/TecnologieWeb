@@ -30,7 +30,7 @@ interface Percorso {
 export default function HomePage() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { email, isLoggedIn } = useAuth(); // Utilizzo delle proprietà email e isLoggedIn
+  const { email, isLoggedIn, tesserato } = useAuth(); // Utilizzo delle proprietà email e isLoggedIn
 
   const [view, setView] = useState<"bivacchi" | "percorsi" | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -148,10 +148,6 @@ export default function HomePage() {
 
   // Funzione per gestire l'aggiunta/rimozione dei preferiti sul server
   const handleToggleFavorite = async (itemId: string, itemType: "bivacco" | "percorso", currentLikedState: boolean) => {
-    if (!isLoggedIn || !email) {
-      alert("Devi essere loggato per aggiungere/rimuovere preferiti!");
-      return;
-    }
 
     // Aggiornamento ottimistico dell'UI: cambia il cuore immediatamente
     if (itemType === "bivacco") {
@@ -198,7 +194,6 @@ export default function HomePage() {
       }
     }
   };
-
 
   const filteredBivacchi = bivacchi.filter((b) =>
     b.nome.toLowerCase().includes(searchTerm.toLowerCase())
@@ -252,9 +247,9 @@ export default function HomePage() {
                       alt="Like"
                       width={25}
                       height={25}
-                      className={`heart-icon ${!isLoggedIn ? "disabled-heart" : ""}`}
-                      onClick={() => isLoggedIn && handleToggleFavorite(b._id, "bivacco", !!likedBivacchi[b._id])}
-                      style={{ cursor: isLoggedIn ? 'pointer' : 'not-allowed' }}
+                      className={`heart-icon ${(!isLoggedIn || !tesserato) ? "disabled-heart" : ""}`}
+                      onClick={() => (isLoggedIn && tesserato) && handleToggleFavorite(b._id, "bivacco", !!likedBivacchi[b._id])}
+                      style={{ cursor: (isLoggedIn && tesserato) ? 'pointer' : 'not-allowed' }}
                     />
                   </div>
                   <p><strong>Località:</strong> {b.localita}</p>

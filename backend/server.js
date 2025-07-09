@@ -540,6 +540,45 @@ app.post("/api/register", async (req, res) => {
     }
   });
 
+  app.post("/api/escursioni/:id/disiscrivi", async (req, res) => {
+    const client = new MongoClient(MONGO_URI);
+    try {
+      const { id } = req.params;
+      const { utenteEmail } = req.body;
+  
+      if (!utenteEmail) {
+        return res.status(400).json({ message: "Email utente mancante." });
+      }
+  
+      await client.connect();
+      const db = client.db(DB_NAME);
+      const collection = db.collection("Escursioni");
+  
+      const escursione = await collection.findOne({ _id: new ObjectId(id) });
+  
+      if (!escursione) {
+        return res.status(404).json({ message: "Escursione non trovata." });
+      }
+  
+      if (!escursione.partecipanti.includes(utenteEmail)) {
+        return res.status(400).json({ message: "Utente non iscritto." });
+      }
+  
+      await collection.updateOne(
+        { _id: new ObjectId(id) },
+        { $pull: { partecipanti: utenteEmail } }
+      );
+  
+      const updated = await collection.findOne({ _id: new ObjectId(id) });
+      res.json(updated);
+    } catch (error) {
+      console.error("Errore nella disiscrizione:", error);
+      res.status(500).json({ message: "Errore interno del server" });
+    } finally {
+      await client.close();
+    }
+  });
+
   app.post("/api/bivacchi", async (req, res) => {
     const client = new MongoClient(MONGO_URI);
     try {
@@ -587,7 +626,7 @@ app.post("/api/register", async (req, res) => {
     }
   });
 
-  app.get("/api/ricordi", async (req, res) => {
+  app.get("/api/ricordi/prenotazioni", async (req, res) => {
   const client = new MongoClient(MONGO_URI);
     try {
       await client.connect();
@@ -612,8 +651,34 @@ app.post("/api/register", async (req, res) => {
     } finally {
       await client.close();
     }
-})
+  })
 
+  app.get("/api/ricordi/escursioni", async (req, res) => {
+  const client = new MongoClient(MONGO_URI);
+    try {
+      await client.connect();
+      const db = client.db(DB_NAME);
+      const collection = db.collection("Escursioni");
+
+      const mail = req.headers["user_email"];
+      if (mail) {
+        const escursioni = await collection.find({ 
+          giorno: { $lt: today },
+          partecipanti: mail
+        })
+        .sort({giorno: 1})
+        .toArray();
+        return res.json(escursioni);
+      }
+      res.status(400).json({ message: "Email mancante!" });
+  
+    } catch (error) {
+      console.error("Errore nel recupero delle escursioni:", error);
+      res.status(500).json({ message: "Errore interno del server", escursioni: [] });
+    } finally {
+      await client.close();
+    }
+  })
 
 // GET /api/user/favorites - Recupera i preferiti di un utente con i dettagli completi
 app.get('/api/user/favorites', async (req, res) => {

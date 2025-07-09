@@ -54,8 +54,9 @@ export default function ModificaPrenotazione() {
   const [isLoading, setIsLoading] = useState(true);
   const [bivaccoPrev, setBivaccoPrev] =useState<string>("");
   const [oraPrev, setOraPrev] = useState<string>("");
+  const [percorsoPrev, setPercorsoPrev] = useState<string>("");
   const [saltaBivacco, setSaltaBivacco] = useState(false);
-
+  
   const fasceOrarie = [
     "9:00-10:00", "10:00-11:00", "12:00-13:00",
     "14:00-15:00", "15:00-16:00", "16:00-17:00",
@@ -65,7 +66,11 @@ export default function ModificaPrenotazione() {
   const today = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
-    if (!isLoggedIn) router.push("/registrati");
+
+    if (!isLoggedIn){
+      router.push("/login")
+      return
+    }
 
     fetch("http://localhost:5000/api/percorsi")
       .then(res => res.json())
@@ -89,8 +94,12 @@ export default function ModificaPrenotazione() {
           setDate(data.data);
           setPartecipanti(data.numpartecipanti);
           setSelectedPercorso(data.percorso);
+          setPercorsoPrev(data.percorso);
+          setFasciaOraria(data.fasciaOraria)
           setOraPrev(data.fasciaOraria);
+          setSelectedBivacco(data.bivacco)
           setBivaccoPrev(data.bivacco);
+
           if (data.bivacco==="Nessun bivacco selezionato" && data.fasciaOraria==="Nessuna fascia oraria selezionata") {
             setSaltaBivacco(true);
             setSelectedBivacco("");
@@ -100,6 +109,7 @@ export default function ModificaPrenotazione() {
             setSelectedBivacco(data.bivacco);
             setFasciaOraria(data.fasciaOraria);
           }
+
         })
         .finally(()=>setIsLoading(false))
         .catch((error) => console.error("Errore nel recupero della prenotazione:", error));
@@ -116,13 +126,30 @@ export default function ModificaPrenotazione() {
     const bivacco = bivacchi.find(b => b.nome === selectedBivacco);
     if (!bivacco) return 0;
     const prenotati = prenotazioni
-      .filter(p => p.fasciaOraria === fascia)
+      .filter(p => p.fasciaOraria === fascia && p._id !== idPrenotazione)
       .reduce((sum, p) => sum + p.numpartecipanti, 0);
     return bivacco.capienza - prenotati;
   };
 
   const changeMode = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (selectedPercorso !== percorsoPrev) {
+      setSelectedBivacco("");
+      setFasciaOraria("");
+      setSaltaBivacco(false);
+    }
+    else{
+      if (bivaccoPrev !== "Nessun bivacco selezionato" && oraPrev !== "Nessuna fascia oraria selezionata"){
+          setSelectedBivacco(bivaccoPrev);
+          setFasciaOraria(oraPrev);
+          setSaltaBivacco(false);
+      }
+      else{
+        setSelectedBivacco("");
+        setFasciaOraria("");
+        setSaltaBivacco(true);
+      }
+    }
     setMode("setBivacco");
   };
 
@@ -159,8 +186,8 @@ export default function ModificaPrenotazione() {
 
   const handleIndietro = () => {
     setMode("setPercorso");
-    setSelectedBivacco("");
-    setFasciaOraria("");
+    setSelectedBivacco(bivaccoPrev);
+    setFasciaOraria(oraPrev);
   }
 
   return (
@@ -177,7 +204,12 @@ export default function ModificaPrenotazione() {
           </section>
           <section>
             <label>Numero Partecipanti</label>
-            <input type="number" value={partecipanti} onChange={e => setPartecipanti(e.target.valueAsNumber)} required />
+            <input type="number" value={partecipanti} 
+            onChange={e => {
+              const val = e.target.value
+              setPartecipanti(val === "" ? 1 : Number(val))
+            }}
+            required />
           </section>
           <section>
             <label>Percorso</label>
@@ -194,9 +226,13 @@ export default function ModificaPrenotazione() {
           <section>
             <label>Bivacco</label>
             <select value={selectedBivacco} onChange={(e) => {
-                setSelectedBivacco(e.target.value)
-                if (e.target.value!==""){
-                  setSaltaBivacco(false)
+                const nuovoBivacco = e.target.value;
+                if (nuovoBivacco !== selectedBivacco) {
+                  setFasciaOraria("");
+                }
+                setSelectedBivacco(nuovoBivacco);
+                if (nuovoBivacco !== "") {
+                  setSaltaBivacco(false);
                 }
               }}>
               <option value="">Seleziona un bivacco</option>
@@ -225,13 +261,11 @@ export default function ModificaPrenotazione() {
                         <td>
                           <button
                             type="button"
-                            disabled={disponibili < partecipanti && (oraPrev===fascia && bivaccoPrev===selectedBivacco)}
+                            disabled={ disponibili < partecipanti }
                             onClick={() => setFasciaOraria(fascia)}
-                            style={{ backgroundColor: fasciaOraria === fascia ? "lightgreen" : undefined }}
+                            style={{ backgroundColor: disponibili < partecipanti ? undefined : fasciaOraria === fascia ? "lightgreen" : undefined }}
                           >
-                            {(fasciaOraria === fascia && (oraPrev != fascia && bivaccoPrev === selectedBivacco)) ? "Selezionato" : ""}
-                            {(fasciaOraria === fascia && bivaccoPrev != selectedBivacco) ? "Selezionato" : ""}
-                            {(oraPrev === fascia && bivaccoPrev === selectedBivacco) && "Selezionato precedentemente"}
+                            {disponibili < partecipanti ? "" : fasciaOraria === fascia ? "Selezionato" : ""}
                           </button>
                         </td>
                       </tr>
@@ -242,7 +276,7 @@ export default function ModificaPrenotazione() {
             </section>
           )}
           <section>
-            <label>Non voglio prenotare un bivacco
+            <label>Non voglio selezionare un bivacco
               <input
               type="checkbox"
               checked={saltaBivacco}
