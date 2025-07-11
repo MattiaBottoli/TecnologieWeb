@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react"; // Aggiunto useCallback
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuth } from "../../context/AuthContext"; // Percorso corretto
@@ -25,12 +25,13 @@ interface Percorso {
   difficolta: string;
   pendenza_massima: string;
   lunghezza: string;
+  votazioni?: number[];
 }
 
 export default function HomePage() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { email, isLoggedIn, tesserato } = useAuth(); // Utilizzo delle proprietà email e isLoggedIn
+  const { email, isLoggedIn, tesserato } = useAuth();
 
   const [view, setView] = useState<"bivacchi" | "percorsi" | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -52,13 +53,12 @@ export default function HomePage() {
     }
   }, [searchParams]);
 
-  // **Funzione per caricare i preferiti dell'utente dal server**
-  // Resa con useCallback per evitare ricreazioni inutili
+  // Funzione per caricare i preferiti dell'utente dal server
   const fetchUserFavorites = useCallback(async (userEmail: string, currentBivacchi: Bivacco[], currentPercorsi: Percorso[]) => {
     try {
       const response = await fetch(`http://localhost:5000/api/user/favorites`, {
         headers: {
-          "user_email": userEmail, // Invia l'email dell'utente nell'header
+          "user_email": userEmail,
         },
       });
       if (!response.ok) {
@@ -71,7 +71,6 @@ export default function HomePage() {
       const newLikedPercorsi: { [id: string]: boolean } = {};
 
       userFavorites.forEach((favId) => {
-        // Popola gli stati likedBivacchi e likedPercorsi basandosi sui dati correntemente caricati
         if (currentBivacchi.some(b => b._id === favId)) {
           newLikedBivacchi[favId] = true;
         } else if (currentPercorsi.some(p => p._id === favId)) {
@@ -85,16 +84,16 @@ export default function HomePage() {
     } catch (error) {
       console.error("Errore nel recupero dei preferiti dell'utente:", error);
     }
-  }, []); // Dipendenze vuote perché i dati sono passati come argomenti
+  }, []);
 
-  // **Effect principale per caricare tutti i dati**
+  // Effect principale per caricare tutti i dati
   useEffect(() => {
     const loadBivacchi = async () => {
       try {
         const res = await fetch("http://localhost:5000/api/bivacchi");
         const data = await res.json();
         setBivacchi(data);
-        return data; // Ritorna i dati caricati
+        return data;
       } catch (err) {
         console.error("Errore nel caricamento dei bivacchi:", err);
         alert("Errore nel caricamento dei bivacchi");
@@ -107,7 +106,7 @@ export default function HomePage() {
         const res = await fetch("http://localhost:5000/api/percorsi");
         const data = await res.json();
         setPercorsi(data);
-        return data; // Ritorna i dati caricati
+        return data;
       } catch (err) {
         console.error("Errore nel caricamento dei percorsi:", err);
         alert("Errore nel caricamento dei percorsi");
@@ -119,37 +118,37 @@ export default function HomePage() {
       let loadedBivacchi: Bivacco[] = [];
       let loadedPercorsi: Percorso[] = [];
 
-      // Carica i dati in base alla vista
       if (view === "bivacchi") {
         loadedBivacchi = await loadBivacchi();
       } else if (view === "percorsi") {
         loadedPercorsi = await loadPercorsi();
       } else {
-        // Se non c'è una vista selezionata, potresti voler caricare entrambi o nessuno
-        // Per ora, non facciamo nulla finché view non è selezionata
         return;
       }
 
-      // Ora che i dati base sono caricati, possiamo tentare di caricare i preferiti
       if (isLoggedIn && email) {
-        // Passa i dati appena caricati alla funzione fetchUserFavorites
         fetchUserFavorites(email, loadedBivacchi, loadedPercorsi);
       } else if (!isLoggedIn) {
-        // Se l'utente non è loggato, pulisci i preferiti locali
         setLikedBivacchi({});
         setLikedPercorsi({});
       }
     };
 
     initializeDataAndFavorites();
-    // Questo useEffect si esegue quando view, isLoggedIn, o email cambiano
-    // o quando la funzione fetchUserFavorites cambia (se non fosse useCallback)
-  }, [view, isLoggedIn, email, fetchUserFavorites]); // Aggiunto fetchUserFavorites alle dipendenze
+  }, [view, isLoggedIn, email, fetchUserFavorites]);
 
   // Funzione per gestire l'aggiunta/rimozione dei preferiti sul server
   const handleToggleFavorite = async (itemId: string, itemType: "bivacco" | "percorso", currentLikedState: boolean) => {
+    if (!isLoggedIn || !email) {
+      alert("Devi essere loggato per aggiungere ai preferiti.");
+      return;
+    }
+    if (!tesserato) { // Aggiunta la verifica di `tesserato`
+      alert("Devi essere un utente tesserato per aggiungere ai preferiti.");
+      return;
+    }
 
-    // Aggiornamento ottimistico dell'UI: cambia il cuore immediatamente
+    // Aggiornamento ottimistico dell'UI
     if (itemType === "bivacco") {
       setLikedBivacchi((prev) => ({ ...prev, [itemId]: !currentLikedState }));
     } else {
@@ -161,16 +160,16 @@ export default function HomePage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "user_email": email, // Invia l'email dell'utente nell'header
+          "user_email": email,
         },
         body: JSON.stringify({
           itemId,
-          action: currentLikedState ? "remove" : "add", // Determina l'azione corretta
+          action: currentLikedState ? "remove" : "add",
         }),
       });
 
       if (!response.ok) {
-        // Se il server fallisce, ripristina lo stato precedente dell'UI
+        // Ripristina lo stato precedente in caso di errore
         if (itemType === "bivacco") {
           setLikedBivacchi((prev) => ({ ...prev, [itemId]: currentLikedState }));
         } else {
@@ -202,6 +201,7 @@ export default function HomePage() {
   const filteredPercorsi = percorsi.filter((p) =>
     p.nome.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
 
   if (!view) {
     return (
@@ -238,50 +238,76 @@ export default function HomePage() {
           <div className={`${view}-grid`}>
             {view === "bivacchi"
               ? filteredBivacchi.map((b) => (
-                <div key={b._id} className="bivacco-card">
-                  <div className="bivacco-header">
-                    <h2>{b.nome}</h2>
-                    {/* Heart icon, disabled if not logged in */}
-                    <Image
+                  <div /*impone che la card schiacciabile e usa la route dinamica*/
+                    key={b._id}
+                    className="bivacco-card"
+                    onClick={() => router.push(`/bivacchi/${b._id}`)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <div className="bivacco-header">
+                      <h2>{b.nome}</h2>
+                      {/* Heart icon, disabled if not logged in */}
+                      <Image
                       src={likedBivacchi[b._id] ? "/heart2.png" : "/heart.png"}
                       alt="Like"
                       width={25}
                       height={25}
                       className={`heart-icon ${(!isLoggedIn || !tesserato) ? "disabled-heart" : ""}`}
-                      onClick={() => (isLoggedIn && tesserato) && handleToggleFavorite(b._id, "bivacco", !!likedBivacchi[b._id])}
+                      // MODIFICA QUI: aggiungi `e` come parametro e chiama `e.stopPropagation()`
+                      onClick={(e) => {
+                        e.stopPropagation(); // Ferma la propagazione dell'evento
+                        if (isLoggedIn && tesserato) {
+                          handleToggleFavorite(b._id, "bivacco", !!likedBivacchi[b._id]);
+                        }
+                      }}
                       style={{ cursor: (isLoggedIn && tesserato) ? 'pointer' : 'not-allowed' }}
                     />
+                    </div>
+                    <p><strong>Località:</strong> {b.localita}</p>
+                    <p><strong>Sentiero:</strong> {b.sentiero}</p>
+                    <p><strong>Altezza:</strong> {b.altezza} m</p>
+                    <p><strong>Capienza:</strong> {b.capienza} persone</p>
+                    <p><strong>Coordinate:</strong> {b.latitudine}, {b.longitudine}</p>
                   </div>
-                  <p><strong>Località:</strong> {b.localita}</p>
-                  <p><strong>Sentiero:</strong> {b.sentiero}</p>
-                  <p><strong>Altezza:</strong> {b.altezza} m</p>
-                  <p><strong>Capienza:</strong> {b.capienza} persone</p>
-                  <p><strong>Descrizione:</strong> {b.descrizione}</p>
-                  <p><strong>Coordinate:</strong> {b.latitudine}, {b.longitudine}</p>
-                </div>
-              ))
-              : filteredPercorsi.map((p) => (
-                <div key={p._id} className="percorsi-card">
-                  <div className="percorsi-header">
-                    <h2>{p.nome}</h2>
-                    {/* Heart icon, disabled if not logged in */}
-                    <Image
-                      src={likedPercorsi[p._id] ? "/heart2.png" : "/heart.png"}
-                      alt="Like"
-                      width={25}
-                      height={25}
-                      className={`heart-icon ${!isLoggedIn ? "disabled-heart" : ""}`}
-                      onClick={() => isLoggedIn && handleToggleFavorite(p._id, "percorso", !!likedPercorsi[p._id])}
-                      style={{ cursor: isLoggedIn ? 'pointer' : 'not-allowed' }}
-                    />
-                  </div>
-                  <p><strong>Località:</strong> {p.localita}</p>
-                  <p><strong>Sentiero:</strong> {p.sentiero}</p>
-                  <p><strong>Difficoltà:</strong> {p.difficolta}</p>
-                  <p><strong>Pendenza Massima:</strong> {p.pendenza_massima}</p>
-                  <p><strong>Lunghezza:</strong> {p.lunghezza}</p>
-                </div>
-              ))}
+                ))
+              : filteredPercorsi.map((p) => {
+                  // Calcola media e stelle per OGNI percorso
+                  const voti = p.votazioni ?? [];
+                  const media = voti.length > 0 ? voti.reduce((a: number, b: number) => a + b, 0) / voti.length : 0;
+                  const stellePiene = Math.round(media);
+
+                  return (
+                    <div key={p._id} className="percorsi-card">
+                      <div className="percorsi-header">
+                        <h2>{p.nome}</h2>
+                        {/* Heart icon, disabled if not logged in */}
+                        <Image
+                          src={likedPercorsi[p._id] ? "/heart2.png" : "/heart.png"}
+                          alt="Like"
+                          width={25}
+                          height={25}
+                          className={`heart-icon ${!isLoggedIn ? "disabled-heart" : ""}`}
+                          onClick={() => isLoggedIn && handleToggleFavorite(p._id, "percorso", !!likedPercorsi[p._id])}
+                          style={{ cursor: isLoggedIn ? 'pointer' : 'not-allowed' }}
+                        />
+                      </div>
+                      <p><strong>Località:</strong> {p.localita}</p>
+                      <p><strong>Sentiero:</strong> {p.sentiero}</p>
+                      <p><strong>Difficoltà:</strong> {p.difficolta}</p>
+                      <p><strong>Pendenza Massima:</strong> {p.pendenza_massima}</p>
+                      <p><strong>Lunghezza:</strong> {p.lunghezza}</p>
+                      <p><strong>Recensione dei nostri Utenti:</strong></p>
+                      <div className="recensioni-stars">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <span key={i}>
+                            {i < stellePiene ? "★" : "☆"}
+                          </span>
+                        ))}
+                        <span className="media-voto"> ({media.toFixed(1)})</span>
+                      </div>
+                    </div>
+                  );
+                })}
           </div>
         </div>
       </div>

@@ -34,6 +34,8 @@ interface Prenotazione {
     bivacco: string;
     numpartecipanti: number;
     fasciaOraria: string;
+    idBivacco: string
+    idPercorso: string
 }
 
 export default function ModificaPrenotazione() {
@@ -55,7 +57,11 @@ export default function ModificaPrenotazione() {
   const [bivaccoPrev, setBivaccoPrev] =useState<string>("");
   const [oraPrev, setOraPrev] = useState<string>("");
   const [percorsoPrev, setPercorsoPrev] = useState<string>("");
-  const [saltaBivacco, setSaltaBivacco] = useState(false);
+  const [saltaBivacco, setSaltaBivacco] = useState(false)
+  const [nomePercorsoPrev, setNomePercorsoPrev]=useState<string>("")
+  const [nomeBivaccoPrev, setNomeBivaccoPrev]=useState<string>("")
+  const [nomePercorso, setNomePercorso]=useState<string>("")
+  const [nomeBivacco, setNomeBivacco]=useState<string>("")
   
   const fasceOrarie = [
     "9:00-10:00", "10:00-11:00", "12:00-13:00",
@@ -77,7 +83,7 @@ export default function ModificaPrenotazione() {
       .then(data => {
         setPercorsi(data);
         if (data.length > 0 && !selectedPercorso) {
-            setSelectedPercorso(data[0].nome);
+            setSelectedPercorso(data[0]._id);
           }
       })
       .catch((error) => console.error("Errore nel recupero dei percorsi:", error));
@@ -92,24 +98,29 @@ export default function ModificaPrenotazione() {
         .then(res => res.json())
         .then((data: Prenotazione) => {
           setDate(data.data);
-          setPartecipanti(data.numpartecipanti);
-          setSelectedPercorso(data.percorso);
-          setPercorsoPrev(data.percorso);
-          setFasciaOraria(data.fasciaOraria)
-          setOraPrev(data.fasciaOraria);
-          setSelectedBivacco(data.bivacco)
-          setBivaccoPrev(data.bivacco);
-
+          setPartecipanti(data.numpartecipanti)
+          setSelectedPercorso(data.idPercorso)
+          setPercorsoPrev(data.idPercorso)
+          setNomePercorso(data.percorso)
+          setNomePercorsoPrev(data.percorso)
+          
           if (data.bivacco==="Nessun bivacco selezionato" && data.fasciaOraria==="Nessuna fascia oraria selezionata") {
-            setSaltaBivacco(true);
+            setSaltaBivacco(true)
+            setNomeBivacco(data.bivacco)
+            setNomeBivaccoPrev(data.bivacco)
             setSelectedBivacco("");
-            setFasciaOraria("");
+            setBivaccoPrev("");
+            setOraPrev("")
+            setFasciaOraria("")
           } else {
-            setSaltaBivacco(false);
-            setSelectedBivacco(data.bivacco);
-            setFasciaOraria(data.fasciaOraria);
+            setSaltaBivacco(false)
+            setNomeBivacco(data.bivacco)
+            setNomeBivaccoPrev(data.bivacco)
+            setSelectedBivacco(data.idBivacco);
+            setBivaccoPrev(data.idBivacco);
+            setOraPrev(data.fasciaOraria)
+            setFasciaOraria(data.fasciaOraria)
           }
-
         })
         .finally(()=>setIsLoading(false))
         .catch((error) => console.error("Errore nel recupero della prenotazione:", error));
@@ -123,7 +134,7 @@ export default function ModificaPrenotazione() {
   }, [ isLoggedIn, selectedBivacco, date, mode]);
 
   const postiDisponibili = (fascia: string) => {
-    const bivacco = bivacchi.find(b => b.nome === selectedBivacco);
+    const bivacco = bivacchi.find(b => b._id === selectedBivacco);
     if (!bivacco) return 0;
     const prenotati = prenotazioni
       .filter(p => p.fasciaOraria === fascia && p._id !== idPrenotazione)
@@ -137,18 +148,25 @@ export default function ModificaPrenotazione() {
       setSelectedBivacco("");
       setFasciaOraria("");
       setSaltaBivacco(false);
+      const percorso = percorsi.find(p => p._id === selectedPercorso);
+      setNomePercorso(percorso?.nome || "");
+      setNomeBivacco("");
     }
     else{
-      if (bivaccoPrev !== "Nessun bivacco selezionato" && oraPrev !== "Nessuna fascia oraria selezionata"){
-          setSelectedBivacco(bivaccoPrev);
-          setFasciaOraria(oraPrev);
-          setSaltaBivacco(false);
+      if (nomeBivaccoPrev === "Nessun bivacco selezionato" && oraPrev === "Nessuna fascia oraria selezionata"){ 
+        setSelectedBivacco("")
+        setFasciaOraria("")
+        setSaltaBivacco(true)
+        setNomeBivacco("Nessun bivacco selezionato")
       }
       else{
-        setSelectedBivacco("");
-        setFasciaOraria("");
-        setSaltaBivacco(true);
+        setSelectedBivacco(bivaccoPrev)
+        setNomeBivacco(nomeBivaccoPrev)
+        setFasciaOraria(oraPrev)
+        setSaltaBivacco(false)
       }
+      const percorso = percorsi.find(p => p._id === selectedPercorso);
+      setNomePercorso(percorso?.nome || "");
     }
     setMode("setBivacco");
   };
@@ -158,16 +176,19 @@ export default function ModificaPrenotazione() {
     setError("");
 
     try {
+
       const response = await fetch("http://localhost:5000/api/prenotazioni/update", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          id_prenotazione: idPrenotazione,
-          numpartecipanti: partecipanti,
-          data: date,
-          percorso: selectedPercorso,
-          bivacco: selectedBivacco,
-          fasciaOraria: fasciaOraria
+        id_prenotazione: idPrenotazione,
+        numpartecipanti: partecipanti,
+        data: date,
+        percorso: nomePercorso,
+        bivacco: nomeBivacco,
+        fasciaOraria: fasciaOraria,
+        percorsoId: selectedPercorso,
+        bivaccoId: selectedBivacco
         }),
       });
 
@@ -187,6 +208,7 @@ export default function ModificaPrenotazione() {
   const handleIndietro = () => {
     setMode("setPercorso");
     setSelectedBivacco(bivaccoPrev);
+    setNomeBivacco(nomeBivaccoPrev)
     setFasciaOraria(oraPrev);
   }
 
@@ -215,7 +237,7 @@ export default function ModificaPrenotazione() {
             <label>Percorso</label>
             <select value={selectedPercorso} onChange={e => setSelectedPercorso(e.target.value)} required>
               {percorsi.map(percorso => (
-                <option key={percorso._id} value={percorso.nome}>{percorso.nome}</option>
+                <option key={percorso._id} value={percorso._id}>{percorso.nome}</option>
               ))}
             </select>
           </section>
@@ -233,13 +255,15 @@ export default function ModificaPrenotazione() {
                 setSelectedBivacco(nuovoBivacco);
                 if (nuovoBivacco !== "") {
                   setSaltaBivacco(false);
-                }
+                  const bivacco = bivacchi.find(b => b._id === nuovoBivacco);
+                  setNomeBivacco(bivacco?.nome || "");
+                }else setNomeBivacco("Nessun bivacco selezionato");
               }}>
               <option value="">Seleziona un bivacco</option>
               {bivacchi
-                .filter(b => b.localita === percorsi.find(p => p.nome === selectedPercorso)?.localita)
+                .filter(b => b.localita === percorsi.find(p => p._id === selectedPercorso)?.localita)
                 .map(b => (
-                  <option key={b._id} value={b.nome}>{b.nome}</option>
+                  <option key={b._id} value={b._id}>{b.nome}</option>
                 ))}
             </select>
           </section>

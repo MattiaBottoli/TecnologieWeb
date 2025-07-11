@@ -35,8 +35,8 @@ const Login: React.FC = () => {
       const data: { message: string; user?: User } = await response.json();
 
       if (response.ok && data.user) {
-        login(mail, data.user.tesserato); // Imposta lo stato di autenticazione globale
-        router.push("/"); // Reindirizza alla homepage
+        login(mail, data.user.tesserato);
+        router.push("/");
       } else {
         setError(data.message);
         setMail("");

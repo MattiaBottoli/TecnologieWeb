@@ -4,12 +4,13 @@ import { createContext, useContext, useState, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 
 interface AuthContextType {
-  isLoggedIn: boolean;
-  email: string;
-  tesserato: boolean;
+  isLoggedIn: boolean
+  email: string
+  tesserato: boolean
   login: (userEmail: string, isTesserato: boolean) => void;
-  logout: () => void;
-  isTesserato: () => boolean;
+  logout: () => void
+  isTesserato: () => boolean
+  setTesseramento: (value: boolean) => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -37,9 +38,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return tesserato;
   };
 
+  const setTesseramento = (value: boolean) => {
+    setTesserato(value);
+  };
+
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, email, tesserato, login, logout, isTesserato }}
+      value={{ isLoggedIn, email, tesserato, login, logout, isTesserato, setTesseramento }}
     >
       {children}
     </AuthContext.Provider>

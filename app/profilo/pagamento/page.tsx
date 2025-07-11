@@ -3,8 +3,10 @@
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
+import { useAuth } from "../../../context/AuthContext";
 
 export default function PagamentoPage() {
+  const { setTesseramento } = useAuth()
   const searchParams = useSearchParams()
   const mail = searchParams.get("mail") || ""
   const router = useRouter()
@@ -83,7 +85,7 @@ export default function PagamentoPage() {
 
       if (!res.ok) throw new Error("Errore nel pagamento")
 
-      alert("Pagamento completato! 🎉")
+      setTesseramento(true)
       router.push("/profilo")
     } catch (err) {
       alert("Errore nel pagamento")

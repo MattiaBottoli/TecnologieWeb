@@ -63,69 +63,62 @@ export default function ProfiloUtentePage() {
   const router = useRouter();
 
   useEffect(() => {
-    const fetchUserAndFavorites = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
+  const fetchUserAndFavorites = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
 
-        if (!isLoggedIn) {
-          router.push("/login");
-          return;
-        }
-        if (!email) {
-          setError(
-            "Email utente non disponibile. Effettua nuovamente il login."
-          );
-          setIsLoading(false);
-          router.push("/login");
-          return;
-        }
+      if (!isLoggedIn) {
+        router.push("/login");
+        return;
+      }
+      if (!email) {
+        setError("Email utente non disponibile. Effettua nuovamente il login.");
+        setIsLoading(false);
+        router.push("/login");
+        return;
+      }
 
-        // 1. Fetch Utente e Preferiti in parallelo
-        const [userRes, favoritesRes] = await Promise.all([
-          fetch(`http://localhost:5000/api/utente/${email}`),
-          fetch('http://localhost:5000/api/user/favorites', {
-            headers: { 'user_email': email }
-          })
-        ]);
+      // 1. Recupera l'utente
+      const userRes = await fetch(`http://localhost:5000/api/utente/${email}`);
+      if (!userRes.ok) throw new Error("Errore nel recupero dei dati utente.");
+      const userData: { user: User } = await userRes.json();
+      setUser(userData.user);
 
-        if (!userRes.ok) {
-          console.error(`Errore nel recupero dati utente: ${userRes.status}`);
-          throw new Error("Errore nel recupero dei dati utente.");
-        }
-        if (!favoritesRes.ok) {
-          console.error(
-            `Errore nel recupero preferiti: ${favoritesRes.status}`
-          );
-          throw new Error("Errore nel recupero dei preferiti.");
-        }
+      // 2. Se ha preferiti, recupera i dettagli
+      if (userData.user.preferiti.length > 0) {
+        const favoritesRes = await fetch("http://localhost:5000/api/user/favorites/details", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ids: userData.user.preferiti })
+        });
 
-        const userData: { user: User } = await userRes.json();
-        // favoritesData.favorites conterrà sia bivacchi che percorsi con il campo 'type'
-        const favoritesData: { favorites: (Bivacco | Percorso)[] } =
-          await favoritesRes.json();
+        if (!favoritesRes.ok) throw new Error("Errore nel recupero dei preferiti.");
+        const favoritesData: { favorites: (Bivacco | Percorso)[] } = await favoritesRes.json();
 
-        setUser(userData.user);
-
-        // Separa i preferiti in base al loro 'type'
+        // Separa i preferiti in base al tipo
         const bivacchi = favoritesData.favorites.filter((item): item is Bivacco => item.type === 'bivacco');
         const percorsi = favoritesData.favorites.filter((item): item is Percorso => item.type === 'percorso');
 
         setFavoriteBivacchi(bivacchi);
         setFavoritePercorsi(percorsi);
-
-      } catch (err: any) {
-        console.error("Errore durante il fetch di utente e preferiti:", err);
-        setError(
-          err.message || "Si è verificato un errore inaspettato. Riprova più tardi."
-        );
-      } finally {
-        setIsLoading(false);
+      } else {
+        // Nessun preferito
+        setFavoriteBivacchi([]);
+        setFavoritePercorsi([]);
       }
-    };
 
-    fetchUserAndFavorites();
-  }, [email, isLoggedIn, router]);
+    } catch (err: any) {
+      console.error("Errore durante il fetch di utente e preferiti:", err);
+      setError(err.message || "Errore imprevisto. Riprova più tardi.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  fetchUserAndFavorites();
+}, [email, isLoggedIn, router]);
+
 
   const confirmDelete = async (id: string) => {
     try {
@@ -258,7 +251,7 @@ export default function ProfiloUtentePage() {
                       {bivacco.longitudine !== undefined && bivacco.longitudine !== null && (
                         <p className="card-text">Longitudine: {bivacco.longitudine}</p>
                       )}
-                      <Link href={{ pathname: '/bivacchi', query: { view: 'percorsi' } }}>
+                      <Link href={{ pathname: '/bivacchi', query: { view: 'bivacchi' } }}>
                         <button className="card-button card-button-percorso">
                           Vedi Dettagli
                         </button>

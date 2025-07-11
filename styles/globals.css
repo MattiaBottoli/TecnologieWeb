@@ -937,7 +937,7 @@ hr {
   font-weight: 600;
   display: inline-block; /* Per adattarsi al testo */
   margin-top: 20px;
-  width: 100%;
+  width: 90%;
 }
 
 .completo-label {
@@ -1396,20 +1396,20 @@ hr {
   border-color: var(--primary-accent-light);
   box-shadow: 0 0 10px var(--primary-accent-light);
 }
-
 /* Grid Layout */
-.bivacchi-grid,
-.percorsi-grid {
+.Bivacco-Container .bivacchi-grid,
+.Bivacco-Container .percorsi-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 30px;
   margin-top: 30px;
 }
 
-.bivacco-card,
-.percorsi-card {
+.Bivacco-Container .bivacco-card,
+.Bivacco-Container .percorsi-card {
   background: var(--card-bg);
-  border-left: 6px solid var(--primary-accent);
+  /* Utilizza una variabile CSS per il colore del bordo, con un fallback */
+  border-left: 6px solid var(--card-accent-color, var(--primary-accent));
   padding: 25px;
   border-radius: 12px;
   box-shadow: 0 6px 18px var(--shadow-dark);
@@ -1419,56 +1419,134 @@ hr {
   backdrop-filter: blur(8px);
 }
 
-.bivacco-card:hover,
-.percorsi-card:hover {
+.Bivacco-Container .bivacco-card:hover,
+.Bivacco-Container .percorsi-card:hover {
   background: var(--card-bg-hover);
+  /* Anche il colore del bordo sull'hover può essere dinamico */
+  border-color: var(--card-accent-color-light, var(--primary-accent-light));
   transform: translateY(-6px) scale(1.02);
-  border-color: var(--primary-accent-light);
   box-shadow: 0 12px 25px var(--shadow-dark);
 }
 
-.bivacco-card p,
-.percorsi-card p {
+/* --- CLASSI DI COLORE PER I BIVACCHI BASATE SULLA CAPIENZA (ESEMPIO) --- */
+/* Puoi adattare queste soglie e colori come preferisci */
+
+.Bivacco-Container .bivacco-card.color-low-capacity { /* Esempio: capienza <= 4 */
+  --card-accent-color: #f39c12; /* Arancione */
+  --card-accent-color-light: #f5b041; /* Arancione più chiaro per hover */
+}
+
+.Bivacco-Container .bivacco-card.color-medium-capacity { /* Esempio: 5 <= capienza <= 8 */
+  --card-accent-color: #2ecc71; /* Verde */
+  --card-accent-color-light: #58d68d; /* Verde più chiaro per hover */
+}
+
+.Bivacco-Container .bivacco-card.color-high-capacity { /* Esempio: capienza > 8 */
+  --card-accent-color: #e74c3c; /* Rosso */
+  --card-accent-color-light: #ec7063; /* Rosso più chiaro per hover */
+}
+
+/* Fallback per i percorsi, o se non si applica nessuna classe specifica */
+.Bivacco-Container .percorsi-card {
+  border-left: 6px solid var(--primary-accent); /* Mantiene il colore blu predefinito per i percorsi */
+}
+
+.Bivacco-Container .percorsi-card:hover {
+  border-color: var(--primary-accent-light);
+}
+
+
+/* Resto del tuo CSS rimane lo stesso */
+.Bivacco-Container .bivacco-card p,
+.Bivacco-Container .percorsi-card p {
   margin-bottom: 10px;
   font-size: 1rem;
   line-height: 1.5;
   color: var(--text-medium);
 }
 
-.bivacco-card strong,
-.percorsi-card strong {
+.Bivacco-Container .bivacco-card strong,
+.Bivacco-Container .percorsi-card strong {
   color: var(--text-light);
 }
 
-.bivacco-header,
-.percorsi-header {
+.Bivacco-Container .bivacco-header,
+.Bivacco-Container .percorsi-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
 }
 
-.bivacco-header h2,
-.percorsi-header h2 {
+.Bivacco-Container .bivacco-header h2,
+.Bivacco-Container .percorsi-header h2 {
   font-size: 1.5rem;
   color: var(--text-light);
   margin: 0;
 }
 
-.heart-icon {
+.Bivacco-Container .heart-icon {
   cursor: pointer;
   transition: transform 0.2s ease;
 }
 
-.heart-icon:hover {
+.Bivacco-Container .heart-icon:hover {
   transform: scale(1.2);
 }
 
-.no-results {
+.Bivacco-Container .no-results {
   font-size: 1.4rem;
   color: var(--text-medium);
   margin-top: 50px;
   font-style: italic;
+}
+
+.card-more {
+  font-size: 0.9rem;
+  color: var(--primary-accent-light);
+  font-style: italic;
+  margin-top: 10px;
+}
+
+/*RECENSIONI */
+.BivaccoDettaglio-Container {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 40px;
+  background-color: #141d23;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  color: var(--text-light);
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+.BivaccoDettaglio-Container h1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2.5rem;
+  color: var(--primary-accent-light);
+  margin-bottom: 20px;
+  text-shadow: 0 2px 6px var(--shadow-dark);
+}
+
+.recensioni-stars {
+  font-size: 1.8rem;
+  color: gold;
+  margin-bottom: 20px;
+}
+
+.media-voto {
+  font-size: 1.2rem;
+  color: var(--text-medium);
+  margin-left: 10px;
+}
+
+.mini-map {
+  margin-top: 20px;
+  border: 7px solid var(--primary-accent);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
 }
 
 
@@ -2190,7 +2268,7 @@ hr {
         margin: 20px;
         padding: 20px;
     }
- 
+
 
     .Ricordi-Container > div {
         grid-template-columns: 1fr; /* Una colonna su schermi più piccoli */

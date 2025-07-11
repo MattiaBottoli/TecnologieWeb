@@ -68,7 +68,7 @@ export default function PrenotazioneEscursione() {
       .then((res) => res.json())
       .then((data) => {
         setPercorsi(data);
-        if (data.length > 0) setSelectedPercorso(data[0].nome);
+        if (data.length > 0) setSelectedPercorso(data[0]._id);
       })
       .catch((error) => console.error("Errore nel recupero dei percorsi:", error));
 
@@ -105,6 +105,10 @@ export default function PrenotazioneEscursione() {
     event.preventDefault();
     setError("");
 
+    // Ottieni gli ID da salvare
+    const nomePercorso = percorsi.find(p => p._id === selectedPercorso);
+    const nomeBivacco = bivacchi.find(b => b._id === selectedBivacco);
+
     try {
       const response = await fetch("http://localhost:5000/api/programmi", {
         method: "POST",
@@ -113,9 +117,11 @@ export default function PrenotazioneEscursione() {
           mail: email,
           numpartecipanti: partecipanti,
           data: date,
-          percorso: selectedPercorso,
-          bivacco: selectedBivacco,
-          fasciaOraria: fasciaOraria
+          percorsoId: selectedPercorso,
+          bivaccoId: selectedBivacco,
+          fasciaOraria: fasciaOraria,
+          percorso: nomePercorso ? nomePercorso.nome : "Nessun percorso selezionato",
+          bivacco: nomeBivacco ? nomeBivacco.nome : "Nessun bivacco selezionato"
         }),
       });
 
@@ -133,7 +139,7 @@ export default function PrenotazioneEscursione() {
   };
 
   const postiDisponibili = (fascia: string) => {
-    const bivacco = bivacchi.find(b => b.nome === selectedBivacco);
+    const bivacco = bivacchi.find(b => b._id === selectedBivacco);
     if (!bivacco) return 0;
     const prenotati = prenotazioni
       .filter(p => p.fasciaOraria === fascia)
@@ -192,7 +198,7 @@ export default function PrenotazioneEscursione() {
               required
             >
               {percorsi.map((percorso) => (
-                <option key={percorso._id} value={percorso.nome}>
+                <option key={percorso._id} value={percorso._id}>
                   {percorso.nome}
                 </option>
               ))}
@@ -208,7 +214,7 @@ export default function PrenotazioneEscursione() {
           <section>
             <p>
               Seleziona il bivacco/rifugio e la fascia oraria nel quale desiderate accamparvi.
-              Vi consigliamo i bivacchi che si trovano nella stessa localitÃ   del percorso selezionato.
+              Vi consigliamo i bivacchi che si trovano nella stessa località del percorso selezionato.
             </p>
           </section>
           <br />
@@ -225,15 +231,15 @@ export default function PrenotazioneEscursione() {
             >
               <option value="">SELEZIONA UN BIVACCO</option>
               {bivacchi
-                .filter((bivacco) => bivacco.localita === percorsi.find((p) => p.nome === selectedPercorso)?.localita)
+                .filter((bivacco) => bivacco.localita === percorsi.find((p) => p._id === selectedPercorso)?.localita)
                 .map((bivacco) => (
-                  <option key={bivacco._id} value={bivacco.nome}>
+                  <option key={bivacco._id} value={bivacco._id}>
                     {bivacco.nome}
                   </option>
                 ))}
             </select>
           </section>
-          {selectedBivacco != "" && (
+          {selectedBivacco !== "" && (
             <section>
               <h2>Fasce Orarie Disponibili</h2>
               <table className="fasce-orarie">
@@ -278,7 +284,7 @@ export default function PrenotazioneEscursione() {
                 setSaltaBivacco(e.target.checked)
                 if (e.target.checked){
                   setSelectedBivacco("");
-                  setFasciaOraria("");
+                  setFasciaOraria("");  
                 }
               }}  
               />
