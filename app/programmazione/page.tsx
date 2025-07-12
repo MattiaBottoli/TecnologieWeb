@@ -61,33 +61,38 @@ export default function PrenotazioneEscursione() {
 
   const today = new Date().toISOString().split('T')[0];
 
+useEffect(() => {
+  if (loading) return; // aspetta che il contesto finisca di caricare
+
+  if (!isLoggedIn) {
+    router.push("/registrati");
+    return;
+  }
+
+  // fetch solo se loggato
+  const fetchData = async () => {
+    try {
+      const resPercorsi = await fetch("http://localhost:5000/api/percorsi");
+      const percorsiData = await resPercorsi.json();
+      setPercorsi(percorsiData);
+      if (percorsiData.length > 0) setSelectedPercorso(percorsiData[0]._id);
+
+      const resBivacchi = await fetch("http://localhost:5000/api/bivacchi");
+      const bivacchiData = await resBivacchi.json();
+      setBivacchi(bivacchiData);
+    } catch (error) {
+      console.error("Errore nel recupero dati:", error);
+    }
+  };
+
+  fetchData();
+}, [isLoggedIn, loading, router]);
+
   useEffect(() => {
-    if (loading) return;
-
-    if (!isLoggedIn) {
-      router.push("/registrati");
-      return;
-    }
-    fetch("http://localhost:5000/api/percorsi")
-      .then((res) => res.json())
-      .then((data) => {
-        setPercorsi(data);
-        if (data.length > 0) setSelectedPercorso(data[0]._id);
-      })
-      .catch((error) => console.error("Errore nel recupero dei percorsi:", error));
-
-    fetch("http://localhost:5000/api/bivacchi")
-      .then((res) => res.json())
-      .then((data) => {
-        setBivacchi(data);
-      })
-      .catch((error) => console.error("Errore nel recupero dei bivacchi:", error));
-
-    if (mode === "setBivacco" && selectedBivacco && date) {
-      fetchPrenotazioni();
-    }
-  }, [isLoggedIn, router, loading,selectedBivacco, date, mode]);
-
+  if (mode === "setBivacco" && selectedBivacco && date) {
+    fetchPrenotazioni();
+  }
+}, [selectedBivacco, date, mode]);
   
   const fetchPrenotazioni = async () => {
     try {

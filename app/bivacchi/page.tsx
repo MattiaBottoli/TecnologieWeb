@@ -5,6 +5,12 @@ import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
 
+// Define a separate interface for review objects to be clear
+interface Review {
+  userEmail: string;
+  voto: number;
+}
+
 interface Bivacco {
   _id: string;
   nome: string;
@@ -25,7 +31,7 @@ interface Percorso {
   difficolta: string;
   pendenza_massima: string;
   lunghezza: string;
-  votazioni?: number[];
+  recensioni?: Review[]; // MODIFIED: Now an array of Review objects
 }
 
 export default function HomePage() {
@@ -249,8 +255,10 @@ export default function HomePage() {
                   </div>
                 ))
               : filteredPercorsi.map((p) => {
-                  const voti = p.votazioni ?? [];
-                  const media = voti.length > 0 ? voti.reduce((a, b) => a + b, 0) / voti.length : 0;
+                  // Calcolo della media dei voti per i percorsi, includendo il filtro per numeri validi
+                  // Accessing 'r.voto' because recensioni is now an array of objects
+                  const votiNumerici = p.recensioni?.map(r => r.voto).filter(v => typeof v === 'number') ?? [];
+                  const media = votiNumerici.length > 0 ? votiNumerici.reduce((a, b) => a + b, 0) / votiNumerici.length : 0;
                   const stellePiene = Math.round(media);
 
                   return (

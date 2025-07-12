@@ -17,7 +17,7 @@ const COLLECTION_BIVACCHI = "Bivacchi";
 const COLLECTION_PERCORSI = "Percorsi";
 const today = new Date().toISOString().split('T')[0];
 const JWT_SECRET = "supersegreta123"; // 👈 metti in .env in produzione
-const TOKEN_EXPIRES_IN = "1h"; // oppure "1h", "30m", ecc.
+const TOKEN_EXPIRES_IN = "1m"; // oppure "1h", "30m", ecc.
 
 app.use(cors()); // Per evitare problemi di CORS
 app.use(express.json()); // Per gestire richieste JSON
@@ -884,6 +884,268 @@ app.get("/api/bivacchi/:id", async (req, res) => {
   } finally {
     await client.close();
   }
+});
+
+app.get("/api/bivacchi/:id", async (req, res) => {
+  const client = new MongoClient(MONGO_URI);
+  try {
+    await client.connect();
+    const db = client.db(DB_NAME);
+    const collection = db.collection(COLLECTION_BIVACCHI);
+
+    const id = req.params.id;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "ID non valido" });
+    }
+
+    const bivacco = await collection.findOne({ _id: new ObjectId(id) });
+
+    if (!bivacco) {
+      return res.status(404).json({ message: "Bivacco non trovato" });
+    }
+
+    res.status(200).json(bivacco);
+  } catch (error) {
+    console.error("Errore nel recupero del bivacco:", error);
+    res.status(500).json({ message: "Errore interno del server" });
+  } finally {
+    await client.close();
+  }
+});
+app.post("/api/bivacchi/vota", async (req, res) => {
+    const client = new MongoClient(MONGO_URI);
+    try {
+        await client.connect();
+        const db = client.db(DB_NAME);
+        const collection = db.collection(COLLECTION_BIVACCHI);
+
+        const { bivaccoId, voto } = req.body;
+        const userEmail = req.headers.user_email; // Get user_email from request headers
+
+        if (!bivaccoId || !ObjectId.isValid(bivaccoId)) {
+            return res.status(400).json({ message: "ID bivacco non valido" });
+        }
+        if (typeof voto !== "number" || voto < 1 || voto > 5) {
+            return res.status(400).json({ message: "Voto deve essere un numero tra 1 e 5" });
+        }
+        if (!userEmail) {
+            return res.status(401).json({ message: "Email utente non fornita per la recensione." });
+        }
+
+        const bivacco = await collection.findOne({ _id: new ObjectId(bivaccoId) });
+        if (bivacco && bivacco.recensioni && bivacco.recensioni.some(r => r.userEmail === userEmail)) {
+             // If you want to allow updating the vote, you'd use updateOne with $set
+             // For now, we return 409 Conflict if already reviewed
+            return res.status(409).json({ message: "Hai già recensito questo bivacco." });
+        }
+
+        const result = await collection.updateOne(
+            { _id: new ObjectId(bivaccoId) },
+            { $push: { recensioni: { userEmail: userEmail, voto: voto } } } // Store user and vote
+        );
+
+        if (result.matchedCount === 0) {
+            return res.status(404).json({ message: "Bivacco non trovato" });
+        }
+
+        res.status(200).json({ message: "Voto registrato con successo" });
+
+    } catch (error) {
+        console.error("Errore nell'inserimento del voto:", error);
+        res.status(500).json({ message: "Errore interno del server" });
+    } finally {
+        await client.close();
+    }
+});
+
+
+// NEW ENDPOINT: This is the one causing the 404
+app.post("/api/bivacchi/user-votes", async (req, res) => {
+    const client = new MongoClient(MONGO_URI);
+
+    try {
+        await client.connect();
+        const db = client.db(DB_NAME);
+        const collection = db.collection(COLLECTION_BIVACCHI);
+
+        const { bivaccoIds } = req.body; // Array of bivacco IDs from the frontend
+        const userEmail = req.headers.user_email; // Get user email from request headers
+
+        if (!Array.isArray(bivaccoIds) || bivaccoIds.length === 0) {
+            return res.status(400).json({ message: "Elenco di ID bivacco non valido" });
+        }
+
+        if (!userEmail) {
+            return res.status(401).json({ message: "Email utente non fornita." });
+        }
+
+        const objectIdBivaccoIds = bivaccoIds.map(id => {
+            if (!ObjectId.isValid(id)) {
+                console.warn(`Invalid ObjectId in request: ${id}`);
+                return null;
+            }
+            return new ObjectId(id);
+        }).filter(id => id !== null);
+
+        if (objectIdBivaccoIds.length === 0 && bivaccoIds.length > 0) {
+            return res.status(400).json({ message: "Nessun ID bivacco valido fornito." });
+        }
+
+        const bivacchi = await collection.find(
+            { _id: { $in: objectIdBivaccoIds } },
+            { projection: { _id: 1, recensioni: 1 } }
+        ).toArray();
+
+        const userVotes = {};
+        bivacchi.forEach(bivacco => {
+            const userReview = bivacco.recensioni?.find(review => review.userEmail === userEmail);
+            if (userReview) {
+                userVotes[bivacco._id.toString()] = userReview.voto;
+            }
+        });
+
+        res.status(200).json(userVotes);
+
+    } catch (error) {
+        console.error("Errore nel recupero dei voti utente:", error);
+        res.status(500).json({ message: "Errore interno del server" });
+    } finally {
+        await client.close();
+    }
+});
+app.post("/api/percorsi/vota", async (req, res) => {
+    const client = new MongoClient(MONGO_URI);
+    try {
+        await client.connect();
+        const db = client.db(DB_NAME);
+        const collection = db.collection(COLLECTION_PERCORSI); // Usa la collezione Percorsi
+
+        const { percorsoId, voto } = req.body;
+        const userEmail = req.headers.user_email; // OTTERRA L'EMAIL DELL'UTENTE
+
+        if (!percorsoId || !ObjectId.isValid(percorsoId)) {
+            return res.status(400).json({ message: "ID percorso non valido" });
+        }
+        if (typeof voto !== "number" || voto < 1 || voto > 5) {
+            return res.status(400).json({ message: "Voto deve essere un numero tra 1 e 5" });
+        }
+        if (!userEmail) { // CONTROLLO EMAIL
+            return res.status(401).json({ message: "Email utente non fornita per la recensione." });
+        }
+
+        const percorso = await collection.findOne({ _id: new ObjectId(percorsoId) });
+        // CONTROLLO SE L'UTENTE HA GIÀ RECENSITO
+        if (percorso && percorso.recensioni && percorso.recensioni.some(r => r.userEmail === userEmail)) {
+            return res.status(409).json({ message: "Hai già recensito questo percorso." });
+        }
+
+        const result = await collection.updateOne(
+            { _id: new ObjectId(percorsoId) },
+            // PUSH DELL'OGGETTO { userEmail, voto }
+            { $push: { recensioni: { userEmail: userEmail, voto: voto } } }
+        );
+
+        if (result.matchedCount === 0) {
+            return res.status(404).json({ message: "Percorso non trovato" });
+        }
+
+        res.status(200).json({ message: "Voto percorso registrato con successo" });
+
+    } catch (error) {
+        console.error("Errore nell'inserimento del voto percorso:", error);
+        res.status(500).json({ message: "Errore interno del server" });
+    } finally {
+        await client.close();
+    }
+});
+
+app.post("/api/percorsi/user-votes", async (req, res) => {
+    const client = new MongoClient(MONGO_URI);
+
+    try {
+        await client.connect();
+        const db = client.db(DB_NAME);
+        const collection = db.collection(COLLECTION_PERCORSI); // Usa la collezione Percorsi
+
+        const { percorsoIds } = req.body;
+        const userEmail = req.headers.user_email;
+
+        if (!Array.isArray(percorsoIds) || percorsoIds.length === 0) {
+            return res.status(400).json({ message: "Elenco di ID percorso non valido" });
+        }
+        if (!userEmail) {
+            return res.status(401).json({ message: "Email utente non fornita." });
+        }
+
+        const objectIdPercorsoIds = percorsoIds.map(id => {
+            if (!ObjectId.isValid(id)) {
+                console.warn(`Invalid ObjectId for percorso: ${id}`);
+                return null;
+            }
+            return new ObjectId(id);
+        }).filter(id => id !== null);
+
+        if (objectIdPercorsoIds.length === 0 && percorsoIds.length > 0) {
+            return res.status(400).json({ message: "Nessun ID percorso valido fornito." });
+        }
+
+        const percorsi = await collection.find(
+            { _id: { $in: objectIdPercorsoIds } },
+            { projection: { _id: 1, recensioni: 1 } } // Proietta _id e recensioni
+        ).toArray();
+
+        const userPathVotes = {};
+        percorsi.forEach(percorso => {
+            // QUESTA LINEA RICHIEDE CHE 'recensioni' CONTENGA OGGETTI CON 'userEmail'
+            const userReview = percorso.recensioni?.find(review => review.userEmail === userEmail);
+            if (userReview) {
+                userPathVotes[percorso._id.toString()] = userReview.voto;
+            }
+        });
+
+        res.status(200).json(userPathVotes);
+
+    } catch (error) {
+        console.error("Errore nel recupero dei voti percorso utente:", error);
+        res.status(500).json({ message: "Errore interno del server" });
+    } finally {
+        await client.close();
+    }
+});
+
+
+/* CONTROLLA SE SI TOGLIE FUNZIONA LO STESSO  */
+
+app.get("/api/percorsi/:id", async (req, res) => {
+    const client = new MongoClient(MONGO_URI);
+    try {
+        await client.connect();
+        const db = client.db(DB_NAME);
+        const collection = db.collection(COLLECTION_PERCORSI);
+
+        const { id } = req.params;
+
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "ID percorso non valido" });
+        }
+
+        const percorso = await collection.findOne({ _id: new ObjectId(id) });
+
+        if (!percorso) {
+            return res.status(404).json({ message: "Percorso non trovato" });
+        }
+
+        // Restituisce l'intero oggetto percorso, che dovrebbe includere l'array 'recensioni'
+        // con oggetti { userEmail, voto }
+        res.status(200).json(percorso);
+
+    } catch (error) {
+        console.error("Errore nel recupero del percorso:", error);
+        res.status(500).json({ message: "Errore interno del server" });
+    } finally {
+        await client.close();
+    }
 });
 
 // Avvio del server

@@ -1,12 +1,13 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, ReactNode, useRef } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 
 interface UserData {
   mail: string;
   tesserato: boolean;
+  exp?: number;
 }
 
 interface AuthContextType {
@@ -26,40 +27,81 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const logoutTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      try {
-        const decoded = jwtDecode<UserData>(token);
-        setUserData(decoded);
-        setIsLoggedIn(true);
-      } catch (err) {
-        console.error("Token JWT non valido o scaduto:", err);
-        localStorage.removeItem("token");
-        setIsLoggedIn(false);
-        setUserData(null);
-      }
-      setLoading(false)
+  const clearLogoutTimer = () => {
+    if (logoutTimerRef.current) {
+      clearTimeout(logoutTimerRef.current);
+      logoutTimerRef.current = null;
     }
-    
-  }, []);
+  };
+
+  const startLogoutTimer = (exp: number) => {
+    clearLogoutTimer();
+    const now = Date.now() / 1000;
+    const delay = (exp - now) * 1000;
+
+    if (delay <= 0) {
+      logout();
+    } else {
+      logoutTimerRef.current = setTimeout(() => {
+        console.warn("Sessione Scaduta.");
+        logout();
+      }, delay);
+    }
+  };
 
   const login = (token: string) => {
     localStorage.setItem("token", token);
     const decoded = jwtDecode<UserData>(token);
     setUserData(decoded);
     setIsLoggedIn(true);
-    //setLoading(true);
+    setLoading(false);
+
+    if (decoded.exp) {
+      startLogoutTimer(decoded.exp);
+    }
   };
 
   const logout = () => {
+    clearLogoutTimer();
     localStorage.removeItem("token");
     setUserData(null);
     setIsLoggedIn(false);
-    setLoading(false)
-    router.push("/");
+    setLoading(false);
+    router.push("/login");
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      try {
+        const decoded: any = jwtDecode(token);
+        const now = Date.now() / 1000;
+
+        if (decoded.exp && decoded.exp < now) {
+          logout();
+        } else {
+          setUserData(decoded);
+          setIsLoggedIn(true);
+          if (decoded.exp) {
+            startLogoutTimer(decoded.exp);
+          }
+        }
+      } catch (err) {
+        console.error("Token non valido:", err);
+        logout();
+      }
+    }
+
+    setLoading(false);
+
+    // Cleanup all timers on unmount
+    return () => {
+      clearLogoutTimer();
+    };
+  }, []);
 
   return (
     <AuthContext.Provider

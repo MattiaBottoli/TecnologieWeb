@@ -51,6 +51,7 @@ export default function ProfiloUtentePage() {
   const router = useRouter();
 
   useEffect(() => {
+
   if (loading) return;
 
   if (!isLoggedIn) {

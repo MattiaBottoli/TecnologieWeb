@@ -2171,122 +2171,253 @@ hr {
   }
 }
 
-
-/* Stili per il contenitore principale della pagina Ricordi */
 .Ricordi-Container {
     max-width: 900px;
-    margin: 130px auto 200px auto;
+    margin: 120px auto 60px auto; /* Adjusted margin to match other main containers */
     padding: 30px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    font-family: 'Inter', sans-serif;
-    color: #333;
+    background-color: #141d23; /* Dark background */
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    color: var(--text-light); /* Light text for dark background */
     text-align: center;
-
     display: flex;
     flex-direction: column;
 }
 
-/* Stili per il titolo principale */
 .Ricordi-Container h1 {
     font-size: 2.5rem;
-    color: #2c3e50;
+    color: var(--text-light); /* Consistent title color */
     margin-bottom: 30px;
     font-weight: 700;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+    font-family: 'Oswald', sans-serif; /* Consistent font */
+    text-transform: uppercase; /* Consistent style */
+    letter-spacing: 1.5px; /* Consistent style */
 }
 
-/* Stili per il contenitore delle singole escursioni */
-.Ricordi-Container > div { /* Questo seleziona il div che mappa le escursioni */
+.Ricordi-Container > div { /* Container for mapped items (prenotazioni) */
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
     margin-top: 20px;
 }
 
-/* Stili per ogni singola card di escursione */
-.Ricordi-Container > div > div {
-    background-color: #f9f9f9;
-    border: 1px solid #e0e0e0;
+.Ricordi-Container .lista-escursioni { /* Container for mapped items (escursioni pubbliche) */
+    list-style: none; /* Remove list bullets */
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+
+.Ricordi-Container .escursione-card { /* Styles for individual cards in both sections */
+    background-color: var(--card-bg); /* Dark card background */
+    border: 1px solid var(--card-border-dark); /* Dark border */
     border-radius: 10px;
     padding: 20px;
     text-align: left;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column; /* Ensure content stacks */
+    justify-content: space-between; /* Push button to bottom if present */
 }
 
-.Ricordi-Container > div > div:hover {
+.Ricordi-Container .escursione-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Stili per i paragrafi all'interno delle card */
-.Ricordi-Container p {
+.Ricordi-Container .escursione-card h3 {
+    font-family: 'Oswald', sans-serif;
+    color: var(--primary-accent-light); /* Accent color for card titles */
+    font-size: 1.5rem; /* Slightly smaller than main h1 */
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.Ricordi-Container .escursione-card p {
     font-size: 1rem;
     line-height: 1.6;
     margin-bottom: 8px;
-    color: #555;
+    color: var(--text-medium); /* Medium text color */
 }
 
-.Ricordi-Container p strong {
-    color: #333;
+.Ricordi-Container .escursione-card p strong {
+    color: var(--text-light); /* Light text for strong elements */
     font-weight: 600;
 }
 
-/* Stili per il messaggio "Non ci sono escursioni passate." */
-.Ricordi-Container > p { /* Seleziona il p diretto figlio di Ricordi-Container */
+.Ricordi-Container > p { /* "Non ci sono escursioni passate." message */
     font-size: 1.1rem;
-    color: #777;
+    color: var(--text-medium); /* Medium text color */
     margin-top: 30px;
-    flex-grow: 1; /* Permette a questo paragrafo di occupare lo spazio disponibile */
+    flex-grow: 1;
 }
 
-/* Stili per il pulsante "TORNA AL PROFILO" */
+/* --- RECENSIONE BOX STYLES --- */
+.Ricordi-Container .recensione-box {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+.Ricordi-Container .recensione-box p {
+    margin-bottom: 10px;
+    color: var(--text-medium);
+    font-size: 0.95rem;
+}
+
+/* Interactive Stars (for when the user hasn't voted yet) */
+.Ricordi-Container .stars {
+    display: inline-block; /* Aligns stars horizontally */
+    font-size: 1.8rem;
+    color: #ccc; /* Default star color */
+}
+
+.Ricordi-Container .stars .star {
+    margin: 0 2px;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.1s ease;
+}
+
+.Ricordi-Container .stars .star:hover {
+    transform: scale(1.1);
+    color: orange; /* Hover effect */
+}
+
+/* Reset color for stars after the hovered one */
+.Ricordi-Container .stars .star:hover ~ .star {
+    color: #ccc;
+}
+
+.Ricordi-Container .stars .star.active {
+    color: #ffc107; /* Gold color for active stars */
+}
+
+/* Static Stars (for when the user has already voted) */
+.Ricordi-Container .stars-display {
+    display: inline-block; /* To align with text */
+    vertical-align: middle; /* Align stars with text vertically */
+    margin-left: 5px;
+    font-size: 1.8rem; /* Consistent size with interactive stars */
+    color: #ffc107; /* Always gold for active stars in display mode */
+}
+
+.Ricordi-Container .stars-display .star-static {
+    margin: 0 2px;
+    cursor: default; /* No pointer cursor for static stars */
+    transition: none; /* No transition for static stars */
+}
+
+.Ricordi-Container .stars-display .star-static:not(.active) {
+    color: #ccc; /* Unfilled stars in a static display */
+}
+
+.Ricordi-Container .voted-message {
+    margin-top: 5px; /* Adjust spacing */
+    font-size: 0.9em;
+    color: var(--text-medium); /* Use a consistent text color */
+    font-style: italic;
+    display: inline-block; /* To align with stars-display */
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+/* --- BUTTON & UTILITY STYLES --- */
 .Ricordi-Container button {
-    background-color: #007bff; /* Blu primario */
+    background-color: var(--primary-accent);
     color: white;
-    padding: 12px 15px;
+    padding: 12px 25px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-size: 1.1rem;
     font-weight: 500;
-    margin-top: 30px; /* Questo margin-top spingerà il bottone verso il basso */
+    margin-top: 30px;
     transition: background-color 0.3s ease, transform 0.2s ease;
     box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
 }
 
 .Ricordi-Container button:hover {
-    background-color: #0056b3; /* Blu più scuro al hover */
+    background-color: var(--primary-accent-dark);
     transform: translateY(-2px);
 }
 
-/* Media Queries per la responsività */
+.Ricordi-Container .error-message {
+    color: #ff4d4d; /* A clear error red */
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+    background-color: rgba(255, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.Ricordi-Container .section-divider {
+    margin: 40px 0;
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Lighter divider for dark theme */
+}
+
+/* --- MEDIA QUERIES --- */
 @media (max-width: 768px) {
     .Ricordi-Container {
-        margin: 20px;
+        margin: 20px auto;
         padding: 20px;
     }
-
-
-    .Ricordi-Container > div {
-        grid-template-columns: 1fr; /* Una colonna su schermi più piccoli */
+    .Ricordi-Container h1 {
+        font-size: 2rem;
+        margin-bottom: 20px;
     }
-
+    .Ricordi-Container > div,
+    .Ricordi-Container .lista-escursioni {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .Ricordi-Container .escursione-card {
+        padding: 15px;
+    }
+    .Ricordi-Container .escursione-card h3 {
+        font-size: 1.3rem;
+    }
+    .Ricordi-Container .escursione-card p {
+        font-size: 0.9rem;
+    }
+    .Ricordi-Container .recensione-box {
+        margin-top: 10px;
+        padding-top: 10px;
+    }
+    .Ricordi-Container .stars,
+    .Ricordi-Container .stars-display {
+        font-size: 1.5rem;
+    }
     .Ricordi-Container button {
         padding: 10px 20px;
         font-size: 1rem;
+        margin-top: 20px;
     }
 }
 
 @media (max-width: 480px) {
     .Ricordi-Container {
-        margin: 15px;
+        margin: 15px auto;
         padding: 15px;
     }
-
     .Ricordi-Container h1 {
         font-size: 1.8rem;
+    }
+    .Ricordi-Container .stars,
+    .Ricordi-Container .stars-display {
+        font-size: 1.3rem;
+    }
+    .Ricordi-Container .escursione-card h3 {
+        font-size: 1.2rem;
+    }
+    .Ricordi-Container .escursione-card p {
+        font-size: 0.85rem;
     }
 }
