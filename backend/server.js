@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const { MongoClient, ObjectId} = require('mongodb');
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 
@@ -15,11 +16,11 @@ const COLLECTION_PRENOTAZIONI = "Prenotazioni";
 const COLLECTION_BIVACCHI = "Bivacchi";
 const COLLECTION_PERCORSI = "Percorsi";
 const today = new Date().toISOString().split('T')[0];
-
+const JWT_SECRET = "supersegreta123"; // 👈 metti in .env in produzione
+const TOKEN_EXPIRES_IN = "1h"; // oppure "1h", "30m", ecc.
 
 app.use(cors()); // Per evitare problemi di CORS
 app.use(express.json()); // Per gestire richieste JSON
-
 
 app.get("/api/bivacchi", async (req, res) => {
   const client = new MongoClient(MONGO_URI);
@@ -60,7 +61,7 @@ app.post("/api/register", async (req, res) => {
       const db = client.db(DB_NAME);
       const collection = db.collection(COLLECTION_UTENTI);
   
-      const { nome, cognome, username, mail, password, tesserato,preferiti = [] } = req.body;
+      const { nome, cognome, username, mail, password, tesserato, preferiti = [] } = req.body;
 
       const user = await collection.findOne({ mail });
       if (user) {
@@ -97,27 +98,38 @@ app.post("/api/register", async (req, res) => {
 
   app.post("/api/login", async (req, res) => {
     const client = new MongoClient(MONGO_URI);
+
     try {
       await client.connect();
       const db = client.db(DB_NAME);
       const collection = db.collection(COLLECTION_UTENTI);
-  
+
       const { mail, password } = req.body;
-  
-      // Controllo se l'utente esiste
+
       const user = await collection.findOne({ mail });
       if (!user) {
         return res.status(401).json({ message: "Email o password errata!" });
       }
-  
-      // Verifica della password
+
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
         return res.status(401).json({ message: "Email o password errata!" });
       }
-  
+
+      // ✅ Genera il token
+      const token = jwt.sign(
+        {
+          mail: user.mail,
+          tesserato: user.tesserato
+        },
+        JWT_SECRET,
+        { expiresIn: TOKEN_EXPIRES_IN }
+      );
+
+      // ✅ Invia il token al frontend
       res.status(200).json({
         message: "Login riuscito!",
+        token, // 👈 lo userai nel frontend per memorizzare lo stato
         user: {
           nome: user.nome,
           cognome: user.cognome,
@@ -126,7 +138,7 @@ app.post("/api/register", async (req, res) => {
           preferiti: Array.isArray(user.preferiti) ? user.preferiti : [],
         }
       });
-  
+
     } catch (error) {
       res.status(500).json({ message: "Errore interno del server" });
     } finally {
@@ -244,11 +256,11 @@ app.post("/api/register", async (req, res) => {
       const db = client.db(DB_NAME);
       const collection = db.collection(COLLECTION_PRENOTAZIONI);
   
-      const { bivacco, data } = req.query;
+      const { bivaccoId, data } = req.query;
   
       // Se sono presenti i parametri di filtro, esegui una query filtrata
-      if (bivacco && data) {
-        const prenotazioni = await collection.find({ bivacco, data }).toArray();
+      if (bivaccoId && data) {
+        const prenotazioni = await collection.find({ bivaccoId, data }).toArray();
         return res.json(prenotazioni);
       }
   
@@ -492,8 +504,21 @@ app.post("/api/register", async (req, res) => {
       if (result.modifiedCount === 0) {
         return res.status(500).json({ message: "Errore durante l'aggiornamento dello stato di tesseramento." });
       }
-  
-      res.status(200).json({ message: "Tesseramento completato con successo!" });
+
+      // 3. Crea un nuovo token aggiornato
+      const token = jwt.sign({
+          mail: user.mail,
+          tesserato: true
+        },
+        JWT_SECRET,
+        { expiresIn: TOKEN_EXPIRES_IN }
+      );
+
+      // 4. Invia il token al client
+      res.status(200).json({
+        message: "Tesseramento completato con successo!",
+        token,
+      });
     } catch (error) {
       console.error("Errore nel tesseramento:", error);
       res.status(500).json({ message: "Errore interno del server" });

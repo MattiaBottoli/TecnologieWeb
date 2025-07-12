@@ -24,21 +24,24 @@ interface Prenotazione {
   bivacco: string;
   numpartecipanti: number;
   fasciaOraria: string;
+  bivaccoId: string
+  percorsoId: string
 }
 
 export default function RicordiPage() {
-  const { email, isTesserato, isLoggedIn }= useAuth()
+  const { email, tesserato, isLoggedIn, loading }= useAuth()
   const [prenotazioni, setPrenotazioni] = useState<Prenotazione[]>([])
   const [escursioni, setEscursioni] = useState<Escursione[]>([])
   const [error, setError] = useState<string | null>(null);
   const router = useRouter()
 
   useEffect(() => {
+    if(loading) return
     if (!isLoggedIn) {
       router.push("/login")
       return
     }
-    if(!isTesserato){
+    if(!tesserato){
       router.push("/profilo")
       return
     }
@@ -65,7 +68,7 @@ export default function RicordiPage() {
       .catch(() => {
         setError("Errore nel caricamento delle tue escursioni.");
       });
-  }, [email, isLoggedIn, isTesserato])
+  }, [email, isLoggedIn, tesserato, loading])
 
   return (
     <div className="Ricordi-Container">

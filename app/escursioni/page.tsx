@@ -24,6 +24,8 @@ interface Prenotazione {
   bivacco: string;
   numpartecipanti: number;
   fasciaOraria: string;
+  idBivacco: string
+  idPercorso: string
 }
 
 export default function EscursioniUnificate() {

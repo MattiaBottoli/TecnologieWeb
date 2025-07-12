@@ -1,29 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Hook per il reindirizzamento
-import { useAuth } from "../../context/AuthContext"; // Importa il contesto
-
-
-interface User {
-  nome: string;
-  cognome: string;
-  mail: string;
-  tesserato: boolean
-}
+import { useRouter } from "next/navigation";
+import { useAuth } from "../../context/AuthContext"; // Contesto aggiornato
 
 const Login: React.FC = () => {
   const [mail, setMail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-
-  const router = useRouter(); // Hook per la navigazione
-  const { login } = useAuth(); // Usa la funzione login del contesto
+  const router = useRouter();
+  const { login } = useAuth(); // login(token: string)
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setError(""); // Reset degli errori
+    setError("");
 
     try {
       const response = await fetch("http://localhost:5000/api/login", {
@@ -32,17 +23,18 @@ const Login: React.FC = () => {
         body: JSON.stringify({ mail, password }),
       });
 
-      const data: { message: string; user?: User } = await response.json();
+      const data = await response.json();
 
-      if (response.ok && data.user) {
-        login(mail, data.user.tesserato);
+      if (response.ok && data.token) {
+        login(data.token); // ✅ Salva il token e aggiorna contesto
         router.push("/");
       } else {
-        setError(data.message);
+        setError(data.message || "Credenziali non valide");
         setMail("");
         setPassword("");
       }
     } catch (error) {
+      console.error(error);
       setError("Errore nella connessione al server");
     }
   };

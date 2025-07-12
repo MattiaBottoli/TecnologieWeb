@@ -10,15 +10,8 @@ import Image from "next/image";
 interface Bivacco {
   _id: string;
   nome: string;
-  descrizione?: string;
-  altitudine: number;
   immagineUrl?: string; // Reso opzionale
   localita?: string; // Aggiunto per potenziale visualizzazione
-  sentiero?: string; // Aggiunto per visualizzazione
-  altezza?: number; // Aggiunto per visualizzazione (se diverso da altitudine)
-  capienza?: number; // Aggiunto per visualizzazione
-  latitudine?: number; // Aggiunto per visualizzazione
-  longitudine?: number; // Aggiunto per visualizzazione
   type: 'bivacco'; // Campo aggiunto dal backend per distinguere
 }
 
@@ -26,13 +19,8 @@ interface Bivacco {
 interface Percorso {
   _id: string;
   nome: string;
-  difficolta: string;
-  durata: string;
   immagineUrl?: string; // Se i percorsi hanno immagini
   localita?: string; // Aggiunto per visualizzazione
-  sentiero?: string; // Aggiunto per visualizzazione
-  pendenza_massima?: string; // Aggiunto per visualizzazione
-  lunghezza?: string; // Aggiunto per visualizzazione
   type: 'percorso'; // Campo aggiunto dal backend per distinguere
 }
 
@@ -53,7 +41,7 @@ interface User {
 }
 
 export default function ProfiloUtentePage() {
-  const { email, logout, isLoggedIn } = useAuth();
+  const { email, logout, isLoggedIn, loading } = useAuth();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -63,15 +51,17 @@ export default function ProfiloUtentePage() {
   const router = useRouter();
 
   useEffect(() => {
+  if (loading) return;
+
+  if (!isLoggedIn) {
+    router.push("/login")
+    return
+  }
   const fetchUserAndFavorites = async () => {
     try {
       setIsLoading(true);
       setError(null);
-
-      if (!isLoggedIn) {
-        router.push("/login");
-        return;
-      }
+      
       if (!email) {
         setError("Email utente non disponibile. Effettua nuovamente il login.");
         setIsLoading(false);
@@ -117,7 +107,7 @@ export default function ProfiloUtentePage() {
   };
 
   fetchUserAndFavorites();
-}, [email, isLoggedIn, router]);
+  }, [email, isLoggedIn, router, loading]);
 
 
   const confirmDelete = async (id: string) => {
@@ -234,24 +224,7 @@ export default function ProfiloUtentePage() {
                       )}
                       <h3 className="card-title">{bivacco.nome}</h3>
                       <p className="card-text">Località: {bivacco.localita}</p>
-                      <p className="card-text">Sentiero: {bivacco.sentiero}</p>
-                      <p className="card-text">Altitudine: {bivacco.altitudine} m</p>
-                      {bivacco.altezza !== undefined && bivacco.altezza !== null && (
-                        <p className="card-text">Altezza: {bivacco.altezza} m</p>
-                      )}
-                      {bivacco.capienza !== undefined && bivacco.capienza !== null && (
-                        <p className="card-text">Capienza: {bivacco.capienza} persone</p>
-                      )}
-                      {bivacco.descrizione && (
-                        <p className="card-text">Descrizione: {bivacco.descrizione}</p>
-                      )}
-                      {bivacco.latitudine !== undefined && bivacco.latitudine !== null && (
-                        <p className="card-text">Latitudine: {bivacco.latitudine}</p>
-                      )}
-                      {bivacco.longitudine !== undefined && bivacco.longitudine !== null && (
-                        <p className="card-text">Longitudine: {bivacco.longitudine}</p>
-                      )}
-                      <Link href={{ pathname: '/bivacchi', query: { view: 'bivacchi' } }}>
+                      <Link href={{ pathname: `/bivacchi/${bivacco._id}`, query: { view: 'bivacchi' } }}>
                         <button className="card-button card-button-percorso">
                           Vedi Dettagli
                         </button>
@@ -280,16 +253,7 @@ export default function ProfiloUtentePage() {
                       )}
                       <h3 className="card-title">{percorso.nome}</h3>
                       <p className="card-text">Località: {percorso.localita}</p>
-                      <p className="card-text">Sentiero: {percorso.sentiero}</p>
-                      <p className="card-text">Difficoltà: {percorso.difficolta}</p>
-                      {percorso.pendenza_massima && (
-                        <p className="card-text">Pendenza Massima: {percorso.pendenza_massima}</p>
-                      )}
-                      {percorso.lunghezza && (
-                        <p className="card-text">Lunghezza: {percorso.lunghezza}</p>
-                      )}
-                      <p className="card-text">Durata: {percorso.durata}</p>
-                      <Link href={{ pathname: '/bivacchi', query: { view: 'percorsi' } }}>
+                      <Link href={{ pathname: "/bivacchi", query: { view: 'percorsi', id: percorso._id } }}>
                         <button className="card-button card-button-percorso">
                           Vedi Dettagli
                         </button>

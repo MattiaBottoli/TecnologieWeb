@@ -34,6 +34,8 @@ interface Prenotazione {
   bivacco: string;
   fasciaOraria: string;
   numpartecipanti: number; 
+  idBivacco: string
+  idPercorso: string
 }
 
 export default function PrenotazioneEscursione() {
@@ -46,7 +48,7 @@ export default function PrenotazioneEscursione() {
   const [percorsi, setPercorsi] = useState<Percorso[]>([]);
   const [bivacchi, setBivacchi] = useState<Bivacco[]>([]);
   const [prenotazioni, setPrenotazioni] = useState<Prenotazione[]>([]);
-  const { isLoggedIn, email } = useAuth();
+  const { isLoggedIn, email, loading } = useAuth();
   const [error, setError] = useState<string>("");
   const router = useRouter();
   const [saltaBivacco, setSaltaBivacco] = useState(false);
@@ -60,6 +62,8 @@ export default function PrenotazioneEscursione() {
   const today = new Date().toISOString().split('T')[0];
 
   useEffect(() => {
+    if (loading) return;
+
     if (!isLoggedIn) {
       router.push("/registrati");
       return;
@@ -78,17 +82,16 @@ export default function PrenotazioneEscursione() {
         setBivacchi(data);
       })
       .catch((error) => console.error("Errore nel recupero dei bivacchi:", error));
-  }, [isLoggedIn, router]);
 
-  useEffect(() => {
     if (mode === "setBivacco" && selectedBivacco && date) {
       fetchPrenotazioni();
     }
-  }, [selectedBivacco, date, mode]);
+  }, [isLoggedIn, router, loading,selectedBivacco, date, mode]);
 
+  
   const fetchPrenotazioni = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/prenotazioni?bivacco=${selectedBivacco}&data=${date}`);
+      const res = await fetch(`http://localhost:5000/api/prenotazioni?bivaccoId=${selectedBivacco}&data=${date}`);
       const data = await res.json();
       setPrenotazioni(data);
     } catch (error) {
@@ -186,6 +189,7 @@ export default function PrenotazioneEscursione() {
                 const val = e.target.value
                 setPartecipanti(val === "" ? 1 : Number(val))
               }}
+              min={1}
               required
             />
           </section>
@@ -239,7 +243,7 @@ export default function PrenotazioneEscursione() {
                 ))}
             </select>
           </section>
-          {selectedBivacco !== "" && (
+          {selectedBivacco && (
             <section>
               <h2>Fasce Orarie Disponibili</h2>
               <table className="fasce-orarie">

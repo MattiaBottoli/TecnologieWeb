@@ -22,10 +22,13 @@ export default function ModificaProfilo() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const idUtente = searchParams.get("idUtente");
-  const { logout,isLoggedIn } = useAuth();
+  const { logout, isLoggedIn, loading} = useAuth();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+
+    if (loading) return;
+
     if (!isLoggedIn) {
       router.push("/login");
       return;
@@ -53,7 +56,7 @@ export default function ModificaProfilo() {
         setError("Errore nel recupero del profilo");
       })
       .finally(() => setIsLoading(false));
-  }, [idUtente, isLoggedIn, router]);
+  }, [idUtente, isLoggedIn, router, loading]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

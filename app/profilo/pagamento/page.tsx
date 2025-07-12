@@ -6,7 +6,7 @@ import { useState } from "react"
 import { useAuth } from "../../../context/AuthContext";
 
 export default function PagamentoPage() {
-  const { setTesseramento } = useAuth()
+  const { isLoggedIn, loading } = useAuth()
   const searchParams = useSearchParams()
   const mail = searchParams.get("mail") || ""
   const router = useRouter()
@@ -85,7 +85,9 @@ export default function PagamentoPage() {
 
       if (!res.ok) throw new Error("Errore nel pagamento")
 
-      setTesseramento(true)
+      const data = await res.json()
+      localStorage.setItem("token", data.token)
+      router.refresh?.() 
       router.push("/profilo")
     } catch (err) {
       alert("Errore nel pagamento")
