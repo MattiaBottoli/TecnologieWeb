@@ -265,21 +265,25 @@ export default function ProfiloUtentePage() {
               ) : (
                 <p className="card-text">Nessun percorso preferito trovato.</p>
               )}
+              </div>
 
-              <hr/>
+        <hr />
+      <div>
+        <section className="call-to-action-section">
+          <h2>ESPLORA E PIANIFICA LA TUA PROSSIMA AVVENTURA!</h2>
+          <p className="section-description">
+            Preparati a scoprire nuovi orizzonti e a creare ricordi indimenticabili.
+            Siamo qui per guidarti.
+          </p>
 
-              <p className="info-text">
-                Scopri quale sarà la tua prossima meta!{" "}
-                <Link href="/bivacchi" className="info-link">
-                  CLICCA QUI
-                </Link>
-              </p>
-              <p className="info-text">
-                Sei pronto a programmare un'escursione?{" "}
-                <Link href="/programmazione" className="info-link">
-                  CLICCA QUI
-                </Link>
-              </p>
+          <Link href="/bivacchi" className="action-link">
+            Scopri Bivacchi e Percorsi
+          </Link>
+
+          <Link href="/programmazione" className="action-link">
+            Programma la Tua Escursione
+          </Link>
+        </section>
             </div>
           </section>
         </>

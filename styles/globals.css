@@ -556,35 +556,36 @@ hr {
   }
 }
 
-/* --- CSS REGISTRAZIONE --- */
+/* --- CSS REGISTRATI --- */
+
 .Registrati-Container {
   max-width: 500px;
   margin: 50px auto;
   padding: 30px;
-  /* MODIFICATO QUI: Sfondo bianco */
-  background-color: #f9f9f9; /* Sfondo bianco puro o quasi */
+  background-color: #141d23; /* Sfondo scuro per il form */
   border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Ombra più delicata per uno sfondo chiaro */
-  color: var(--text-dark); /* Testo scuro per contrastare lo sfondo chiaro */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Ombra più pronunciata per tema scuro */
+  color: var(--text-light); /* Testo chiaro per contrastare lo sfondo scuro */
   font-family: 'Poppins', sans-serif;
-  border: 1px solid rgba(0, 0, 0, 0.1); /* Bordo sottile e scuro */
-  backdrop-filter: blur(0); /* Rimuove il blur se presente */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Bordo sottile e chiaro */
+  backdrop-filter: blur(5px); /* Aggiunge blur per tema scuro */
+  text-align: center;
 }
 
-/* Potrebbe essere necessario regolare anche i colori interni per una migliore leggibilità */
 .Registrati-Container h1 {
-  color: #2c3e50; /* Colore scuro per il titolo */
+  color: var(--primary-accent-light); /* Colore accentuato per il titolo */
   text-align: center;
   font-size: 2rem;
   margin-bottom: 10px;
   font-family: 'Oswald', sans-serif;
+  text-shadow: 0px 4px 8px var(--shadow-dark); /* Ombra testo per tema scuro */
 }
 
 .Registrati-Container h4 {
   text-align: center;
   font-weight: 400;
   margin-bottom: 20px;
-  color: #555; /* Un grigio più scuro per il sottotitolo */
+  color: var(--text-medium); /* Un grigio più chiaro per il sottotitolo */
 }
 
 .Registrati-Container fieldset {
@@ -602,22 +603,22 @@ hr {
   display: block;
   margin-bottom: 5px;
   font-weight: 600;
-  color: #333; /* Colore scuro per le label */
+  color: var(--text-light); /* Colore chiaro per le label */
 }
 
 .Registrati-Container input {
   width: 100%;
   padding: 10px;
   border-radius: 6px;
-  background-color: white; /* Sfondo input bianco */
-  border: 1px solid #ccc; /* Bordo input grigio chiaro */
+  background-color: rgba(255, 255, 255, 0.05); /* Sfondo input leggermente trasparente */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Bordo input chiaro */
   box-sizing: border-box;
   font-size: 1em;
-  color: #333; /* Testo input scuro */
+  color: var(--text-light); /* Testo input chiaro */
 }
 
 .Registrati-Container input::placeholder {
-  color: #888; /* Placeholder più scuro */
+  color: var(--text-medium); /* Placeholder più chiaro */
 }
 
 .Registrati-Container .btnlog {
@@ -646,145 +647,210 @@ hr {
 .Registrati-Container footer {
   margin-top: 25px;
   font-size: 0.9em;
-  color: #555; /* Colore scuro per il footer */
+  color: var(--text-medium); /* Colore chiaro per il footer */
 }
 
 .Registrati-Container footer p {
-    margin: 0;
+  margin: 0;
 }
 
 .Registrati-Container footer a {
-  color: var(--primary-accent); /* Colore del link principale */
+  color: var(--primary-accent-light); /* Colore del link principale */
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
 }
 
 .Registrati-Container footer a:hover {
-  color: var(--primary-accent-dark);
+  color: var(--primary-accent);
   text-decoration: underline;
 }
+
+/* Media query specifica per i container di form per schermi piccoli */
+@media (max-width: 600px) {
+  .Registrati-Container,
+  .Login-Container {
+    margin: 20px auto;
+    padding: 20px;
+  }
+  .Registrati-Container h1,
+  .Login-Container h1 {
+    font-size: 1.8rem;
+  }
+  .Registrati-Container h4,
+  .Login-Container h4 {
+    font-size: 0.9em;
+  }
+  .Registrati-Container input,
+  .Login-Container input {
+    padding: 10px;
+    font-size: 1em;
+  }
+  .Registrati-Container .btnlog,
+  .Login-Container .btnlog {
+    padding: 12px 15px;
+    font-size: 1.1em;
+    margin-top: 25px;
+  }
+  .Registrati-Container footer,
+  .Login-Container footer {
+    font-size: 0.9em;
+    margin-top: 25px;
+  }
+}
+
 
 /* --- CSS LOGIN --- */
 .Login-Container {
   max-width: 500px;
-  margin: 50px auto;
-  padding: 30px;
-  background-color: #f9f9f9; /* Sfondo chiaro per il form */
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  color: #2c3e50; /* Colore testo scuro per contrasto */
+  margin: 80px auto; /* Centrato e con margine superiore */
+  padding: 40px; /* Padding aumentato */
+  background-color: #141d23; /* Sfondo scuro, simile al container del profilo */
+  border-radius: 12px; /* Bordi leggermente più arrotondati */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); /* Ombra più pronunciata */
+  color: var(--text-light); /* Testo chiaro */
   font-family: 'Poppins', sans-serif;
+  backdrop-filter: blur(8px); /* Effetto blur per profondità */
+  border: 1px solid rgba(255, 255, 255, 0.15); /* Bordo sottile */
+  text-align: center; /* Centra il contenuto principale */
 }
 
 .Login-Container h1 {
   text-align: center;
-  font-size: 2rem;
-  color: #2c3e50;
-  margin-bottom: 10px;
-  font-family: 'Oswald', sans-serif; /* Mantiene la coerenza con i titoli globali */
+  font-size: 2.8rem; /* Titolo più grande */
+  color: var(--primary-accent-light); /* Colore accentuato per il titolo */
+  margin-bottom: 15px; /* Spazio maggiore sotto il titolo */
+  font-family: 'Oswald', sans-serif;
+  text-shadow: 0px 5px 10px var(--shadow-dark); /* Ombra testo più marcata */
+  letter-spacing: 1.5px; /* Spaziatura tra le lettere */
 }
 
 .Login-Container h4 {
   text-align: center;
   font-weight: 400;
-  margin-bottom: 20px;
-  color: #555;
+  margin-bottom: 30px; /* Spazio aumentato sotto il sottotitolo */
+  color: var(--text-medium); /* Colore testo medio */
+  font-size: 1.1em; /* Testo leggermente più grande */
 }
 
 .Login-Container fieldset {
-  border: none; /* Rimuove il bordo predefinito del fieldset */
+  border: none;
   padding: 0;
   margin: 0;
 }
 
 .Login-Container section {
-  margin-bottom: 15px;
-  text-align: left; /* Allinea label e input a sinistra */
+  margin-bottom: 20px; /* Spazio aumentato tra le sezioni */
+  text-align: left;
 }
 
 .Login-Container label {
-  display: block; /* Ogni label su una nuova riga */
-  margin-bottom: 5px;
+  display: block;
+  margin-bottom: 8px; /* Spazio aumentato sotto la label */
   font-weight: 600;
-  color: #333;
+  color: var(--text-light); /* Label chiare */
+  font-size: 1.05em; /* Testo label leggermente più grande */
 }
 
 .Login-Container input {
   width: 100%;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  box-sizing: border-box; /* Assicura che padding e border siano inclusi nella larghezza */
-  font-size: 1em;
-  color: #333;
+  padding: 12px; /* Padding aumentato */
+  border-radius: 8px; /* Bordi più arrotondati */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Bordo chiaro */
+  background-color: rgba(255, 255, 255, 0.05); /* Sfondo input leggermente trasparente */
+  box-sizing: border-box;
+  font-size: 1.1em; /* Testo input leggermente più grande */
+  color: var(--text-light); /* Testo input chiaro */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.Login-Container input:focus {
+  outline: none;
+  border-color: var(--primary-accent); /* Bordo accentuato al focus */
+  box-shadow: 0 0 0 3px rgba(46, 134, 222, 0.3); /* Ombra al focus */
 }
 
 .Login-Container input::placeholder {
-  color: #888;
+  color: var(--text-medium); /* Placeholder di colore medio */
 }
 
 .Login-Container .btnlog {
   width: 100%;
-  padding: 12px 20px; /* Padding leggermente aumentato */
-  background-color: var(--primary-accent); /* Usa la variabile globale */
+  padding: 15px 20px; /* Padding aumentato */
+  background-color: var(--primary-accent);
   border: none;
   color: white;
-  border-radius: 6px;
+  border-radius: 8px; /* Bordi più arrotondati */
   cursor: pointer;
-  margin-top: 20px; /* Spazio sopra il bottone */
-  font-size: 1.1em;
+  margin-top: 30px; /* Spazio sopra il bottone */
+  font-size: 1.2em; /* Testo bottone più grande */
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px; /* Spaziatura aumentata */
   transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Ombra sottile */
+  box-shadow: 0 6px 15px rgba(46, 134, 222, 0.4); /* Ombra più pronunciata */
 }
 
 .Login-Container .btnlog:hover {
-  background-color: var(--primary-accent-dark); /* Colore scuro al hover */
-  transform: translateY(-2px); /* Piccolo effetto al sollevamento */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Ombra più pronunciata al hover */
+  background-color: var(--primary-accent-dark);
+  transform: translateY(-3px); /* Effetto sollevamento più marcato */
+  box-shadow: 0 10px 20px rgba(46, 134, 222, 0.6); /* Ombra più intensa al hover */
 }
 
 .Login-Container footer {
-  margin-top: 25px;
-  font-size: 0.9em;
-  color: #555;
+  margin-top: 35px; /* Spazio aumentato sopra il footer */
+  font-size: 1em; /* Testo footer leggermente più grande */
+  color: var(--text-medium); /* Testo footer di colore medio */
+  line-height: 1.6; /* Interlinea per leggibilità */
 }
 
 .Login-Container footer p {
-    margin: 0; /* Rimuove il margin di default per i p nel footer */
+  margin: 0;
 }
 
 .Login-Container footer a {
-  color: var(--primary-accent); /* Colore del link principale */
+  color: var(--primary-accent-light); /* Colore link chiaro */
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
 }
 
 .Login-Container footer a:hover {
-  color: var(--primary-accent-dark);
+  color: var(--primary-accent); /* Colore accentuato al hover */
   text-decoration: underline;
 }
 
 /* Media query specifica per i container di form per schermi piccoli */
 @media (max-width: 600px) {
-    .Registrati-Container,
-    .Login-Container {
-        margin: 20px auto;
-        padding: 20px;
-    }
-    .Registrati-Container h1,
-    .Login-Container h1 {
-        font-size: 1.8rem;
-    }
-    .Registrati-Container h4,
-    .Login-Container h4 {
-        font-size: 0.9em;
-    }
+  .Registrati-Container,
+  .Login-Container {
+    margin: 20px; /* Margine uniforme sui lati */
+    padding: 25px; /* Padding leggermente ridotto */
+  }
+  .Registrati-Container h1,
+  .Login-Container h1 {
+    font-size: 2.2rem; /* Titolo leggermente più piccolo */
+  }
+  .Registrati-Container h4,
+  .Login-Container h4 {
+    font-size: 1em; /* Testo più leggibile */
+    margin-bottom: 20px;
+  }
+  .Login-Container input {
+    padding: 10px; /* Padding input ridotto */
+    font-size: 1em;
+  }
+  .Login-Container .btnlog {
+    padding: 12px 15px; /* Padding bottone ridotto */
+    font-size: 1.1em;
+    margin-top: 25px;
+  }
+  .Login-Container footer {
+    font-size: 0.9em;
+    margin-top: 25px;
+  }
 }
+
 
 /* --- CSS ESCURSIONI UNIFICATE E MODIFICA PRENOTAZIONE --- */
 
@@ -1567,7 +1633,7 @@ hr {
 .Aggiungi-Container h1 {
   font-family: 'Oswald', sans-serif;
   font-size: 2.5rem;
-  color: var(--primary-accent-light);
+  color: var(--text-light);
   margin-bottom: 10px;
   text-shadow: 0px 4px 8px var(--shadow-dark);
 }
@@ -1656,123 +1722,495 @@ hr {
   text-decoration: underline;
 }
 
+/*profilo*/
+
 .Profilo-Container {
-  max-width: 900px;
-  margin: 120px auto 60px auto;
-  padding: 30px;
-  background-color: #141d23; /* Sfondo scuro coerente */
-  border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  max-width: 1000px; /* Aumentata la larghezza massima */
+  margin: 80px auto 60px auto; /* Margine superiore ridotto, coerenza con altre pagine */
+  padding: 40px; /* Aumentato il padding interno */
+  background-color: #141d23;
+  border-radius: 12px; /* Bordi leggermente più arrotondati */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); /* Ombra più pronunciata */
   color: var(--text-light);
   text-align: center;
+  backdrop-filter: blur(8px); /* Effetto blur leggermente più forte */
+  border: 1px solid rgba(255, 255, 255, 0.15); /* Bordo più visibile */
 }
 
 .Profilo-Container h1 {
   font-family: 'Oswald', sans-serif;
   font-weight: 700;
-  font-size: 3em;
-  color: var(--text-light);
-  text-shadow: 0px 4px 8px var(--shadow-dark);
-  margin-bottom: 40px;
+  font-size: 3.2em; /* Titolo leggermente più grande */
+  color: var(--primary-accent-light);
+  text-shadow: 0px 5px 10px var(--shadow-dark); /* Ombra testo più marcata */
+  margin-bottom: 50px; /* Spazio maggiore sotto il titolo principale */
+  text-transform: uppercase;
+  letter-spacing: 2px; /* Aumentato lo spazio tra le lettere */
 }
 
 .Profilo-Container .profile-section {
-  background: var(--card-bg-dark);
-  padding: 25px;
+  background: var(--card-bg);
+  padding: 35px; /* Aumentato il padding della sezione dati */
   border-radius: 10px;
-  margin-bottom: 30px;
+  box-shadow: 0 8px 20px var(--shadow-dark); /* Ombra più pronunciata */
   text-align: left;
-  border: 1px solid var(--card-border-dark);
+  margin-bottom: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex; /* Utilizzo di flexbox per un layout più flessibile */
+  flex-direction: column; /* Impila gli elementi in colonna */
+  gap: 10px; /* Spazio tra gli elementi */
 }
 
 .Profilo-Container .profile-section p {
-  margin-bottom: 10px;
   color: var(--text-medium);
-  font-size: 1.05em;
+  margin-bottom: 5px; /* Spazio ridotto tra i paragrafi */
+  font-size: 1.15em; /* Testo leggermente più grande */
   line-height: 1.6;
 }
 
 .Profilo-Container .profile-section strong {
   color: var(--text-light);
+  font-weight: 600;
 }
 
 .Profilo-Container .tessera {
-  margin-top: 25px;
+  margin-top: 30px;
   text-align: center;
+  /* grid-column: span 2; Rimosso, non più necessario con flexbox */
 }
 
 .Profilo-Container .tessera img {
-  border: 2px solid var(--primary-accent);
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  max-width: 250px; /* Larghezza fissa per l'immagine della tessera */
+  height: auto;
+  display: block;
+  margin: 0 auto; /* Centra l'immagine */
 }
 
 .Profilo-Container .tessera .note {
-  font-size: 0.85em;
+  font-size: 0.9em;
   color: var(--text-medium);
   margin-top: 10px;
+}
+
+.Profilo-Container .profile-section .buttons-container {
+  /* grid-column: span 2; Rimosso, non più necessario con flexbox */
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* Spazio tra i bottoni */
+  margin-top: 25px;
+  flex-wrap: wrap; /* Permette ai bottoni di andare a capo */
 }
 
 .Profilo-Container button {
   background-color: var(--primary-accent);
   color: white;
-  padding: 12px 25px;
-  border-radius: 5px;
+  padding: 14px 30px; /* Padding aumentato per i bottoni */
+  border-radius: 8px; /* Bordi più arrotondati */
   border: none;
   cursor: pointer;
   font-weight: 600;
-  font-size: 1em;
-  margin-top: 20px;
-  margin-right: 15px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 1.05em; /* Testo leggermente più grande */
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(46, 134, 222, 0.4); /* Ombra più pronunciata */
 }
 
 .Profilo-Container button:hover {
   background-color: var(--primary-accent-dark);
-  transform: translateY(-2px);
+  transform: translateY(-3px); /* Effetto sollevamento più marcato */
+  box-shadow: 0 8px 20px rgba(46, 134, 222, 0.6); /* Ombra più intensa */
 }
 
-.Profilo-Container button.delete-mode,
-.Profilo-Container .red-btn {
+.Profilo-Container button.delete-mode {
   background-color: var(--red-alert);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
 }
 
-.Profilo-Container button.delete-mode:hover,
-.Profilo-Container .red-btn:hover {
+.Profilo-Container button.delete-mode:hover {
   background-color: var(--red-alert-dark);
+  box-shadow: 0 8px 20px rgba(220, 53, 69, 0.6);
 }
 
-.Profilo-Container h1.warning-text {
-  color: var(--yellow-warning);
-  font-size: 2.2em;
-  margin-top: 30px;
-}
-
-.Profilo-Container .tesseramento-box {
-  background: var(--card-bg-dark);
-  padding: 30px;
-  border-radius: 10px;
-  margin-top: 30px;
-  border: 1px solid var(--card-border-dark);
-}
-
-.Profilo-Container .tesseramento-box .btnlog {
-  margin-top: 25px;
+.Profilo-Container hr {
+  margin: 80px auto; /* Margine aumentato per le linee divisorie */
+  height: 4px; /* Linea più spessa */
+  background: linear-gradient(to right, transparent, var(--primary-accent-light), transparent);
+  border: none;
+  max-width: 90%; /* Larghezza aumentata */
+  border-radius: 3px;
+  box-shadow: 0 0 20px var(--primary-accent); /* Ombra più intensa */
 }
 
 .Profilo-Container .post-form {
-  background: var(--card-bg-dark);
-  padding: 25px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 35px; /* Padding aumentato */
   border-radius: 10px;
-  margin-bottom: 30px;
-  border: 1px solid var(--card-border-dark);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5); /* Ombra più pronunciata */
+  margin-top: 30px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 40px;
 }
 
 .Profilo-Container .post-form p {
-  font-size: 1.1em;
+  font-size: 1.15em; /* Testo leggermente più grande */
   color: var(--text-medium);
-  margin-bottom: 20px;
+  margin-bottom: 25px; /* Spazio aumentato */
 }
+
+.Profilo-Container .favorites-heading {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 2em; /* Titolo preferiti più grande */
+  color: var(--text-light);
+  margin-top: 50px;
+  margin-bottom: 30px;
+  text-shadow: 0px 3px 8px rgba(0, 0, 0, 0.6); /* Ombra testo più marcata */
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-align: center; /* Assicura che il titolo sia centrato */
+}
+
+.Profilo-Container .preferiti-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Larghezza minima aumentata */
+  gap: 30px; /* Spazio aumentato tra le card */
+  margin-top: 30px;
+  justify-content: center;
+}
+
+.Profilo-Container .bivacco-card,
+.Profilo-Container .percorso-card {
+  background: var(--card-bg);
+  padding: 25px; /* Padding aumentato */
+  border-radius: 12px; /* Bordi più arrotondati */
+  box-shadow: 0 8px 20px var(--shadow-dark); /* Ombra più pronunciata */
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Profilo-Container .bivacco-card:hover,
+.Profilo-Container .percorso-card:hover {
+  transform: translateY(-8px); /* Effetto sollevamento più marcato */
+  box-shadow: 0 15px 30px var(--shadow-dark); /* Ombra più intensa */
+  border-color: var(--primary-accent-light);
+}
+
+.Profilo-Container .card-image {
+  border-radius: 10px; /* Bordi immagine più arrotondati */
+  margin-bottom: 18px; /* Spazio aumentato sotto l'immagine */
+  width: 100%; /* Assicura che l'immagine occupi tutta la larghezza disponibile */
+  height: 180px; /* Altezza fissa per le immagini delle card */
+  display: block;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Ombra per le immagini */
+}
+
+.Profilo-Container .card-title {
+  font-family: 'Oswald', sans-serif;
+  color: var(--primary-accent-light);
+  font-size: 1.6em; /* Titolo card più grande */
+  margin-bottom: 12px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  width: 100%;
+}
+
+.Profilo-Container .card-text {
+  color: var(--text-medium);
+  margin-bottom: 10px;
+  line-height: 1.5;
+  font-size: 1em; /* Testo card leggermente più grande */
+  text-align: center;
+  width: 100%;
+}
+
+.Profilo-Container .card-button {
+  background-color: #34c759;
+  color: white;
+  padding: 12px 25px; /* Padding aumentato */
+  border-radius: 8px; /* Bordi più arrotondati */
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95em; /* Testo bottone leggermente più grande */
+  margin-top: 20px; /* Spazio aumentato */
+  width: 100%;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(52, 199, 89, 0.4);
+}
+
+.Profilo-Container .card-button:hover {
+  background-color: #2aa64b;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(52, 199, 89, 0.6);
+}
+
+/* Nuova sezione Call to Action */
+.Profilo-Container .call-to-action-section {
+  margin-top: 80px; /* Margine superiore aumentato */
+  padding: 40px; /* Padding aumentato */
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px; /* Bordi più arrotondati */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4); /* Ombra più pronunciata */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 30px; /* Spazio aumentato tra gli elementi */
+  align-items: center;
+}
+
+.Profilo-Container .call-to-action-section h2 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 2.5em; /* Titolo più grande */
+  color: var(--text-light);
+  text-shadow: 0px 4px 8px var(--shadow-dark);
+  margin-bottom: 10px; /* Spazio ridotto sotto il titolo */
+  letter-spacing: 1.5px;
+}
+
+.Profilo-Container .call-to-action-section .section-description {
+  font-size: 1.2em; /* Testo descrittivo più grande */
+  color: var(--text-medium);
+  max-width: 700px;
+  margin-bottom: 20px; /* Spazio sotto la descrizione */
+}
+
+.Profilo-Container .call-to-action-section .action-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px; /* Spazio aumentato tra icona e testo */
+  background-color: var(--primary-accent);
+  color: white;
+  padding: 18px 35px; /* Padding aumentato per i link/pulsanti */
+  border-radius: 10px; /* Bordi più arrotondati */
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.2em; /* Testo più grande */
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+  width: 90%; /* Rende i pulsanti più grandi */
+  max-width: 400px; /* Limita la larghezza su schermi grandi */
+}
+
+.Profilo-Container .call-to-action-section .action-link:hover {
+  background-color: var(--primary-accent-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 123, 255, 0.6);
+}
+
+.Profilo-Container .call-to-action-section .action-link svg {
+  width: 28px; /* Icone più grandi */
+  height: 28px;
+  fill: currentColor;
+}
+
+
+.Profilo-Container .tesseramento-box {
+  background: var(--card-bg);
+  padding: 35px; /* Padding aumentato */
+  border-radius: 10px;
+  box-shadow: 0 6px 15px var(--shadow-dark);
+  margin-top: 40px;
+  margin-bottom: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.Profilo-Container .warning-text {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 2.4em; /* Testo warning più grande */
+  color: var(--yellow-warning);
+  text-shadow: 0px 3px 8px rgba(0, 0, 0, 0.6);
+  margin-bottom: 30px;
+}
+
+.Profilo-Container .btnlog {
+  background-color: #007bff;
+  color: white;
+  padding: 18px 35px; /* Padding aumentato */
+  border: none;
+  border-radius: 10px; /* Bordi più arrotondati */
+  cursor: pointer;
+  font-size: 1.2em; /* Testo più grande */
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+}
+
+.Profilo-Container .btnlog:hover {
+  background-color: #0056b3;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 123, 255, 0.6);
+}
+
+/* Media Queries per la responsività */
+@media (max-width: 992px) {
+  .Profilo-Container {
+    padding: 30px;
+    margin: 40px auto;
+  }
+  .Profilo-Container h1 {
+    font-size: 2.5em;
+    margin-bottom: 40px;
+  }
+  .Profilo-Container .profile-section {
+    padding: 25px;
+    margin-bottom: 30px;
+    /* grid-template-columns: 1fr; Rimosso per coerenza con flexbox */
+  }
+  .Profilo-Container .profile-section p {
+    font-size: 1.05em;
+  }
+  .Profilo-Container .profile-section .buttons-container {
+    flex-direction: column; /* Bottoni in colonna */
+    gap: 10px;
+  }
+  .Profilo-Container button {
+    padding: 12px 25px;
+    font-size: 1em;
+    margin-right: 0;
+    width: 100%; /* Bottoni a tutta larghezza */
+  }
+  .Profilo-Container .favorites-heading {
+    font-size: 1.8em;
+    margin-top: 40px;
+    margin-bottom: 25px;
+  }
+  .Profilo-Container .preferiti-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .Profilo-Container .bivacco-card,
+  .Profilo-Container .percorso-card {
+    padding: 20px;
+  }
+  .Profilo-Container .card-image {
+    height: 150px;
+  }
+  .Profilo-Container .card-title {
+    font-size: 1.4em;
+  }
+  .Profilo-Container .card-text {
+    font-size: 0.9em;
+  }
+  .Profilo-Container .card-button {
+    padding: 10px 20px;
+    font-size: 0.9em;
+  }
+  .Profilo-Container .call-to-action-section {
+    margin-top: 60px;
+    padding: 30px;
+    gap: 25px;
+  }
+  .Profilo-Container .call-to-action-section h2 {
+    font-size: 2em;
+  }
+  .Profilo-Container .call-to-action-section .section-description {
+    font-size: 1.1em;
+  }
+  .Profilo-Container .call-to-action-section .action-link {
+    padding: 15px 30px;
+    font-size: 1.1em;
+    width: 100%;
+  }
+  .Profilo-Container .call-to-action-section .action-link svg {
+    width: 24px;
+    height: 24px;
+  }
+  .Profilo-Container .tesseramento-box {
+    padding: 30px;
+  }
+  .Profilo-Container .warning-text {
+    font-size: 2em;
+  }
+  .Profilo-Container .btnlog {
+    padding: 15px 30px;
+    font-size: 1.1em;
+  }
+}
+
+@media (max-width: 600px) {
+  .Profilo-Container {
+    padding: 20px;
+    margin: 20px auto;
+  }
+  .Profilo-Container h1 {
+    font-size: 2em;
+    margin-bottom: 30px;
+  }
+  .Profilo-Container .profile-section {
+    padding: 15px;
+    margin-bottom: 25px;
+  }
+  .Profilo-Container .profile-section p {
+    font-size: 0.95em;
+  }
+  .Profilo-Container button {
+    padding: 10px 20px;
+    font-size: 0.9em;
+  }
+  .Profilo-Container .favorites-heading {
+    font-size: 1.5em;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+  .Profilo-Container .bivacco-card,
+  .Profilo-Container .percorso-card {
+    padding: 15px;
+  }
+  .Profilo-Container .card-image {
+    height: 120px;
+  }
+  .Profilo-Container .card-title {
+    font-size: 1.2em;
+  }
+  .Profilo-Container .card-text {
+    font-size: 0.85em;
+  }
+  .Profilo-Container .card-button {
+    padding: 8px 15px;
+    font-size: 0.8em;
+  }
+  .Profilo-Container .call-to-action-section {
+    margin-top: 40px;
+    padding: 20px;
+    gap: 20px;
+  }
+  .Profilo-Container .call-to-action-section h2 {
+    font-size: 1.8em;
+  }
+  .Profilo-Container .call-to-action-section .section-description {
+    font-size: 1em;
+  }
+  .Profilo-Container .call-to-action-section .action-link {
+    padding: 12px 25px;
+    font-size: 1em;
+  }
+  .Profilo-Container .call-to-action-section .action-link svg {
+    width: 20px;
+    height: 20px;
+  }
+  .Profilo-Container .tesseramento-box {
+    padding: 20px;
+  }
+  .Profilo-Container .warning-text {
+    font-size: 1.8em;
+  }
+  .Profilo-Container .btnlog {
+    padding: 12px 25px;
+    font-size: 1em;
+  }
+}
+
 
 /* --- Nuovi stili per la sezione Preferiti (da Tailwind) --- */
 .favorites-heading {

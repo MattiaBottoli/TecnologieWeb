@@ -98,7 +98,7 @@ export default function AddPage() {
     <div className="Aggiungi-Container">
       {!view ? (
         <div className="view-selector">
-          <h1>Inserisci un bivacco o un percorso:</h1>
+          <h1>AGGIUNGI UN'ESCURSIONE:</h1>
           <button className="btnlog" onClick={() => setView("bivacco")}>Aggiungi Bivacco</button>
           <button className="btnlog" onClick={() => setView("percorso")}>Aggiungi Percorso</button>
         </div>
