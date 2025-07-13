@@ -125,19 +125,19 @@ export default function AddPage() {
               <input type="text" id="sentieroBivacco" placeholder="Sentiero" value={bivacco.sentiero} onChange={e => setBivacco({ ...bivacco, sentiero: e.target.value })} required />
 
               <label htmlFor="altezzaBivacco">Altitudine:</label>
-              <input type="number" id="altezzaBivacco" placeholder="Altezza" value={bivacco.altezza} onChange={e => setBivacco({ ...bivacco, altezza: Number(e.target.value) })} required />
+              <input type="number" id="altezzaBivacco" placeholder="Altezza" value={bivacco.altezza} onChange={e => setBivacco({ ...bivacco, altezza: Number(e.target.value) })} required min={1} />
 
               <label htmlFor="capienzaBivacco">Capienza:</label>
-              <input type="number" id="capienzaBivacco" placeholder="Capienza" value={bivacco.capienza} onChange={e => setBivacco({ ...bivacco, capienza: Number(e.target.value) })} required />
+              <input type="number" id="capienzaBivacco" placeholder="Capienza" value={bivacco.capienza} onChange={e => setBivacco({ ...bivacco, capienza: Number(e.target.value) })} required min={1} />
 
               <label htmlFor="descrizioneBivacco">Descrizione:</label>
               <input type="text" id="descrizioneBivacco" placeholder="Descrizione" value={bivacco.descrizione} onChange={e => setBivacco({ ...bivacco, descrizione: e.target.value })} required />
 
               <label htmlFor="latitudineBivacco">Latitudine:</label>
-              <input type="number" id="latitudineBivacco" placeholder="Latitudine" value={bivacco.latitudine} onChange={e => setBivacco({ ...bivacco, latitudine: Number(e.target.value) })} required />
+              <input type="number" id="latitudineBivacco" placeholder="Latitudine" value={bivacco.latitudine} onChange={e => setBivacco({ ...bivacco, latitudine: Number(e.target.value) })} required min={1}/>
 
               <label htmlFor="longitudineBivacco">Longitudine:</label>
-              <input type="number" id="longitudineBivacco" placeholder="Longitudine" value={bivacco.longitudine} onChange={e => setBivacco({ ...bivacco, longitudine: Number(e.target.value) })} required />
+              <input type="number" id="longitudineBivacco" placeholder="Longitudine" value={bivacco.longitudine} onChange={e => setBivacco({ ...bivacco, longitudine: Number(e.target.value) })} required min={1}/>
             </>
             ) : (
             <>
