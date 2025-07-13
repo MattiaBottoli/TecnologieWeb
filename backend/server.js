@@ -17,7 +17,7 @@ const COLLECTION_BIVACCHI = "Bivacchi";
 const COLLECTION_PERCORSI = "Percorsi";
 const today = new Date().toISOString().split('T')[0];
 const JWT_SECRET = "supersegreta123"; // 👈 metti in .env in produzione
-const TOKEN_EXPIRES_IN = "1m"; // oppure "1h", "30m", ecc.
+const TOKEN_EXPIRES_IN = "30m"; // oppure "1h", "30m", ecc.
 
 app.use(cors()); // Per evitare problemi di CORS
 app.use(express.json()); // Per gestire richieste JSON
