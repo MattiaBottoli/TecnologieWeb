@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../../context/AuthContext"; // Contesto aggiornato
+import { useAuth } from "../../context/AuthContext"; 
 
 const Login: React.FC = () => {
   const [mail, setMail] = useState<string>("");
@@ -10,7 +10,7 @@ const Login: React.FC = () => {
   const [error, setError] = useState<string>("");
 
   const router = useRouter();
-  const { login } = useAuth(); // login(token: string)
+  const { login } = useAuth(); 
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -26,7 +26,7 @@ const Login: React.FC = () => {
       const data = await response.json();
 
       if (response.ok && data.token) {
-        login(data.token); // ✅ Salva il token e aggiorna contesto
+        login(data.token); 
         router.push("/");
       } else {
         setError(data.message || "Credenziali non valide");

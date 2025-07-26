@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
-import { useAuth } from "../../../context/AuthContext";
+import { useAuth } from "../../../context/AuthContext"
 
 export default function PagamentoPage() {
   const { isLoggedIn, loading } = useAuth()
@@ -15,13 +15,12 @@ export default function PagamentoPage() {
   const [expiry, setExpiry] = useState("")
   const [cvv, setCvv] = useState("")
   const [isPaying, setIsPaying] = useState(false)
+  const [subscriptionType, setSubscriptionType] = useState("annuale") 
 
   const today = new Date()
   const year = today.getFullYear()
-  const month = (today.getMonth() + 1).toString().padStart(2, '0') // +1 perché i mesi partono da 0
-
+  const month = (today.getMonth() + 1).toString().padStart(2, '0')
   const minMonth = `${year}-${month}`
-
 
   const validateCardNumber = (number: string) => {
     const cleaned = number.replace(/\D/g, "")
@@ -80,14 +79,14 @@ export default function PagamentoPage() {
       const res = await fetch(`http://localhost:5000/api/tesseramento`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mail }),
+        body: JSON.stringify({ mail, subscriptionType }),
       })
 
       if (!res.ok) throw new Error("Errore nel pagamento")
 
       const data = await res.json()
       localStorage.setItem("token", data.token)
-      router.refresh?.() 
+      router.refresh?.()
       router.push("/profilo")
     } catch (err) {
       alert("Errore nel pagamento")
@@ -108,6 +107,8 @@ export default function PagamentoPage() {
             value={cardNumber}
             onChange={(e) => setCardNumber(e.target.value)}
             placeholder="1234 5678 9012 3456"
+            minLength={15}
+            maxLength={16}
             required
           />
         </label>
@@ -119,10 +120,9 @@ export default function PagamentoPage() {
             required
             value={expiry}
             onChange={(e) => setExpiry(e.target.value)}
-            placeholder=""
           />
         </label>
-        <br/>
+        <br />
         <label>
           CVV:
           <input
@@ -130,15 +130,43 @@ export default function PagamentoPage() {
             value={cvv}
             onChange={(e) => setCvv(e.target.value)}
             placeholder="123"
+            minLength={3}
+            maxLength={4}
             required
           />
         </label>
+
+        <div className="subscription-options">
+          <p>Seleziona tipo di abbonamento:</p>
+          <label>
+            <input
+              type="radio"
+              name="subscription"
+              value="annuale"
+              checked={subscriptionType === "annuale"}
+              onChange={() => setSubscriptionType("annuale")}
+            />
+            Annuale – 59,88 € (4,99 €/mese)
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="subscription"
+              value="mensile"
+              checked={subscriptionType === "mensile"}
+              onChange={() => setSubscriptionType("mensile")}
+            />
+            Mensile – 6,99 €
+          </label>
+        </div>
+
+        <br />
         <button type="submit" className="btnlog" disabled={isPaying}>
           {isPaying ? "Elaborazione..." : "Paga e Tesserati"}
         </button>
         <Link href={"/profilo"}>
-          <button>ANNULLA</button>
-        </Link> 
+          <button type="button">ANNULLA</button>
+        </Link>
       </form>
     </div>
   )

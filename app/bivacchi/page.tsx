@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
 
-// Define a separate interface for review objects to be clear
 interface Review {
   userEmail: string;
   voto: number;
@@ -31,7 +30,7 @@ interface Percorso {
   difficolta: string;
   pendenza_massima: string;
   lunghezza: string;
-  recensioni?: Review[]; // MODIFIED: Now an array of Review objects
+  recensioni?: Review[]; 
 }
 
 export default function HomePage() {
@@ -255,8 +254,6 @@ export default function HomePage() {
                   </div>
                 ))
               : filteredPercorsi.map((p) => {
-                  // Calcolo della media dei voti per i percorsi, includendo il filtro per numeri validi
-                  // Accessing 'r.voto' because recensioni is now an array of objects
                   const votiNumerici = p.recensioni?.map(r => r.voto).filter(v => typeof v === 'number') ?? [];
                   const media = votiNumerici.length > 0 ? votiNumerici.reduce((a, b) => a + b, 0) / votiNumerici.length : 0;
                   const stellePiene = Math.round(media);

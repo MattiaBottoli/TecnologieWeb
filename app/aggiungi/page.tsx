@@ -112,7 +112,6 @@ export default function AddPage() {
             {error && <p style={{ color: "red" }}>{error}</p>}
             {success && <p style={{ color: "green" }}>{success}</p>}
 
-            {/* BIVACCO FORM */}
             {view === "bivacco" ? (
             <>
               <label htmlFor="nomeBivacco">Nome:</label>

@@ -7,20 +7,19 @@ const jwt = require("jsonwebtoken");
 
 const app = express();
 
-// Configurazione della connessione a MongoDB
 const PORT = 5000;
-const MONGO_URI = "mongodb://localhost:27017/TrentinoExplorer"; // Cambia l'URI se il database è su un server remoto
-const DB_NAME = "local"; // Nome del database
+const MONGO_URI = "mongodb://localhost:27017/TrentinoExplorer";
+const DB_NAME = "local";
 const COLLECTION_UTENTI = "Utenti";
 const COLLECTION_PRENOTAZIONI = "Prenotazioni";
 const COLLECTION_BIVACCHI = "Bivacchi";
 const COLLECTION_PERCORSI = "Percorsi";
 const today = new Date().toISOString().split('T')[0];
-const JWT_SECRET = "supersegreta123"; // 👈 metti in .env in produzione
-const TOKEN_EXPIRES_IN = "30m"; // oppure "1h", "30m", ecc.
+const JWT_SECRET = "supersegreta123";
+const TOKEN_EXPIRES_IN = "30m";
 
-app.use(cors()); // Per evitare problemi di CORS
-app.use(express.json()); // Per gestire richieste JSON
+app.use(cors()); 
+app.use(express.json()); 
 
 app.get("/api/bivacchi", async (req, res) => {
   const client = new MongoClient(MONGO_URI);
@@ -72,7 +71,6 @@ app.post("/api/register", async (req, res) => {
         return res.status(401).json({ message: "Username non valido!"});
       }
 
-      // Crittografia della password
       const hashedPassword = await bcrypt.hash(password, 10);
   
       const newUser = {
@@ -80,7 +78,7 @@ app.post("/api/register", async (req, res) => {
         cognome,
         username,
         mail,
-        password: hashedPassword, // Salviamo la password crittografata
+        password: hashedPassword,
         tesserato,
         preferiti
       };
@@ -116,7 +114,6 @@ app.post("/api/register", async (req, res) => {
         return res.status(401).json({ message: "Email o password errata!" });
       }
 
-      // ✅ Genera il token
       const token = jwt.sign(
         {
           mail: user.mail,
@@ -126,10 +123,9 @@ app.post("/api/register", async (req, res) => {
         { expiresIn: TOKEN_EXPIRES_IN }
       );
 
-      // ✅ Invia il token al frontend
       res.status(200).json({
         message: "Login riuscito!",
-        token, // 👈 lo userai nel frontend per memorizzare lo stato
+        token, 
         user: {
           nome: user.nome,
           cognome: user.cognome,
@@ -229,7 +225,6 @@ app.post("/api/register", async (req, res) => {
       return res.status(400).json({ message: "Username non valido." });
     }
 
-    // Aggiornamento utente
     const result = await collection.updateOne(
       { _id: new ObjectId(idUtente) },
       { $set: { nome, cognome, username, mail} }
@@ -258,13 +253,11 @@ app.post("/api/register", async (req, res) => {
   
       const { bivaccoId, data } = req.query;
   
-      // Se sono presenti i parametri di filtro, esegui una query filtrata
       if (bivaccoId && data) {
         const prenotazioni = await collection.find({ bivaccoId, data }).toArray();
         return res.json(prenotazioni);
       }
   
-      // Altrimenti, usa l'header user_email per restituire le prenotazioni dell'utente
       const mail = req.headers["user_email"];
       if (mail) {
         const prenotazioni = await collection.find({ 
@@ -274,7 +267,6 @@ app.post("/api/register", async (req, res) => {
         return res.json(prenotazioni);
       }
   
-      // Se mancano tutti i parametri, restituisci errore
       res.status(400).json({ message: "Parametri mancanti: specifica bivacco e data o user_email" });
   
     } catch (error) {
@@ -455,7 +447,6 @@ app.post("/api/register", async (req, res) => {
         return res.status(404).json({ message: "Utente non trovato" });
       }
   
-      // Rimuoviamo la password per sicurezza
       delete user.password;
   
       res.status(200).json({user: {
@@ -486,7 +477,6 @@ app.post("/api/register", async (req, res) => {
   
       const { mail } = req.body;
   
-      // Controlla se l'utente esiste e non è già tesserato
       const user = await collection.findOne({ mail });
       if (!user) {
         return res.status(404).json({ message: "Utente non trovato." });
@@ -494,8 +484,7 @@ app.post("/api/register", async (req, res) => {
       if (user.tesserato) {
         return res.status(400).json({ message: "Utente già tesserato." });
       }
-  
-      // Aggiorna lo stato di tesseramento
+
       const result = await collection.updateOne(
         { mail },
         { $set: { tesserato: true } }
@@ -505,7 +494,6 @@ app.post("/api/register", async (req, res) => {
         return res.status(500).json({ message: "Errore durante l'aggiornamento dello stato di tesseramento." });
       }
 
-      // 3. Crea un nuovo token aggiornato
       const token = jwt.sign({
           mail: user.mail,
           tesserato: true
@@ -514,7 +502,6 @@ app.post("/api/register", async (req, res) => {
         { expiresIn: TOKEN_EXPIRES_IN }
       );
 
-      // 4. Invia il token al client
       res.status(200).json({
         message: "Tesseramento completato con successo!",
         token,
@@ -649,7 +636,6 @@ app.post("/api/register", async (req, res) => {
     }
   });
   
-  // Aggiunta di un nuovo percorso
   app.post("/api/percorsi", async (req, res) => {
     const client = new MongoClient(MONGO_URI);
     try {
@@ -727,7 +713,6 @@ app.post("/api/register", async (req, res) => {
     }
   })
 
-// GET /api/user/favorites - Recupera i preferiti di un utente con i dettagli completi
 app.get('/api/user/favorites', async (req, res) => {
   const client = new MongoClient(MONGO_URI);
   try {
@@ -747,7 +732,7 @@ app.get('/api/user/favorites', async (req, res) => {
     }
 
     const userFavorites = Array.isArray(user.preferiti) ? user.preferiti : [];
-    res.status(200).json({ favorites: userFavorites }); // ✅ Solo ID, non dettagli completi
+    res.status(200).json({ favorites: userFavorites });
   } catch (error) {
     console.error('Errore server durante il recupero dei preferiti:', error);
     res.status(500).json({ message: 'Errore interno del server.' });
@@ -756,9 +741,6 @@ app.get('/api/user/favorites', async (req, res) => {
   }
 });
 
-
-
-// POST /api/user/favorites - Aggiunge/rimuove un bivacco/percorso dai preferiti
 app.post('/api/user/favorites', async (req, res) => {
   const client = new MongoClient(MONGO_URI);
   try {
@@ -766,15 +748,13 @@ app.post('/api/user/favorites', async (req, res) => {
     const db = client.db(DB_NAME);
     const collection = db.collection(COLLECTION_UTENTI);
 
-    const userMail = req.headers["user_email"]; // Ottieni l'email dall'header
+    const userMail = req.headers["user_email"];
     const { itemId, action } = req.body;
 
-    // Se l'utente non è loggato (mail non presente), disabilita la funzionalità
     if (!userMail) {
       return res.status(401).json({ message: "Non autenticato. Effettua il login per gestire i preferiti." });
     }
 
-    // Validazione di base
     if (!itemId || !['add', 'remove'].includes(action)) {
       return res.status(400).json({ message: 'Dati mancanti o azione non valida.' });
     }
@@ -785,7 +765,6 @@ app.post('/api/user/favorites', async (req, res) => {
       return res.status(404).json({ message: 'Utente non trovato.' });
     }
 
-    // Assicurati che l'array preferiti esista
     if (!user.preferiti) {
       user.preferiti = [];
     }
@@ -804,7 +783,7 @@ app.post('/api/user/favorites', async (req, res) => {
     } else if (action === 'remove') {
       const initialLength = user.preferiti.length;
       user.preferiti = user.preferiti.filter(favId => favId !== itemId);
-      if (user.preferiti.length < initialLength) { // Controlla se è stato effettivamente rimosso qualcosa
+      if (user.preferiti.length < initialLength) { 
         await collection.updateOne(
           { mail: userMail },
           { $set: { preferiti: user.preferiti } }
@@ -822,7 +801,6 @@ app.post('/api/user/favorites', async (req, res) => {
   }
 });
 
-// POST /api/user/favorites/details - Riceve lista di ID e restituisce i dettagli
 app.post('/api/user/favorites/details', async (req, res) => {
   const client = new MongoClient(MONGO_URI);
   try {
@@ -913,6 +891,7 @@ app.get("/api/bivacchi/:id", async (req, res) => {
     await client.close();
   }
 });
+
 app.post("/api/bivacchi/vota", async (req, res) => {
     const client = new MongoClient(MONGO_URI);
     try {
@@ -921,7 +900,7 @@ app.post("/api/bivacchi/vota", async (req, res) => {
         const collection = db.collection(COLLECTION_BIVACCHI);
 
         const { bivaccoId, voto } = req.body;
-        const userEmail = req.headers.user_email; // Get user_email from request headers
+        const userEmail = req.headers.user_email;
 
         if (!bivaccoId || !ObjectId.isValid(bivaccoId)) {
             return res.status(400).json({ message: "ID bivacco non valido" });
@@ -935,14 +914,12 @@ app.post("/api/bivacchi/vota", async (req, res) => {
 
         const bivacco = await collection.findOne({ _id: new ObjectId(bivaccoId) });
         if (bivacco && bivacco.recensioni && bivacco.recensioni.some(r => r.userEmail === userEmail)) {
-             // If you want to allow updating the vote, you'd use updateOne with $set
-             // For now, we return 409 Conflict if already reviewed
             return res.status(409).json({ message: "Hai già recensito questo bivacco." });
         }
 
         const result = await collection.updateOne(
             { _id: new ObjectId(bivaccoId) },
-            { $push: { recensioni: { userEmail: userEmail, voto: voto } } } // Store user and vote
+            { $push: { recensioni: { userEmail: userEmail, voto: voto } } } 
         );
 
         if (result.matchedCount === 0) {
@@ -959,8 +936,6 @@ app.post("/api/bivacchi/vota", async (req, res) => {
     }
 });
 
-
-// NEW ENDPOINT: This is the one causing the 404
 app.post("/api/bivacchi/user-votes", async (req, res) => {
     const client = new MongoClient(MONGO_URI);
 
@@ -969,8 +944,8 @@ app.post("/api/bivacchi/user-votes", async (req, res) => {
         const db = client.db(DB_NAME);
         const collection = db.collection(COLLECTION_BIVACCHI);
 
-        const { bivaccoIds } = req.body; // Array of bivacco IDs from the frontend
-        const userEmail = req.headers.user_email; // Get user email from request headers
+        const { bivaccoIds } = req.body;
+        const userEmail = req.headers.user_email; 
 
         if (!Array.isArray(bivaccoIds) || bivaccoIds.length === 0) {
             return res.status(400).json({ message: "Elenco di ID bivacco non valido" });
@@ -1019,10 +994,10 @@ app.post("/api/percorsi/vota", async (req, res) => {
     try {
         await client.connect();
         const db = client.db(DB_NAME);
-        const collection = db.collection(COLLECTION_PERCORSI); // Usa la collezione Percorsi
+        const collection = db.collection(COLLECTION_PERCORSI); 
 
         const { percorsoId, voto } = req.body;
-        const userEmail = req.headers.user_email; // OTTERRA L'EMAIL DELL'UTENTE
+        const userEmail = req.headers.user_email; 
 
         if (!percorsoId || !ObjectId.isValid(percorsoId)) {
             return res.status(400).json({ message: "ID percorso non valido" });
@@ -1030,19 +1005,17 @@ app.post("/api/percorsi/vota", async (req, res) => {
         if (typeof voto !== "number" || voto < 1 || voto > 5) {
             return res.status(400).json({ message: "Voto deve essere un numero tra 1 e 5" });
         }
-        if (!userEmail) { // CONTROLLO EMAIL
+        if (!userEmail) { 
             return res.status(401).json({ message: "Email utente non fornita per la recensione." });
         }
 
         const percorso = await collection.findOne({ _id: new ObjectId(percorsoId) });
-        // CONTROLLO SE L'UTENTE HA GIÀ RECENSITO
         if (percorso && percorso.recensioni && percorso.recensioni.some(r => r.userEmail === userEmail)) {
             return res.status(409).json({ message: "Hai già recensito questo percorso." });
         }
 
         const result = await collection.updateOne(
             { _id: new ObjectId(percorsoId) },
-            // PUSH DELL'OGGETTO { userEmail, voto }
             { $push: { recensioni: { userEmail: userEmail, voto: voto } } }
         );
 
@@ -1066,7 +1039,7 @@ app.post("/api/percorsi/user-votes", async (req, res) => {
     try {
         await client.connect();
         const db = client.db(DB_NAME);
-        const collection = db.collection(COLLECTION_PERCORSI); // Usa la collezione Percorsi
+        const collection = db.collection(COLLECTION_PERCORSI);
 
         const { percorsoIds } = req.body;
         const userEmail = req.headers.user_email;
@@ -1092,12 +1065,11 @@ app.post("/api/percorsi/user-votes", async (req, res) => {
 
         const percorsi = await collection.find(
             { _id: { $in: objectIdPercorsoIds } },
-            { projection: { _id: 1, recensioni: 1 } } // Proietta _id e recensioni
+            { projection: { _id: 1, recensioni: 1 } } 
         ).toArray();
 
         const userPathVotes = {};
         percorsi.forEach(percorso => {
-            // QUESTA LINEA RICHIEDE CHE 'recensioni' CONTENGA OGGETTI CON 'userEmail'
             const userReview = percorso.recensioni?.find(review => review.userEmail === userEmail);
             if (userReview) {
                 userPathVotes[percorso._id.toString()] = userReview.voto;
@@ -1113,9 +1085,6 @@ app.post("/api/percorsi/user-votes", async (req, res) => {
         await client.close();
     }
 });
-
-
-/* CONTROLLA SE SI TOGLIE FUNZIONA LO STESSO  */
 
 app.get("/api/percorsi/:id", async (req, res) => {
     const client = new MongoClient(MONGO_URI);
@@ -1135,9 +1104,6 @@ app.get("/api/percorsi/:id", async (req, res) => {
         if (!percorso) {
             return res.status(404).json({ message: "Percorso non trovato" });
         }
-
-        // Restituisce l'intero oggetto percorso, che dovrebbe includere l'array 'recensioni'
-        // con oggetti { userEmail, voto }
         res.status(200).json(percorso);
 
     } catch (error) {
@@ -1148,7 +1114,6 @@ app.get("/api/percorsi/:id", async (req, res) => {
     }
 });
 
-// Avvio del server
 app.listen(PORT, () => {
   console.log(`Server in esecuzione su http://localhost:${PORT}`);
 });

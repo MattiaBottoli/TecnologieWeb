@@ -6,7 +6,6 @@ import "../styles/globals.css";
 export default function Home() {
   return (
     <main>
-      {/* Hero Section */}
       <section className="hero">
         <h1>Benvenuto in Trentino Explorer</h1>
         <p>Immergiti nella bellezza naturale del Trentino. Pianifica la tua avventura con percorsi, bivacchi e esperienze uniche.</p>
@@ -15,12 +14,10 @@ export default function Home() {
         </Link>
       </section>
 
-      {/* Features Section */}
       <section className="features">
         <Link href="/aggiungi" passHref>
-          {/* Use a div with a descriptive class for the feature card */}
           <div className="feature-card">
-            <Image src="/trek.png" alt="Paesaggi" width={70} height={70} /> {/* Adjust size to match CSS */}
+            <Image src="/trek.png" alt="Paesaggi" width={70} height={70} />
             <p>Aggiungi un'esperienza</p>
           </div>
         </Link>
@@ -79,23 +76,19 @@ export default function Home() {
 </div>
 
 <hr />
-
-
-      {/* About Section */}
       <section className="about">
         <h2>Chi siamo</h2>
         <p>Trentino Explorer è il punto di riferimento per gli amanti della montagna. Scopri itinerari, rifugi e avventure uniche immerse nella natura.</p>
       </section>
 
       <hr />
-
       
-
-      {/* Contact Section */}
       <section className="contact">
         <h2>Contattaci</h2>
         <p>Hai domande o suggerimenti? Scrivici e saremo felici di aiutarti!</p>
-        <button className="contact-btn">Contattaci</button>
+        <a href="mailto:trentinoexplorer@info.it">
+          <button className="contact-btn">Contattaci</button>
+        </a>
       </section>
 
       <hr />

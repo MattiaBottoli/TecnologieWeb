@@ -48,7 +48,7 @@ export default function ModificaPrenotazione() {
   const [percorsi, setPercorsi] = useState<Percorso[]>([]);
   const [bivacchi, setBivacchi] = useState<Bivacco[]>([]);
   const [prenotazioni, setPrenotazioni] = useState<Prenotazione[]>([]);
-  const { isLoggedIn, email } = useAuth();
+  const { isLoggedIn } = useAuth();
   const [error, setError] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();

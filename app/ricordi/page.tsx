@@ -15,7 +15,6 @@ interface Escursione {
   descrizione?: string;
 }
 
-// Interfaccia per la singola recensione (per bivacchi e percorsi)
 interface RecensioneItem {
   userEmail: string;
   voto: number;
@@ -29,14 +28,9 @@ interface Prenotazione {
   bivacco: string;
   numpartecipanti: number;
   fasciaOraria: string;
-  bivaccoId?: string // Made optional
-  percorsoId?: string // Made optional
+  bivaccoId?: string 
+  percorsoId?: string 
 }
-
-// L'interfaccia Percorso nel frontend non ha bisogno del campo recensioni qui,
-// perché la pagina Ricordi non mostra i dettagli completi del percorso,
-// ma solo l'ID per recuperare il voto dell'utente.
-// I voti specifici dell'utente vengono gestiti nello stato `percorsoVoti`.
 
 export default function RicordiPage() {
   const { email, tesserato, isLoggedIn, loading } = useAuth()
@@ -44,7 +38,7 @@ export default function RicordiPage() {
   const [escursioni, setEscursioni] = useState<Escursione[]>([])
   const [error, setError] = useState<string | null>(null)
   const [bivaccoVoti, setBivaccoVoti] = useState<{ [key: string]: number }>({})
-  const [percorsoVoti, setPercorsoVoti] = useState<{ [key: string]: number }>({}) // Manteniamo questo stato per i percorsi
+  const [percorsoVoti, setPercorsoVoti] = useState<{ [key: string]: number }>({}) 
 
   const router = useRouter()
 
@@ -100,13 +94,12 @@ export default function RicordiPage() {
           setBivaccoVoti(fetchedBivaccoVotes)
         }
 
-        // Recupera i voti utente per i percorsi (ora utente-specifici)
         if (percorsoIds.length > 0) {
           const percorsoVotesRes = await fetch("http://localhost:5000/api/percorsi/user-votes", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              user_email: email, // Invia l'email per recuperare il voto specifico dell'utente
+              user_email: email,
             },
             body: JSON.stringify({ percorsoIds }),
           })
@@ -154,7 +147,7 @@ export default function RicordiPage() {
     const alertType = type === 'bivacco' ? "bivacco" : "percorso";
     const idKey = type === 'bivacco' ? "bivaccoId" : "percorsoId";
 
-    if (currentVoti[id]) { // 'id' is guaranteed to be string here
+    if (currentVoti[id]) { 
       alert(`Hai già recensito questo ${alertType}.`);
       return;
     }
@@ -164,7 +157,7 @@ export default function RicordiPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          user_email: email, // Invia l'email per tutte le recensioni utente-specifiche
+          user_email: email, 
         },
         body: JSON.stringify({ [idKey]: id, voto }),
       })
@@ -197,9 +190,8 @@ export default function RicordiPage() {
               <p><strong>Partecipanti:</strong> {e.numpartecipanti}</p>
               <p><strong>Fascia oraria:</strong> {e.fasciaOraria}</p>
 
-              {/* Recensisci Bivacco Section */}
               <div className="recensione-box">
-                {e.bivaccoId ? ( // Check if bivaccoId exists
+                {e.bivaccoId ? ( 
                   bivaccoVoti[e.bivaccoId] ? (
                     <p>
                       <strong>Hai già recensito il bivacco:</strong>
@@ -233,10 +225,9 @@ export default function RicordiPage() {
                 )}
               </div>
 
-              {/* Recensisci Percorso Section (ora uguale al bivacco) */}
               <div className="recensione-box">
-                {e.percorsoId ? ( // Check if percorsoId exists
-                  percorsoVoti[e.percorsoId] ? ( // Controlla se l'utente ha già votato
+                {e.percorsoId ? ( 
+                  percorsoVoti[e.percorsoId] ? ( 
                     <p>
                       <strong>Hai già recensito il percorso:</strong>
                       <span className="stars-display">

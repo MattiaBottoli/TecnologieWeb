@@ -1,4 +1,3 @@
-// app/registrati/page.tsx
 "use client"
 
 import { useState } from "react"
@@ -21,10 +20,30 @@ export default function Registrati() {
   const [mail, setMail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
-  const router=useRouter()
+  const router = useRouter()
+
+  const isPasswordValid = (pwd: string): boolean => {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,15}$/
+    return regex.test(pwd)
+  }
+
+  const isEmailValid = (email: string): boolean => {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    if (!isEmailValid(mail)) {
+    setError("Inserisci un indirizzo email valido.");
+    return;
+    }
+
+    if (!isPasswordValid(password)) {
+      setError("La password deve essere lunga 8-15 caratteri e contenere almeno una lettera maiuscola, una minuscola, un numero e un carattere speciale.");
+      return;
+    }
 
     const userData: UserData = {
       nome,
@@ -51,8 +70,10 @@ export default function Registrati() {
       }
     } catch (err) {
       console.error("Errore registrazione:", err)
+      setError("Errore durante la registrazione. Riprova.")
     }
   }
+
   return (
     <div className="Registrati-Container">
       <form onSubmit={handleSubmit}>
@@ -80,7 +101,13 @@ export default function Registrati() {
           </section>
           <section>
             <label>PASSWORD</label>
-            <input placeholder="Inserisci la Password..." type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <input
+              placeholder="Inserisci la Password..."
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
           </section>
           <section>
             <button type="submit" className="btnlog">CREA</button>

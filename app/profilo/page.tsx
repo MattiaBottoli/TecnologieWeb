@@ -6,22 +6,20 @@ import { useAuth } from "../../context/AuthContext";
 import Link from "next/link";
 import Image from "next/image";
 
-// Definisci l'interfaccia per un Bivacco
 interface Bivacco {
   _id: string;
   nome: string;
-  immagineUrl?: string; // Reso opzionale
-  localita?: string; // Aggiunto per potenziale visualizzazione
-  type: 'bivacco'; // Campo aggiunto dal backend per distinguere
+  immagineUrl?: string;
+  localita?: string; 
+  type: 'bivacco'; 
 }
 
-// Definisci l'interfaccia per un Percorso
 interface Percorso {
   _id: string;
   nome: string;
-  immagineUrl?: string; // Se i percorsi hanno immagini
-  localita?: string; // Aggiunto per visualizzazione
-  type: 'percorso'; // Campo aggiunto dal backend per distinguere
+  immagineUrl?: string; 
+  localita?: string;
+  type: 'percorso';
 }
 
 interface User {
@@ -32,7 +30,7 @@ interface User {
   mail: string;
   tesserato: boolean;
   tesseraImg?: string;
-  preferiti: string[]; // Array di ID dei bivacchi/percorsi preferiti
+  preferiti: string[];
   postati: {
     titolo: string;
     tipo: "bivacco" | "percorso";
@@ -47,7 +45,7 @@ export default function ProfiloUtentePage() {
   const [error, setError] = useState<string | null>(null);
   const [deleteMode, setDeleteMode] = useState(false);
   const [favoriteBivacchi, setFavoriteBivacchi] = useState<Bivacco[]>([]);
-  const [favoritePercorsi, setFavoritePercorsi] = useState<Percorso[]>([]); // Nuovo stato per i dettagli dei percorsi preferiti
+  const [favoritePercorsi, setFavoritePercorsi] = useState<Percorso[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -70,13 +68,11 @@ export default function ProfiloUtentePage() {
         return;
       }
 
-      // 1. Recupera l'utente
       const userRes = await fetch(`http://localhost:5000/api/utente/${email}`);
       if (!userRes.ok) throw new Error("Errore nel recupero dei dati utente.");
       const userData: { user: User } = await userRes.json();
       setUser(userData.user);
 
-      // 2. Se ha preferiti, recupera i dettagli
       if (userData.user.preferiti.length > 0) {
         const favoritesRes = await fetch("http://localhost:5000/api/user/favorites/details", {
           method: "POST",
@@ -87,14 +83,12 @@ export default function ProfiloUtentePage() {
         if (!favoritesRes.ok) throw new Error("Errore nel recupero dei preferiti.");
         const favoritesData: { favorites: (Bivacco | Percorso)[] } = await favoritesRes.json();
 
-        // Separa i preferiti in base al tipo
         const bivacchi = favoritesData.favorites.filter((item): item is Bivacco => item.type === 'bivacco');
         const percorsi = favoritesData.favorites.filter((item): item is Percorso => item.type === 'percorso');
 
         setFavoriteBivacchi(bivacchi);
         setFavoritePercorsi(percorsi);
       } else {
-        // Nessun preferito
         setFavoriteBivacchi([]);
         setFavoritePercorsi([]);
       }
@@ -208,7 +202,6 @@ export default function ProfiloUtentePage() {
               
               {error && <p style={{ color: "red" }}>{error}</p>}
 
-              {/* Sezione Bivacchi Preferiti */}
               <h2 className="favorites-heading">---- BIVACCHI PREFERITI ----</h2>
               {favoriteBivacchi.length > 0 ? (
                 <div className="preferiti-grid">
@@ -237,7 +230,6 @@ export default function ProfiloUtentePage() {
                 <p className="card-text">Nessun bivacco preferito trovato.</p>
               )}
 
-              {/* Sezione Percorsi Preferiti */}
               <h2 className="favorites-heading">---- PERCORSI PREFERITI ----</h2>
               {favoritePercorsi.length > 0 ? (
                 <div className="preferiti-grid">

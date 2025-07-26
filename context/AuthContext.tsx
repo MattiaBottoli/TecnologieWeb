@@ -97,7 +97,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     setLoading(false);
 
-    // Cleanup all timers on unmount
     return () => {
       clearLogoutTimer();
     };

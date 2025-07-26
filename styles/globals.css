@@ -1,4 +1,3 @@
-/* -------- GLOBAL.CSS (NO BACKGROUND IMAGE VERSION) -------- */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
 
@@ -36,7 +35,6 @@ body::before {
   content: none;
 }
 
-/* --- Section General Styling --- */
 section {
   padding: 20px 10px;
   margin-bottom: 5px;
@@ -62,7 +60,6 @@ section p {
   font-size: 1em;
 }
 
-/* --- Navigation --- */
 .header {
   display: flex;
   justify-content: space-between;
@@ -81,15 +78,12 @@ section p {
 
 .auth-buttons {
   display: flex;
-  gap: 10px; /* Spazio tra i bottoni */
+  gap: 10px; 
   align-items: center;
-  /* Aggiunto: Permette ai bottoni di andare a capo se lo spazio è limitato */
   flex-wrap: wrap;
-  /* Aggiunto: Controlla la giustificazione quando i bottoni vanno a capo */
   justify-content: flex-end;
 }
 
-/* Stili esistenti per logo e navigazione */
 nav ul {
   list-style: none;
   display: flex;
@@ -125,8 +119,6 @@ nav ul li a:hover {
   filter: drop-shadow(0px 0px 10px rgba(255,255,255,0.6));
 }
 
-/* --- Buttons --- */
-/* (Mantieni gli stili dei bottoni come sono, sono globali) */
 button {
   cursor: pointer;
   border-radius: 5px;
@@ -169,20 +161,17 @@ button {
   border-bottom: 3px solid #1a6f3a;
 }
 
-/* --- Responsive Adjustments --- */
-
-/* Per schermi ampi, la navbar dovrebbe andare bene */
 @media (max-width: 1200px) {
   .header {
-    padding: 15px 30px; /* Riduci il padding orizzontale */
+    padding: 15px 30px; 
   }
   nav ul {
-    gap: 20px; /* Riduci leggermente lo spazio tra le voci di navigazione */
+    gap: 20px;
   }
   .auth-buttons {
-    gap: 10px; /* Riduci lo spazio tra i bottoni */
+    gap: 10px; 
   }
-  .contact-btn { /* Riduci leggermente il padding dei bottoni per dar loro più spazio */
+  .contact-btn { 
     padding: 12px 25px;
     font-size: 0.95em;
   }
@@ -191,7 +180,7 @@ button {
 
 @media (max-width: 450px) {
     .auth-buttons .contact-btn {
-        padding: 8px 10px; /* Padding minimo per i bottoni su schermi molto piccoli */
+        padding: 8px 10px; 
         font-size: 0.75em;
     }
     nav ul {
@@ -202,11 +191,10 @@ button {
     }
 }
 
-/* Media Queries (Mantieni quelle che già hai per la responsività) */
 @media (max-width: 992px) {
     .header {
-        flex-direction: column; /* Impila gli elementi in verticale su schermi più piccoli */
-        gap: 15px; /* Spazio tra gli elementi impilati */
+        flex-direction: column;
+        gap: 15px; 
     }
     nav ul, .auth-buttons {
         width: 100%;
@@ -214,9 +202,8 @@ button {
     }
 }
 
-/* --- Hero Section --- */
 .hero {
-  height: 75vh; /* Reduced height */
+  height: 75vh; 
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -225,52 +212,51 @@ button {
   padding: 0;
   position: relative;
   overflow: hidden;
-  text-shadow: 2px 2px 6px var(--shadow-dark); /* Reduced shadow */
+  text-shadow: 2px 2px 6px var(--shadow-dark); 
 }
 
 .hero .content {
   position: relative;
   z-index: 1;
-  max-width: 900px; /* Reduced max-width */
-  padding: 20px; /* Reduced padding */
+  max-width: 900px; 
+  padding: 20px; 
 }
 
 .hero h1 {
-  font-size: 4.5em; /* Reduced font size */
+  font-size: 4.5em; 
   line-height: 1.1;
-  margin-bottom: 25px; /* Reduced margin */
+  margin-bottom: 25px; 
   color: white;
-  filter: drop-shadow(0 0 15px rgba(255,255,255,0.2)); /* Reduced glow */
+  filter: drop-shadow(0 0 15px rgba(255,255,255,0.2)); 
 }
 
 .hero p {
-  font-size: 1.5em; /* Reduced font size */
-  margin-bottom: 40px; /* Reduced margin */
+  font-size: 1.5em; 
+  margin-bottom: 40px; 
   color: var(--text-light);
   font-weight: 300;
 }
 
-/* --- Features Section --- */
 .features {
   display: flex;
   justify-content: center;
-  gap: 30px; /* Reduced gap */
-  margin-top: -80px; /* Reduced overlap */
-  margin-bottom: 60px; /* Reduced margin */
+  gap: 30px; 
+  margin-top: -80px; 
+  margin-bottom: 60px; 
   flex-wrap: wrap;
   position: relative;
   z-index: 2;
 }
 
 .feature-card {
-  background: var(--card-bg); /* Utilizza la variabile globale */
-  padding: 30px; /* Reduced padding */
-  border-radius: 10px; /* Sharper corners */
+  background: var(--card-bg); 
+  padding: 30px; 
+  border-radius: 10px; 
   transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
-  box-shadow: 0px 8px 20px var(--shadow-dark); /* Reduced shadow */
+  box-shadow: 0px 8px 20px var(--shadow-dark);
   text-align: center;
-  max-width: 300px; /* Reduced max-width */
-  min-width: 260px; /* Reduced min-width */
+  max-width: 300px; 
+  min-width: 260px; 
   flex: 1;
   text-decoration: none;
   color: var(--text-light);
@@ -278,77 +264,75 @@ button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.1); /* Reduced border thickness */
-  backdrop-filter: blur(8px); /* Reduced blur */
-  border-bottom: 5px solid var(--primary-accent); /* Reduced thickness */
+  border: 1px solid rgba(255, 255, 255, 0.1); 
+  backdrop-filter: blur(8px); 
+  border-bottom: 5px solid var(--primary-accent); 
 }
 
 .feature-card:hover {
-  transform: translateY(-8px) scale(1.03); /* Reduced lift and scale */
+  transform: translateY(-8px) scale(1.03);
   background: var(--card-bg-hover);
-  box-shadow: 0px 15px 30px var(--shadow-dark), 0 0 25px rgba(46, 134, 222, 0.7); /* Reduced glow */
+  box-shadow: 0px 15px 30px var(--shadow-dark), 0 0 25px rgba(46, 134, 222, 0.7); 
   border-color: var(--primary-accent-dark);
 }
 
 .feature-card img {
-  width: 80px; /* Reduced width */
-  height: 80px; /* Reduced height */
-  margin-bottom: 20px; /* Reduced margin */
-  filter: drop-shadow(0px 0px 8px rgba(255,255,255,0.4)); /* Reduced glow */
+  width: 80px;
+  height: 80px; 
+  margin-bottom: 20px; 
+  filter: drop-shadow(0px 0px 8px rgba(255,255,255,0.4)); 
 }
 
 .feature-card p {
-  font-size: 1.2em; /* Reduced font size */
+  font-size: 1.2em; 
   font-weight: 600;
   color: white;
-  text-shadow: 1px 1px 2px var(--shadow-dark); /* Reduced shadow */
+  text-shadow: 1px 1px 2px var(--shadow-dark); 
   margin-bottom: 0;
 }
 
-/* --- Horizontal Rule (Divider) --- */
 hr {
-  margin: 80px auto; /* Reduced margin */
-  height: 4px; /* Reduced thickness */
+  margin: 80px auto; 
+  height: 4px; 
   background: linear-gradient(to right, transparent, var(--primary-accent), transparent);
   border: none;
-  max-width: 95%; /* Increased max-width (less impactful) */
+  max-width: 95%; 
   border-radius: 3px;
-  box-shadow: 0 0 15px rgba(46, 134, 222, 0.6); /* Reduced glow */
+  box-shadow: 0 0 15px rgba(46, 134, 222, 0.6); 
 }
 
-/* --- About and Contact Sections --- */
 .about,
 .contact {
-  padding: 50px 30px; /* Reduced padding */
+  padding: 50px 30px; 
   background: rgba(0, 0, 0, 0.5);
-  border-radius: 15px; /* Reduced border-radius */
-  max-width: 1000px; /* Reduced max-width */
-  margin: 0 auto 60px auto; /* Reduced margin */
-  box-shadow: 0px 8px 20px var(--shadow-dark); /* Reduced shadow */
-  backdrop-filter: blur(8px); /* Reduced blur */
+  border-radius: 15px; 
+  max-width: 1000px; 
+  margin: 0 auto 60px auto; 
+  box-shadow: 0px 8px 20px var(--shadow-dark); 
+  backdrop-filter: blur(8px); 
   color: var(--text-light);
-  border: 1px solid rgba(255, 255, 255, 0.15); /* Reduced border thickness */
+  border: 1px solid rgba(255, 255, 255, 0.15); 
 }
 
 .about h2,
 .contact h2 {
-  font-size: 3em; /* Reduced font size */
-  margin-bottom: 30px; /* Reduced margin */
+  font-size: 3em; 
+  margin-bottom: 30px; 
   color: white;
-  letter-spacing: 2px; /* Reduced letter spacing */
+  letter-spacing: 2px; 
 }
 
 .about p,
 .contact p {
-  font-size: 1.1em; /* Reduced font size */
+  font-size: 1.1em; 
   line-height: 1.7;
   color: var(--text-medium);
-  margin-bottom: 30px; /* Reduced margin */
+  margin-bottom: 30px; 
 }
 
 .about-content {
   flex: 1;
-  min-width: 350px; /* Reduced min-width */
+  min-width: 350px; 
   text-align: left;
 }
 
@@ -362,11 +346,11 @@ hr {
 
 .about-image {
   flex: 1;
-  min-width: 350px; /* Reduced min-width */
-  border-radius: 15px; /* Reduced border-radius */
+  min-width: 350px; 
+  border-radius: 15px; 
   overflow: hidden;
-  box-shadow: 0 6px 15px var(--shadow-dark); /* Reduced shadow */
-  border: 2px solid rgba(255, 255, 255, 0.2); /* Reduced border thickness */
+  box-shadow: 0 6px 15px var(--shadow-dark); 
+  border: 2px solid rgba(255, 255, 255, 0.2); 
 }
 
 .about-image img {
@@ -377,174 +361,172 @@ hr {
 }
 
 .about-image img:hover {
-  transform: scale(1.08); /* Reduced scale */
+  transform: scale(1.08); 
 }
 
-/* --- Footer --- */
 .footer {
-  margin-top: 80px; /* Reduced margin */
-  padding: 35px; /* Reduced padding */
+  margin-top: 80px; 
+  padding: 35px; 
   background: #101010;
   text-align: center;
   color: white;
-  box-shadow: inset 0 8px 15px var(--shadow-dark); /* Reduced shadow */
+  box-shadow: inset 0 8px 15px var(--shadow-dark);
 }
 
 .footer p {
   margin: 0;
-  font-size: 0.9em; /* Reduced font size */
+  font-size: 0.9em; 
   font-weight: 400;
   color: #a0a0a0;
-  letter-spacing: 0.5px; /* Reduced letter spacing */
+  letter-spacing: 0.5px; 
 }
 
-/* --- Responsive Adjustments --- */
 @media (max-width: 1400px) {
   .hero h1 {
-    font-size: 4em; /* Reduced font size */
+    font-size: 4em; 
   }
 }
 
 @media (max-width: 1200px) {
   section {
-    padding: 60px 20px; /* Reduced padding */
+    padding: 60px 20px; 
   }
   .hero h1 {
-    font-size: 3.5em; /* Reduced font size */
+    font-size: 3.5em; 
   }
   .hero p {
-    font-size: 1.3em; /* Reduced font size */
+    font-size: 1.3em; 
   }
   .features {
-    gap: 25px; /* Reduced gap */
-    margin-top: -60px; /* Reduced overlap */
+    gap: 25px; 
+    margin-top: -60px; 
   }
   .feature-card {
     max-width: 48%;
   }
   .about, .contact {
-    padding: 40px 25px; /* Reduced padding */
+    padding: 40px 25px; 
   }
   .about h2, .contact h2 {
-    font-size: 2.8em; /* Reduced font size */
+    font-size: 2.8em; 
   }
   .about p, .contact p {
-    font-size: 1.1em; /* Reduced font size */
+    font-size: 1.1em; 
   }
 }
 
 @media (max-width: 992px) {
   section {
-    padding: 50px 15px; /* Reduced padding */
-    margin-bottom: 30px; /* Reduced margin */
+    padding: 50px 15px; 
+    margin-bottom: 30px; 
   }
   .hero {
-    height: 65vh; /* Reduced height */
+    height: 65vh; 
   }
   .hero h1 {
-    font-size: 3em; /* Reduced font size */
-    margin-bottom: 20px; /* Reduced margin */
+    font-size: 3em; 
+    margin-bottom: 20px; 
   }
   .hero p {
-    font-size: 1.1em; /* Reduced font size */
-    margin-bottom: 30px; /* Reduced margin */
+    font-size: 1.1em; 
+    margin-bottom: 30px; 
   }
   .explore-btn, .contact-btn {
-    padding: 16px 35px; /* Reduced padding */
-    font-size: 1em; /* Reduced font size */
+    padding: 16px 35px; 
+    font-size: 1em; 
   }
   .features {
-    margin-top: -40px; /* Reduced overlap */
-    gap: 20px; /* Reduced gap */
+    margin-top: -40px; 
+    gap: 20px; 
   }
   .feature-card {
-    max-width: 85%; /* Single column, wider cards */
-    padding: 25px; /* Reduced padding */
+    max-width: 85%; 
+    padding: 25px; 
   }
   .feature-card img {
-    width: 70px; /* Reduced width */
-    height: 70px; /* Reduced height */
+    width: 70px; 
+    height: 70px; 
   }
   .feature-card p {
-    font-size: 1.1em; /* Reduced font size */
+    font-size: 1.1em; 
   }
   .about, .contact {
-    padding: 35px 20px; /* Reduced padding */
-    margin-bottom: 50px; /* Reduced margin */
+    padding: 35px 20px; 
+    margin-bottom: 50px; 
     flex-direction: column;
   }
   .about h2, .contact h2 {
-    font-size: 2.2em; /* Reduced font size */
+    font-size: 2.2em; 
   }
   .about p, .contact p {
-    font-size: 0.95em; /* Reduced font size */
+    font-size: 0.95em;
   }
   hr {
-    margin: 60px auto; /* Reduced margin */
+    margin: 60px auto;
   }
 }
 
 @media (max-width: 768px) {
   section {
-    padding: 40px 10px; /* Reduced padding */
-    margin-bottom: 20px; /* Reduced margin */
+    padding: 40px 10px; 
+    margin-bottom: 20px; 
   }
   .hero {
-    height: 55vh; /* Reduced height */
+    height: 55vh; 
   }
   .hero h1 {
-    font-size: 2.5em; /* Reduced font size */
+    font-size: 2.5em; 
   }
   .hero p {
-    font-size: 1em; /* Reduced font size */
+    font-size: 1em; 
   }
   .explore-btn, .contact-btn {
-    padding: 14px 28px; /* Reduced padding */
-    font-size: 0.9em; /* Reduced font size */
+    padding: 14px 28px; 
+    font-size: 0.9em; 
   }
   .features {
-    margin-top: -30px; /* Reduced overlap */
+    margin-top: -30px; 
   }
   .feature-card {
-    padding: 20px; /* Reduced padding */
+    padding: 20px; 
   }
   .feature-card img {
-    width: 60px; /* Reduced width */
-    height: 60px; /* Reduced height */
+    width: 60px; 
+    height: 60px; 
   }
   .feature-card p {
-    font-size: 1em; /* Reduced font size */
+    font-size: 1em; 
   }
   .about h2, .contact h2 {
-    font-size: 1.8em; /* Reduced font size */
+    font-size: 1.8em; 
   }
   .about p, .contact p {
-    font-size: 0.9em; /* Reduced font size */
+    font-size: 0.9em; 
   }
   hr {
-    margin: 40px auto; /* Reduced margin */
+    margin: 40px auto; 
   }
   .footer {
-    padding: 25px; /* Reduced padding */
+    padding: 25px; 
   }
 }
 
 @media (max-width: 480px) {
   .hero h1 {
-    font-size: 2em; /* Reduced font size */
+    font-size: 2em; 
   }
   .hero p {
-    font-size: 0.9em; /* Reduced font size */
+    font-size: 0.9em; 
   }
   .features {
-    gap: 15px; /* Reduced gap */
+    gap: 15px; 
   }
   .feature-card {
-    padding: 20px; /* Reduced padding */
+    padding: 20px; 
   }
   .feature-card img {
-    width: 50px; /* Reduced width */
-    height: 50px; /* Reduced height */
+    width: 50px; 
+    height: 50px; 
   }
   nav ul {
     gap: 15px;
@@ -552,40 +534,38 @@ hr {
     justify-content: space-around;
   }
   nav ul li a {
-    font-size: 14px; /* Reduced font size */
+    font-size: 14px; 
   }
 }
-
-/* --- CSS REGISTRATI --- */
 
 .Registrati-Container {
   max-width: 500px;
   margin: 50px auto;
   padding: 30px;
-  background-color: #141d23; /* Sfondo scuro per il form */
+  background-color: #141d23; 
   border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Ombra più pronunciata per tema scuro */
-  color: var(--text-light); /* Testo chiaro per contrastare lo sfondo scuro */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); 
+  color: var(--text-light); 
   font-family: 'Poppins', sans-serif;
-  border: 1px solid rgba(255, 255, 255, 0.1); /* Bordo sottile e chiaro */
-  backdrop-filter: blur(5px); /* Aggiunge blur per tema scuro */
+  border: 1px solid rgba(255, 255, 255, 0.1); 
+  backdrop-filter: blur(5px); 
   text-align: center;
 }
 
 .Registrati-Container h1 {
-  color: var(--primary-accent-light); /* Colore accentuato per il titolo */
+  color: var(--primary-accent-light); 
   text-align: center;
   font-size: 2rem;
   margin-bottom: 10px;
   font-family: 'Oswald', sans-serif;
-  text-shadow: 0px 4px 8px var(--shadow-dark); /* Ombra testo per tema scuro */
+  text-shadow: 0px 4px 8px var(--shadow-dark); 
 }
 
 .Registrati-Container h4 {
   text-align: center;
   font-weight: 400;
   margin-bottom: 20px;
-  color: var(--text-medium); /* Un grigio più chiaro per il sottotitolo */
+  color: var(--text-medium); 
 }
 
 .Registrati-Container fieldset {
@@ -603,28 +583,28 @@ hr {
   display: block;
   margin-bottom: 5px;
   font-weight: 600;
-  color: var(--text-light); /* Colore chiaro per le label */
+  color: var(--text-light); 
 }
 
 .Registrati-Container input {
   width: 100%;
   padding: 10px;
   border-radius: 6px;
-  background-color: rgba(255, 255, 255, 0.05); /* Sfondo input leggermente trasparente */
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Bordo input chiaro */
+  background-color: rgba(255, 255, 255, 0.05); 
+  border: 1px solid rgba(255, 255, 255, 0.2); 
   box-sizing: border-box;
   font-size: 1em;
-  color: var(--text-light); /* Testo input chiaro */
+  color: var(--text-light); 
 }
 
 .Registrati-Container input::placeholder {
-  color: var(--text-medium); /* Placeholder più chiaro */
+  color: var(--text-medium); 
 }
 
 .Registrati-Container .btnlog {
   width: 100%;
   padding: 12px 20px;
-  background-color: var(--primary-accent); /* Manteniamo l'accento blu per il bottone */
+  background-color: var(--primary-accent); 
   border: none;
   color: white;
   border-radius: 6px;
@@ -635,7 +615,7 @@ hr {
   text-transform: uppercase;
   letter-spacing: 1px;
   transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 10px rgba(46, 134, 222, 0.3); /* Ombra con accento blu */
+  box-shadow: 0 4px 10px rgba(46, 134, 222, 0.3); 
 }
 
 .Registrati-Container .btnlog:hover {
@@ -647,7 +627,7 @@ hr {
 .Registrati-Container footer {
   margin-top: 25px;
   font-size: 0.9em;
-  color: var(--text-medium); /* Colore chiaro per il footer */
+  color: var(--text-medium); 
 }
 
 .Registrati-Container footer p {
@@ -655,7 +635,7 @@ hr {
 }
 
 .Registrati-Container footer a {
-  color: var(--primary-accent-light); /* Colore del link principale */
+  color: var(--primary-accent-light); 
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
@@ -666,7 +646,6 @@ hr {
   text-decoration: underline;
 }
 
-/* Media query specifica per i container di form per schermi piccoli */
 @media (max-width: 600px) {
   .Registrati-Container,
   .Login-Container {
@@ -699,38 +678,36 @@ hr {
   }
 }
 
-
-/* --- CSS LOGIN --- */
 .Login-Container {
   max-width: 500px;
-  margin: 80px auto; /* Centrato e con margine superiore */
-  padding: 40px; /* Padding aumentato */
-  background-color: #141d23; /* Sfondo scuro, simile al container del profilo */
-  border-radius: 12px; /* Bordi leggermente più arrotondati */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); /* Ombra più pronunciata */
-  color: var(--text-light); /* Testo chiaro */
+  margin: 80px auto; 
+  padding: 40px; 
+  background-color: #141d23;
+  border-radius: 12px; 
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); 
+  color: var(--text-light); 
   font-family: 'Poppins', sans-serif;
-  backdrop-filter: blur(8px); /* Effetto blur per profondità */
-  border: 1px solid rgba(255, 255, 255, 0.15); /* Bordo sottile */
-  text-align: center; /* Centra il contenuto principale */
+  backdrop-filter: blur(8px); 
+  border: 1px solid rgba(255, 255, 255, 0.15); 
+  text-align: center; 
 }
 
 .Login-Container h1 {
   text-align: center;
-  font-size: 2.8rem; /* Titolo più grande */
-  color: var(--primary-accent-light); /* Colore accentuato per il titolo */
-  margin-bottom: 15px; /* Spazio maggiore sotto il titolo */
+  font-size: 2.8rem; 
+  color: var(--primary-accent-light);
+  margin-bottom: 15px; 
   font-family: 'Oswald', sans-serif;
-  text-shadow: 0px 5px 10px var(--shadow-dark); /* Ombra testo più marcata */
-  letter-spacing: 1.5px; /* Spaziatura tra le lettere */
+  text-shadow: 0px 5px 10px var(--shadow-dark); 
+  letter-spacing: 1.5px; 
 }
 
 .Login-Container h4 {
   text-align: center;
   font-weight: 400;
-  margin-bottom: 30px; /* Spazio aumentato sotto il sottotitolo */
-  color: var(--text-medium); /* Colore testo medio */
-  font-size: 1.1em; /* Testo leggermente più grande */
+  margin-bottom: 30px; 
+  color: var(--text-medium); 
+  font-size: 1.1em; 
 }
 
 .Login-Container fieldset {
@@ -740,68 +717,68 @@ hr {
 }
 
 .Login-Container section {
-  margin-bottom: 20px; /* Spazio aumentato tra le sezioni */
+  margin-bottom: 20px; 
   text-align: left;
 }
 
 .Login-Container label {
   display: block;
-  margin-bottom: 8px; /* Spazio aumentato sotto la label */
+  margin-bottom: 8px; 
   font-weight: 600;
-  color: var(--text-light); /* Label chiare */
-  font-size: 1.05em; /* Testo label leggermente più grande */
+  color: var(--text-light); 
+  font-size: 1.05em; 
 }
 
 .Login-Container input {
   width: 100%;
-  padding: 12px; /* Padding aumentato */
-  border-radius: 8px; /* Bordi più arrotondati */
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Bordo chiaro */
-  background-color: rgba(255, 255, 255, 0.05); /* Sfondo input leggermente trasparente */
+  padding: 12px; 
+  border-radius: 8px; 
+  border: 1px solid rgba(255, 255, 255, 0.2); 
+  background-color: rgba(255, 255, 255, 0.05); 
   box-sizing: border-box;
-  font-size: 1.1em; /* Testo input leggermente più grande */
-  color: var(--text-light); /* Testo input chiaro */
+  font-size: 1.1em; 
+  color: var(--text-light); 
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .Login-Container input:focus {
   outline: none;
-  border-color: var(--primary-accent); /* Bordo accentuato al focus */
-  box-shadow: 0 0 0 3px rgba(46, 134, 222, 0.3); /* Ombra al focus */
+  border-color: var(--primary-accent); 
+  box-shadow: 0 0 0 3px rgba(46, 134, 222, 0.3); 
 }
 
 .Login-Container input::placeholder {
-  color: var(--text-medium); /* Placeholder di colore medio */
+  color: var(--text-medium); 
 }
 
 .Login-Container .btnlog {
   width: 100%;
-  padding: 15px 20px; /* Padding aumentato */
+  padding: 15px 20px; 
   background-color: var(--primary-accent);
   border: none;
   color: white;
-  border-radius: 8px; /* Bordi più arrotondati */
+  border-radius: 8px; 
   cursor: pointer;
-  margin-top: 30px; /* Spazio sopra il bottone */
-  font-size: 1.2em; /* Testo bottone più grande */
+  margin-top: 30px; 
+  font-size: 1.2em; 
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 1.5px; /* Spaziatura aumentata */
+  letter-spacing: 1.5px; 
   transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-  box-shadow: 0 6px 15px rgba(46, 134, 222, 0.4); /* Ombra più pronunciata */
+  box-shadow: 0 6px 15px rgba(46, 134, 222, 0.4);
 }
 
 .Login-Container .btnlog:hover {
   background-color: var(--primary-accent-dark);
-  transform: translateY(-3px); /* Effetto sollevamento più marcato */
-  box-shadow: 0 10px 20px rgba(46, 134, 222, 0.6); /* Ombra più intensa al hover */
+  transform: translateY(-3px); 
+  box-shadow: 0 10px 20px rgba(46, 134, 222, 0.6); 
 }
 
 .Login-Container footer {
-  margin-top: 35px; /* Spazio aumentato sopra il footer */
-  font-size: 1em; /* Testo footer leggermente più grande */
-  color: var(--text-medium); /* Testo footer di colore medio */
-  line-height: 1.6; /* Interlinea per leggibilità */
+  margin-top: 35px; 
+  font-size: 1em; 
+  color: var(--text-medium); 
+  line-height: 1.6;
 }
 
 .Login-Container footer p {
@@ -809,39 +786,38 @@ hr {
 }
 
 .Login-Container footer a {
-  color: var(--primary-accent-light); /* Colore link chiaro */
+  color: var(--primary-accent-light);
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
 }
 
 .Login-Container footer a:hover {
-  color: var(--primary-accent); /* Colore accentuato al hover */
+  color: var(--primary-accent);
   text-decoration: underline;
 }
 
-/* Media query specifica per i container di form per schermi piccoli */
 @media (max-width: 600px) {
   .Registrati-Container,
   .Login-Container {
-    margin: 20px; /* Margine uniforme sui lati */
-    padding: 25px; /* Padding leggermente ridotto */
+    margin: 20px; 
+    padding: 25px; 
   }
   .Registrati-Container h1,
   .Login-Container h1 {
-    font-size: 2.2rem; /* Titolo leggermente più piccolo */
+    font-size: 2.2rem; 
   }
   .Registrati-Container h4,
   .Login-Container h4 {
-    font-size: 1em; /* Testo più leggibile */
+    font-size: 1em; 
     margin-bottom: 20px;
   }
   .Login-Container input {
-    padding: 10px; /* Padding input ridotto */
+    padding: 10px; 
     font-size: 1em;
   }
   .Login-Container .btnlog {
-    padding: 12px 15px; /* Padding bottone ridotto */
+    padding: 12px 15px; 
     font-size: 1.1em;
     margin-top: 25px;
   }
@@ -851,15 +827,12 @@ hr {
   }
 }
 
-
-/* --- CSS ESCURSIONI UNIFICATE E MODIFICA PRENOTAZIONE --- */
-
-.Escursioni-Container, /* Nuovo nome di classe */
-.Modifica-Container { /* Nuovo nome di classe */
+.Escursioni-Container,
+.Modifica-Container { 
   max-width: 1200px;
   margin: 120px auto;
   padding: 20px;
-  background-color: #141d23; /* Sfondo scuro coerente */
+  background-color: #141d23; 
   border-radius: 10px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
   color: var(--text-light);
@@ -886,7 +859,6 @@ hr {
   font-weight: 600;
 }
 
-/* Loading State */
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -915,7 +887,6 @@ hr {
   100% { transform: rotate(360deg); }
 }
 
-/* Messaggio Nessun Risultato */
 .Escursioni-Container .no-results,
 .Modifica-Container .no-results {
     font-size: 1.1em;
@@ -923,7 +894,6 @@ hr {
     margin: 50px 0;
 }
 
-/* --- Lista Escursioni Pubbliche --- */
 .lista-escursioni {
   list-style: none;
   padding: 0;
@@ -934,7 +904,7 @@ hr {
 }
 
 .escursione-card {
-  background: var(--card-bg); /* Utilizza la variabile globale */
+  background: var(--card-bg); 
   padding: 25px;
   border-radius: 10px;
   box-shadow: 0 6px 15px var(--shadow-dark);
@@ -943,7 +913,7 @@ hr {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Per posizionare il bottone in basso */
+  justify-content: space-between;
 }
 
 .escursione-card:hover {
@@ -979,8 +949,8 @@ hr {
   cursor: pointer;
   font-weight: 600;
   font-size: 1em;
-  margin-top: 20px; /* Spazio dal contenuto sopra */
-  width: 100%; /* Bottone a tutta larghezza */
+  margin-top: 20px; 
+  width: 100%; 
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
@@ -996,19 +966,19 @@ hr {
 }
 
 .iscritto-label {
-  background-color: #28a745; /* Verde per "già iscritto" */
+  background-color: #28a745;
   color: white;
   padding: 8px 15px;
   border-radius: 5px;
   font-weight: 600;
-  display: inline-block; /* Per adattarsi al testo */
+  display: inline-block; 
   margin-top: 20px;
   width: 90%;
 }
 
 .completo-label {
-  background-color: #ffc107; /* Giallo/Arancione per "completo" */
-  color: var(--text-dark); /* Testo scuro per il giallo */
+  background-color: #ffc107; 
+  color: var(--text-dark); 
   padding: 8px 15px;
   border-radius: 5px;
   font-weight: 600;
@@ -1017,7 +987,6 @@ hr {
   width: 100%;
 }
 
-/* --- Sezione Le Tue Escursioni Programmate --- */
 .section-divider {
   margin: 60px auto;
   height: 3px;
@@ -1029,7 +998,7 @@ hr {
 }
 
 .prenotazioni-title {
-    margin-top: 60px; /* Spazio maggiore sopra il titolo delle prenotazioni */
+    margin-top: 60px; 
 }
 
 .prenotazioni-grid {
@@ -1040,7 +1009,7 @@ hr {
 }
 
 .prenotazioni-card {
-  background: rgba(255, 255, 255, 0.05); /* Sfondo leggermente più trasparente */
+  background: rgba(255, 255, 255, 0.05); 
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -1069,7 +1038,7 @@ hr {
   display: flex;
   gap: 10px;
   justify-content: center;
-  flex-wrap: wrap; /* Per bottini su più righe su schermi piccoli */
+  flex-wrap: wrap; 
 }
 
 .prenotazioni-card button {
@@ -1080,12 +1049,12 @@ hr {
   font-weight: 600;
   font-size: 0.9em;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  flex: 1; /* Permette ai bottoni di espandersi */
-  min-width: 100px; /* Larghezza minima per evitare che si comprimano troppo */
+  flex: 1; 
+  min-width: 100px; 
 }
 
 .prenotazioni-card button.red-btn {
-  background-color: #dc3545; /* Rosso per Elimina */
+  background-color: #dc3545;
   color: white;
 }
 
@@ -1094,8 +1063,8 @@ hr {
   transform: translateY(-2px);
 }
 
-.prenotazioni-card button:not(.red-btn) { /* Stile per "Modifica" e "No" */
-  background-color: #007bff; /* Blu per Modifica/No */
+.prenotazioni-card button:not(.red-btn) { 
+  background-color: #007bff; 
   color: white;
 }
 
@@ -1104,19 +1073,17 @@ hr {
   transform: translateY(-2px);
 }
 
-.prenotazioni-card h2 { /* "Sei sicuro?" */
+.prenotazioni-card h2 { 
     font-size: 1.2em;
     color: var(--primary-accent-light);
     margin-bottom: 10px;
-    width: 100%; /* Assicura che sia su una riga separata */
+    width: 100%; 
 }
 
-
-/* --- Footer di EscursioniUnificate --- */
 .Escursioni-Container footer {
   margin-top: 80px;
   padding: 30px;
-  background: rgba(255, 255, 255, 0.05); /* Sfondo leggermente trasparente */
+  background: rgba(255, 255, 255, 0.05); 
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1142,15 +1109,13 @@ hr {
   transform: translateY(-2px);
 }
 
-/* --- Modifica Prenotazione Form (classe .Modifica-Container usata per il wrapper) --- */
-
 .Modifica-Container form {
-  background: rgba(255, 255, 255, 0.08); /* Sfondo più chiaro per il form interno */
+  background: rgba(255, 255, 255, 0.08); 
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
   margin-top: 30px;
-  text-align: left; /* Allinea etichette e input */
+  text-align: left; 
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -1176,13 +1141,12 @@ hr {
   background-color: rgba(255, 255, 255, 0.05);
   color: black;
   font-size: 1em;
-  box-sizing: border-box; /* Include padding e border nella larghezza */
-  -webkit-appearance: none; /* Rimuove lo stile predefinito per i campi input */
+  box-sizing: border-box; 
+  -webkit-appearance: none; 
   -moz-appearance: none;
   appearance: none;
 }
 
-/* Stile per la freccia del select */
 .Modifica-Container form select {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat: no-repeat;
@@ -1191,7 +1155,7 @@ hr {
 }
 
 .Modifica-Container form input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1); /* Rende l'icona del calendario bianca */
+    filter: invert(1); 
 }
 
 .Modifica-Container form input:focus,
@@ -1202,7 +1166,7 @@ hr {
 }
 
 .Modifica-Container form button[type="submit"],
-.Modifica-Container button { /* Bottone AVANTI, MODIFICA, INDIETRO, ANNULLA */
+.Modifica-Container button {
   background-color: var(--primary-accent);
   color: white;
   padding: 14px 30px;
@@ -1215,7 +1179,7 @@ hr {
   letter-spacing: 0.8px;
   transition: background-color 0.3s ease, transform 0.2s ease;
   margin-top: 20px;
-  margin-right: 15px; /* Spazio tra i bottoni */
+  margin-right: 15px; 
 }
 
 .Modifica-Container form button[type="submit"]:hover,
@@ -1224,23 +1188,21 @@ hr {
   transform: translateY(-3px);
 }
 
-/* Stile specifico per il bottone ANNULLA se diverso */
 .Modifica-Container button[onClick*="router.push('/escursioni')"] {
-    background-color: #6c757d; /* Un colore neutro per ANNULLA */
+    background-color: #6c757d;
 }
 
 .Modifica-Container button[onClick*="router.push('/escursioni')"]:hover {
     background-color: #5a6268;
 }
 
-/* Tabella Fasce Orarie */
 .Modifica-Container table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
-  overflow: hidden; /* Per bordi arrotondati */
+  overflow: hidden; 
 }
 
 .Modifica-Container th, .Modifica-Container td {
@@ -1251,31 +1213,31 @@ hr {
 }
 
 .Modifica-Container th {
-  background-color: rgba(46, 134, 222, 0.2); /* Sfondo intestazione tabella */
+  background-color: rgba(46, 134, 222, 0.2); 
   font-weight: 600;
   text-transform: uppercase;
 }
 
 .Modifica-Container tr:last-child td {
-  border-bottom: none; /* Rimuove il bordo inferiore dell'ultima riga */
+  border-bottom: none; 
 }
 
 .Modifica-Container tr:hover {
-  background-color: rgba(255, 255, 255, 0.08); /* Effetto hover sulle righe */
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
 .Modifica-Container td button {
   padding: 8px 15px;
-  background-color: #28a745; /* Verde per selezionare */
+  background-color: #28a745; 
   color: white;
   border-radius: 4px;
   font-size: 0.9em;
-  margin: 0; /* Rimuove margini extra */
+  margin: 0; 
 }
 
 .Modifica-Container td button:hover {
   background-color: #218838;
-  transform: none; /* Non sollevare */
+  transform: none; 
 }
 
 .Modifica-Container td button[disabled] {
@@ -1284,26 +1246,22 @@ hr {
   opacity: 0.7;
 }
 
-/* Stile per il bottone di selezione fascia oraria quando è selezionato (lightgreen è solo un esempio) */
 .Modifica-Container td button[style*="lightgreen"] {
-    background-color: #34c759 !important; /* Colore verde più deciso */
+    background-color: #34c759 !important; 
     border: 2px solid white;
     font-weight: bold;
     color: white;
 }
 
-/* Stili per il pulsante INDIETRO nella modifica */
 .Modifica-Container button[onClick*="handleIndietro"] {
-    background-color: #ffc107; /* Un colore distintivo per INDIETRO */
-    color: var(--text-dark); /* Testo scuro per buon contrasto */
+    background-color: #ffc107; 
+    color: var(--text-dark); 
 }
 
 .Modifica-Container button[onClick*="handleIndietro"]:hover {
     background-color: #e0a800;
 }
 
-
-/* --- Responsive Adjustments per queste pagine --- */
 @media (max-width: 992px) {
   .Escursioni-Container,
   .Modifica-Container {
@@ -1317,7 +1275,7 @@ hr {
   }
   .lista-escursioni,
   .prenotazioni-grid {
-    grid-template-columns: 1fr; /* Colonna singola su schermi più piccoli */
+    grid-template-columns: 1fr; 
     gap: 20px;
   }
   .escursione-card,
@@ -1328,7 +1286,7 @@ hr {
     font-size: 1.6em;
   }
   .prenotazioni-card .delete-mode button {
-    flex-basis: 48%; /* Due bottoni per riga */
+    flex-basis: 48%;
   }
   .Modifica-Container form {
     padding: 20px;
@@ -1354,7 +1312,7 @@ hr {
     font-size: 0.9em;
   }
   .prenotazioni-card .delete-mode button {
-    flex-basis: 100%; /* Un bottone per riga */
+    flex-basis: 100%;
   }
   .Modifica-Container form input,
   .Modifica-Container form select,
@@ -1363,8 +1321,8 @@ hr {
     padding: 10px;
   }
   .Modifica-Container th, .Modifica-Container td {
-    padding: 10px 12px; /* Ridotto il padding per celle tabella */
-    font-size: 0.85em; /* Ridotta la dimensione del font per celle tabella */
+    padding: 10px 12px;
+    font-size: 0.85em; 
   }
   .Modifica-Container td button {
     padding: 6px 10px;
@@ -1407,7 +1365,6 @@ hr {
   max-width: 700px;
 }
 
-/* BOTTONI */
 .view-button {
   width: 100%;
   max-width: 450px;
@@ -1417,7 +1374,7 @@ hr {
   background: var(--card-bg);
   color: var(--primary-accent-light);
   border: 2px solid var(--primary-accent);
-  border-radius: 20px; /* Meno rotondo */
+  border-radius: 20px; 
   cursor: pointer;
   transition: all 0.3s ease;
   backdrop-filter: blur(8px);
@@ -1462,7 +1419,7 @@ hr {
   border-color: var(--primary-accent-light);
   box-shadow: 0 0 10px var(--primary-accent-light);
 }
-/* Grid Layout */
+
 .Bivacco-Container .bivacchi-grid,
 .Bivacco-Container .percorsi-grid {
   display: grid;
@@ -1474,7 +1431,6 @@ hr {
 .Bivacco-Container .bivacco-card,
 .Bivacco-Container .percorsi-card {
   background: var(--card-bg);
-  /* Utilizza una variabile CSS per il colore del bordo, con un fallback */
   border-left: 6px solid var(--card-accent-color, var(--primary-accent));
   padding: 25px;
   border-radius: 12px;
@@ -1488,41 +1444,34 @@ hr {
 .Bivacco-Container .bivacco-card:hover,
 .Bivacco-Container .percorsi-card:hover {
   background: var(--card-bg-hover);
-  /* Anche il colore del bordo sull'hover può essere dinamico */
   border-color: var(--card-accent-color-light, var(--primary-accent-light));
   transform: translateY(-6px) scale(1.02);
   box-shadow: 0 12px 25px var(--shadow-dark);
 }
 
-/* --- CLASSI DI COLORE PER I BIVACCHI BASATE SULLA CAPIENZA (ESEMPIO) --- */
-/* Puoi adattare queste soglie e colori come preferisci */
-
-.Bivacco-Container .bivacco-card.color-low-capacity { /* Esempio: capienza <= 4 */
-  --card-accent-color: #f39c12; /* Arancione */
-  --card-accent-color-light: #f5b041; /* Arancione più chiaro per hover */
+.Bivacco-Container .bivacco-card.color-low-capacity { 
+  --card-accent-color: #f39c12;
+  --card-accent-color-light: #f5b041; 
 }
 
-.Bivacco-Container .bivacco-card.color-medium-capacity { /* Esempio: 5 <= capienza <= 8 */
-  --card-accent-color: #2ecc71; /* Verde */
-  --card-accent-color-light: #58d68d; /* Verde più chiaro per hover */
+.Bivacco-Container .bivacco-card.color-medium-capacity { 
+  --card-accent-color: #2ecc71; 
+  --card-accent-color-light: #58d68d; 
 }
 
-.Bivacco-Container .bivacco-card.color-high-capacity { /* Esempio: capienza > 8 */
-  --card-accent-color: #e74c3c; /* Rosso */
-  --card-accent-color-light: #ec7063; /* Rosso più chiaro per hover */
+.Bivacco-Container .bivacco-card.color-high-capacity { 
+  --card-accent-color: #e74c3c; 
+  --card-accent-color-light: #ec7063; 
 }
 
-/* Fallback per i percorsi, o se non si applica nessuna classe specifica */
 .Bivacco-Container .percorsi-card {
-  border-left: 6px solid var(--primary-accent); /* Mantiene il colore blu predefinito per i percorsi */
+  border-left: 6px solid var(--primary-accent);
 }
 
 .Bivacco-Container .percorsi-card:hover {
   border-color: var(--primary-accent-light);
 }
 
-
-/* Resto del tuo CSS rimane lo stesso */
 .Bivacco-Container .bivacco-card p,
 .Bivacco-Container .percorsi-card p {
   margin-bottom: 10px;
@@ -1669,7 +1618,6 @@ hr {
   box-shadow: 0 0 10px var(--primary-accent-light);
 }
 
-/* Pulsanti iniziali */
 .Aggiungi-Container .view-selector {
   display: flex;
   flex-direction: column;
@@ -1703,7 +1651,6 @@ hr {
   box-shadow: 0 10px 20px rgba(46, 134, 222, 0.7);
 }
 
-/* Footer link */
 .Aggiungi-Container footer p {
   margin-top: 25px;
   font-size: 0.9em;
@@ -1725,46 +1672,46 @@ hr {
 /*profilo*/
 
 .Profilo-Container {
-  max-width: 1000px; /* Aumentata la larghezza massima */
-  margin: 80px auto 60px auto; /* Margine superiore ridotto, coerenza con altre pagine */
-  padding: 40px; /* Aumentato il padding interno */
+  max-width: 1000px; 
+  margin: 80px auto 60px auto; 
+  padding: 40px; 
   background-color: #141d23;
-  border-radius: 12px; /* Bordi leggermente più arrotondati */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); /* Ombra più pronunciata */
+  border-radius: 12px; 
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); 
   color: var(--text-light);
   text-align: center;
-  backdrop-filter: blur(8px); /* Effetto blur leggermente più forte */
-  border: 1px solid rgba(255, 255, 255, 0.15); /* Bordo più visibile */
+  backdrop-filter: blur(8px); 
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .Profilo-Container h1 {
   font-family: 'Oswald', sans-serif;
   font-weight: 700;
-  font-size: 3.2em; /* Titolo leggermente più grande */
+  font-size: 3.2em; 
   color: var(--primary-accent-light);
-  text-shadow: 0px 5px 10px var(--shadow-dark); /* Ombra testo più marcata */
-  margin-bottom: 50px; /* Spazio maggiore sotto il titolo principale */
+  text-shadow: 0px 5px 10px var(--shadow-dark);
+  margin-bottom: 50px; 
   text-transform: uppercase;
-  letter-spacing: 2px; /* Aumentato lo spazio tra le lettere */
+  letter-spacing: 2px; 
 }
 
 .Profilo-Container .profile-section {
   background: var(--card-bg);
-  padding: 35px; /* Aumentato il padding della sezione dati */
+  padding: 35px; 
   border-radius: 10px;
-  box-shadow: 0 8px 20px var(--shadow-dark); /* Ombra più pronunciata */
+  box-shadow: 0 8px 20px var(--shadow-dark); 
   text-align: left;
   margin-bottom: 40px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex; /* Utilizzo di flexbox per un layout più flessibile */
-  flex-direction: column; /* Impila gli elementi in colonna */
-  gap: 10px; /* Spazio tra gli elementi */
+  display: flex; 
+  flex-direction: column; 
+  gap: 10px;
 }
 
 .Profilo-Container .profile-section p {
   color: var(--text-medium);
-  margin-bottom: 5px; /* Spazio ridotto tra i paragrafi */
-  font-size: 1.15em; /* Testo leggermente più grande */
+  margin-bottom: 5px; 
+  font-size: 1.15em; 
   line-height: 1.6;
 }
 
@@ -1776,16 +1723,15 @@ hr {
 .Profilo-Container .tessera {
   margin-top: 30px;
   text-align: center;
-  /* grid-column: span 2; Rimosso, non più necessario con flexbox */
 }
 
 .Profilo-Container .tessera img {
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-  max-width: 250px; /* Larghezza fissa per l'immagine della tessera */
+  max-width: 250px; 
   height: auto;
   display: block;
-  margin: 0 auto; /* Centra l'immagine */
+  margin: 0 auto; 
 }
 
 .Profilo-Container .tessera .note {
@@ -1795,31 +1741,30 @@ hr {
 }
 
 .Profilo-Container .profile-section .buttons-container {
-  /* grid-column: span 2; Rimosso, non più necessario con flexbox */
   display: flex;
   justify-content: center;
-  gap: 15px; /* Spazio tra i bottoni */
+  gap: 15px; 
   margin-top: 25px;
-  flex-wrap: wrap; /* Permette ai bottoni di andare a capo */
+  flex-wrap: wrap; 
 }
 
 .Profilo-Container button {
   background-color: var(--primary-accent);
   color: white;
-  padding: 14px 30px; /* Padding aumentato per i bottoni */
-  border-radius: 8px; /* Bordi più arrotondati */
+  padding: 14px 30px; 
+  border-radius: 8px; 
   border: none;
   cursor: pointer;
   font-weight: 600;
-  font-size: 1.05em; /* Testo leggermente più grande */
+  font-size: 1.05em; 
   transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 12px rgba(46, 134, 222, 0.4); /* Ombra più pronunciata */
+  box-shadow: 0 4px 12px rgba(46, 134, 222, 0.4); 
 }
 
 .Profilo-Container button:hover {
   background-color: var(--primary-accent-dark);
-  transform: translateY(-3px); /* Effetto sollevamento più marcato */
-  box-shadow: 0 8px 20px rgba(46, 134, 222, 0.6); /* Ombra più intensa */
+  transform: translateY(-3px); 
+  box-shadow: 0 8px 20px rgba(46, 134, 222, 0.6);
 }
 
 .Profilo-Container button.delete-mode {
@@ -1833,20 +1778,20 @@ hr {
 }
 
 .Profilo-Container hr {
-  margin: 80px auto; /* Margine aumentato per le linee divisorie */
-  height: 4px; /* Linea più spessa */
+  margin: 80px auto; 
+  height: 4px; 
   background: linear-gradient(to right, transparent, var(--primary-accent-light), transparent);
   border: none;
-  max-width: 90%; /* Larghezza aumentata */
+  max-width: 90%; 
   border-radius: 3px;
-  box-shadow: 0 0 20px var(--primary-accent); /* Ombra più intensa */
+  box-shadow: 0 0 20px var(--primary-accent); 
 }
 
 .Profilo-Container .post-form {
   background: rgba(255, 255, 255, 0.08);
-  padding: 35px; /* Padding aumentato */
+  padding: 35px; 
   border-radius: 10px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5); /* Ombra più pronunciata */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5); 
   margin-top: 30px;
   text-align: center;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1854,28 +1799,28 @@ hr {
 }
 
 .Profilo-Container .post-form p {
-  font-size: 1.15em; /* Testo leggermente più grande */
+  font-size: 1.15em; 
   color: var(--text-medium);
-  margin-bottom: 25px; /* Spazio aumentato */
+  margin-bottom: 25px; 
 }
 
 .Profilo-Container .favorites-heading {
   font-family: 'Oswald', sans-serif;
   font-weight: 600;
-  font-size: 2em; /* Titolo preferiti più grande */
+  font-size: 2em; 
   color: var(--text-light);
   margin-top: 50px;
   margin-bottom: 30px;
-  text-shadow: 0px 3px 8px rgba(0, 0, 0, 0.6); /* Ombra testo più marcata */
+  text-shadow: 0px 3px 8px rgba(0, 0, 0, 0.6); 
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  text-align: center; /* Assicura che il titolo sia centrato */
+  text-align: center; 
 }
 
 .Profilo-Container .preferiti-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Larghezza minima aumentata */
-  gap: 30px; /* Spazio aumentato tra le card */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+  gap: 30px; 
   margin-top: 30px;
   justify-content: center;
 }
@@ -1883,9 +1828,9 @@ hr {
 .Profilo-Container .bivacco-card,
 .Profilo-Container .percorso-card {
   background: var(--card-bg);
-  padding: 25px; /* Padding aumentato */
-  border-radius: 12px; /* Bordi più arrotondati */
-  box-shadow: 0 8px 20px var(--shadow-dark); /* Ombra più pronunciata */
+  padding: 25px; 
+  border-radius: 12px; 
+  box-shadow: 0 8px 20px var(--shadow-dark); 
   text-align: left;
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
@@ -1897,25 +1842,25 @@ hr {
 
 .Profilo-Container .bivacco-card:hover,
 .Profilo-Container .percorso-card:hover {
-  transform: translateY(-8px); /* Effetto sollevamento più marcato */
-  box-shadow: 0 15px 30px var(--shadow-dark); /* Ombra più intensa */
+  transform: translateY(-8px); 
+  box-shadow: 0 15px 30px var(--shadow-dark);
   border-color: var(--primary-accent-light);
 }
 
 .Profilo-Container .card-image {
-  border-radius: 10px; /* Bordi immagine più arrotondati */
-  margin-bottom: 18px; /* Spazio aumentato sotto l'immagine */
-  width: 100%; /* Assicura che l'immagine occupi tutta la larghezza disponibile */
-  height: 180px; /* Altezza fissa per le immagini delle card */
+  border-radius: 10px; 
+  margin-bottom: 18px; 
+  width: 100%; 
+  height: 180px; 
   display: block;
   object-fit: cover;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Ombra per le immagini */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
 }
 
 .Profilo-Container .card-title {
   font-family: 'Oswald', sans-serif;
   color: var(--primary-accent-light);
-  font-size: 1.6em; /* Titolo card più grande */
+  font-size: 1.6em; 
   margin-bottom: 12px;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   text-align: center;
@@ -1926,7 +1871,7 @@ hr {
   color: var(--text-medium);
   margin-bottom: 10px;
   line-height: 1.5;
-  font-size: 1em; /* Testo card leggermente più grande */
+  font-size: 1em;
   text-align: center;
   width: 100%;
 }
@@ -1934,13 +1879,13 @@ hr {
 .Profilo-Container .card-button {
   background-color: #34c759;
   color: white;
-  padding: 12px 25px; /* Padding aumentato */
-  border-radius: 8px; /* Bordi più arrotondati */
+  padding: 12px 25px; 
+  border-radius: 8px; 
   border: none;
   cursor: pointer;
   font-weight: 600;
-  font-size: 0.95em; /* Testo bottone leggermente più grande */
-  margin-top: 20px; /* Spazio aumentato */
+  font-size: 0.95em; 
+  margin-top: 20px; 
   width: 100%;
   transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 12px rgba(52, 199, 89, 0.4);
@@ -1952,53 +1897,52 @@ hr {
   box-shadow: 0 8px 20px rgba(52, 199, 89, 0.6);
 }
 
-/* Nuova sezione Call to Action */
 .Profilo-Container .call-to-action-section {
-  margin-top: 80px; /* Margine superiore aumentato */
-  padding: 40px; /* Padding aumentato */
+  margin-top: 80px; 
+  padding: 40px; 
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px; /* Bordi più arrotondati */
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4); /* Ombra più pronunciata */
+  border-radius: 12px; 
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4); 
   border: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   flex-direction: column;
-  gap: 30px; /* Spazio aumentato tra gli elementi */
+  gap: 30px; 
   align-items: center;
 }
 
 .Profilo-Container .call-to-action-section h2 {
   font-family: 'Oswald', sans-serif;
   font-weight: 700;
-  font-size: 2.5em; /* Titolo più grande */
+  font-size: 2.5em; 
   color: var(--text-light);
   text-shadow: 0px 4px 8px var(--shadow-dark);
-  margin-bottom: 10px; /* Spazio ridotto sotto il titolo */
+  margin-bottom: 10px; 
   letter-spacing: 1.5px;
 }
 
 .Profilo-Container .call-to-action-section .section-description {
-  font-size: 1.2em; /* Testo descrittivo più grande */
+  font-size: 1.2em; 
   color: var(--text-medium);
   max-width: 700px;
-  margin-bottom: 20px; /* Spazio sotto la descrizione */
+  margin-bottom: 20px; 
 }
 
 .Profilo-Container .call-to-action-section .action-link {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 15px; /* Spazio aumentato tra icona e testo */
+  gap: 15px; 
   background-color: var(--primary-accent);
   color: white;
-  padding: 18px 35px; /* Padding aumentato per i link/pulsanti */
-  border-radius: 10px; /* Bordi più arrotondati */
+  padding: 18px 35px; 
+  border-radius: 10px; 
   text-decoration: none;
   font-weight: 700;
-  font-size: 1.2em; /* Testo più grande */
+  font-size: 1.2em; 
   transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
   box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
-  width: 90%; /* Rende i pulsanti più grandi */
-  max-width: 400px; /* Limita la larghezza su schermi grandi */
+  width: 90%;
+  max-width: 400px; 
 }
 
 .Profilo-Container .call-to-action-section .action-link:hover {
@@ -2008,7 +1952,7 @@ hr {
 }
 
 .Profilo-Container .call-to-action-section .action-link svg {
-  width: 28px; /* Icone più grandi */
+  width: 28px; 
   height: 28px;
   fill: currentColor;
 }
@@ -2016,7 +1960,7 @@ hr {
 
 .Profilo-Container .tesseramento-box {
   background: var(--card-bg);
-  padding: 35px; /* Padding aumentato */
+  padding: 35px;
   border-radius: 10px;
   box-shadow: 0 6px 15px var(--shadow-dark);
   margin-top: 40px;
@@ -2027,7 +1971,7 @@ hr {
 .Profilo-Container .warning-text {
   font-family: 'Oswald', sans-serif;
   font-weight: 700;
-  font-size: 2.4em; /* Testo warning più grande */
+  font-size: 2.4em; 
   color: var(--yellow-warning);
   text-shadow: 0px 3px 8px rgba(0, 0, 0, 0.6);
   margin-bottom: 30px;
@@ -2036,11 +1980,11 @@ hr {
 .Profilo-Container .btnlog {
   background-color: #007bff;
   color: white;
-  padding: 18px 35px; /* Padding aumentato */
+  padding: 18px 35px;
   border: none;
-  border-radius: 10px; /* Bordi più arrotondati */
+  border-radius: 10px; 
   cursor: pointer;
-  font-size: 1.2em; /* Testo più grande */
+  font-size: 1.2em; 
   font-weight: 600;
   transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
   box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
@@ -2052,7 +1996,6 @@ hr {
   box-shadow: 0 10px 20px rgba(0, 123, 255, 0.6);
 }
 
-/* Media Queries per la responsività */
 @media (max-width: 992px) {
   .Profilo-Container {
     padding: 30px;
@@ -2065,20 +2008,19 @@ hr {
   .Profilo-Container .profile-section {
     padding: 25px;
     margin-bottom: 30px;
-    /* grid-template-columns: 1fr; Rimosso per coerenza con flexbox */
   }
   .Profilo-Container .profile-section p {
     font-size: 1.05em;
   }
   .Profilo-Container .profile-section .buttons-container {
-    flex-direction: column; /* Bottoni in colonna */
+    flex-direction: column; 
     gap: 10px;
   }
   .Profilo-Container button {
     padding: 12px 25px;
     font-size: 1em;
     margin-right: 0;
-    width: 100%; /* Bottoni a tutta larghezza */
+    width: 100%; 
   }
   .Profilo-Container .favorites-heading {
     font-size: 1.8em;
@@ -2211,31 +2153,29 @@ hr {
   }
 }
 
-
-/* --- Nuovi stili per la sezione Preferiti (da Tailwind) --- */
 .favorites-heading {
-  font-size: 1.5rem; /* Corrisponde a text-xl */
-  font-weight: 600; /* Corrisponde a font-semibold */
-  color: var(--text-light); /* Adattato per il tema scuro */
-  margin-top: 2.5rem; /* Corrisponde a mt-8 */
-  margin-bottom: 1rem; /* Corrisponde a mb-4 */
+  font-size: 1.5rem; 
+  font-weight: 600; 
+  color: var(--text-light); 
+  margin-top: 2.5rem; 
+  margin-bottom: 1rem; 
   text-align: center;
 }
 
 .preferiti-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem; /* Corrisponde a gap-6 */
+  gap: 1.5rem; 
   margin-top: 20px;
 }
 
 .bivacco-card,
 .percorso-card {
-  background-color: var(--card-bg-dark); /* Corrisponde a bg-gray-50, adattato */
-  padding: 1rem; /* Corrisponde a p-4 */
-  border-radius: 0.5rem; /* Corrisponde a rounded-lg */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.12); /* Corrisponde a shadow-sm */
-  border: 1px solid var(--card-border-dark); /* Corrisponde a border border-gray-200, adattato */
+  background-color: var(--card-bg-dark); 
+  padding: 1rem; 
+  border-radius: 0.5rem; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.12); 
+  border: 1px solid var(--card-border-dark); 
   text-align: left;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -2247,74 +2187,73 @@ hr {
 }
 
 .card-image {
-  width: 100%; /* Corrisponde a w-full */
-  height: 8rem; /* Corrisponde a h-32 */
-  object-fit: cover; /* Corrisponde a object-cover */
-  margin-bottom: 0.75rem; /* Corrisponde a mb-3 */
-  border-radius: 0.25rem; /* Corrisponde a rounded */
+  width: 100%; 
+  height: 8rem; 
+  object-fit: cover; 
+  margin-bottom: 0.75rem; 
+  border-radius: 0.25rem; 
 }
 
 .card-title {
-  font-size: 1.125rem; /* Corrisponde a text-lg */
-  font-weight: 700; /* Corrisponde a font-bold */
-  margin-bottom: 0.25rem; /* Corrisponde a mb-1 */
-  color: var(--text-light); /* Corrisponde a text-gray-800, adattato */
+  font-size: 1.125rem; 
+  font-weight: 700; 
+  margin-bottom: 0.25rem; 
+  color: var(--text-light); 
 }
 
 .card-text {
-  color: var(--text-medium); /* Corrisponde a text-gray-600, adattato */
-  font-size: 0.875rem; /* Corrisponde a text-sm */
+  color: var(--text-medium);
+  font-size: 0.875rem;
   line-height: 1.4;
   margin-bottom: 5px;
 }
 
 .card-button {
-  margin-top: 1rem; /* Corrisponde a mt-4 */
+  margin-top: 1rem; 
   color: white;
-  font-weight: 700; /* Corrisponde a font-bold */
-  padding: 0.5rem 1rem; /* Corrisponde a py-2 px-4 */
-  border-radius: 0.25rem; /* Corrisponde a rounded */
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Corrisponde a transition duration-300 */
-  width: 100%; /* Corrisponde a w-full */
+  font-weight: 700; 
+  padding: 0.5rem 1rem; 
+  border-radius: 0.25rem; 
+  transition: background-color 0.3s ease, transform 0.2s ease; 
+  width: 100%; 
   border: none;
   cursor: pointer;
 }
 
 .card-button-bivacco {
-  background-color: #3b82f6; /* Corrisponde a bg-blue-500 */
+  background-color: #3b82f6;
 }
 
 .card-button-bivacco:hover {
-  background-color: #2563eb; /* Corrisponde a hover:bg-blue-600 */
+  background-color: #2563eb; 
   transform: translateY(-2px);
 }
 
 .card-button-percorso {
-  background-color: #22c55e; /* Corrisponde a bg-green-500 */
+  background-color: #22c55e; 
 }
 
 .card-button-percorso:hover {
-  background-color: #16a34a; /* Corrisponde a hover:bg-green-600 */
+  background-color: #16a34a; 
   transform: translateY(-2px);
 }
 
 .info-text {
-  margin-top: 2rem; /* Corrisponde a mt-8 */
+  margin-top: 2rem; 
   color: var(--text-medium);
   font-size: 1.1em;
 }
 
 .info-link {
-  color: var(--primary-accent-light); /* Corrisponde a text-blue-500 */
+  color: var(--primary-accent-light); 
   text-decoration: none;
   transition: text-decoration 0.3s ease;
 }
 
 .info-link:hover {
-  text-decoration: underline; /* Corrisponde a hover:underline */
+  text-decoration: underline; 
 }
 
-/* --- Modifica Profilo Container --- */
 .ModificaProfilo-container {
   max-width: 600px;
   margin: 80px auto;
@@ -2420,7 +2359,7 @@ hr {
   transform: translateY(-3px);
 }
 
-/* --- Pagamento Container --- */
+
 .Pagamento-Container {
   max-width: 500px;
   margin: 80px auto;
@@ -2511,7 +2450,7 @@ hr {
   box-shadow: none;
 }
 
-.Pagamento-Container button:not(.btnlog) { /* Questo è il bottone "ANNULLA" */
+.Pagamento-Container button:not(.btnlog) { 
   background-color: var(--gray-button);
   color: white;
   padding: 12px 25px;
@@ -2531,7 +2470,6 @@ hr {
   transform: translateY(-2px);
 }
 
-/* --- Responsive per Profilo, Pagamento, ModificaProfilo --- */
 @media (max-width: 768px) {
   .Profilo-Container,
   .Pagamento-Container,
@@ -2593,7 +2531,7 @@ hr {
   }
 
   .favorites-heading {
-      font-size: 1.3rem; /* Regolato per schermi molto piccoli */
+      font-size: 1.3rem; 
   }
 
   .card-title {
@@ -2611,12 +2549,12 @@ hr {
 
 .Ricordi-Container {
     max-width: 900px;
-    margin: 120px auto 60px auto; /* Adjusted margin to match other main containers */
+    margin: 120px auto 60px auto; 
     padding: 30px;
-    background-color: #141d23; /* Dark background */
+    background-color: #141d23; 
     border-radius: 10px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-    color: var(--text-light); /* Light text for dark background */
+    color: var(--text-light); 
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -2624,24 +2562,24 @@ hr {
 
 .Ricordi-Container h1 {
     font-size: 2.5rem;
-    color: var(--text-light); /* Consistent title color */
+    color: var(--text-light); 
     margin-bottom: 30px;
     font-weight: 700;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
-    font-family: 'Oswald', sans-serif; /* Consistent font */
-    text-transform: uppercase; /* Consistent style */
-    letter-spacing: 1.5px; /* Consistent style */
+    font-family: 'Oswald', sans-serif; 
+    text-transform: uppercase; 
+    letter-spacing: 1.5px; 
 }
 
-.Ricordi-Container > div { /* Container for mapped items (prenotazioni) */
+.Ricordi-Container > div { 
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
     margin-top: 20px;
 }
 
-.Ricordi-Container .lista-escursioni { /* Container for mapped items (escursioni pubbliche) */
-    list-style: none; /* Remove list bullets */
+.Ricordi-Container .lista-escursioni { 
+    list-style: none;
     padding: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -2650,17 +2588,17 @@ hr {
 }
 
 
-.Ricordi-Container .escursione-card { /* Styles for individual cards in both sections */
-    background-color: var(--card-bg); /* Dark card background */
-    border: 1px solid var(--card-border-dark); /* Dark border */
+.Ricordi-Container .escursione-card {
+    background-color: var(--card-bg); 
+    border: 1px solid var(--card-border-dark); 
     border-radius: 10px;
     padding: 20px;
     text-align: left;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
-    flex-direction: column; /* Ensure content stacks */
-    justify-content: space-between; /* Push button to bottom if present */
+    flex-direction: column; 
+    justify-content: space-between; 
 }
 
 .Ricordi-Container .escursione-card:hover {
@@ -2670,8 +2608,8 @@ hr {
 
 .Ricordi-Container .escursione-card h3 {
     font-family: 'Oswald', sans-serif;
-    color: var(--primary-accent-light); /* Accent color for card titles */
-    font-size: 1.5rem; /* Slightly smaller than main h1 */
+    color: var(--primary-accent-light); 
+    font-size: 1.5rem; 
     margin-bottom: 15px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
@@ -2680,22 +2618,21 @@ hr {
     font-size: 1rem;
     line-height: 1.6;
     margin-bottom: 8px;
-    color: var(--text-medium); /* Medium text color */
+    color: var(--text-medium); 
 }
 
 .Ricordi-Container .escursione-card p strong {
-    color: var(--text-light); /* Light text for strong elements */
+    color: var(--text-light); 
     font-weight: 600;
 }
 
-.Ricordi-Container > p { /* "Non ci sono escursioni passate." message */
+.Ricordi-Container > p { 
     font-size: 1.1rem;
-    color: var(--text-medium); /* Medium text color */
+    color: var(--text-medium); 
     margin-top: 30px;
     flex-grow: 1;
 }
 
-/* --- RECENSIONE BOX STYLES --- */
 .Ricordi-Container .recensione-box {
     margin-top: 15px;
     padding-top: 15px;
@@ -2709,11 +2646,10 @@ hr {
     font-size: 0.95rem;
 }
 
-/* Interactive Stars (for when the user hasn't voted yet) */
 .Ricordi-Container .stars {
-    display: inline-block; /* Aligns stars horizontally */
+    display: inline-block; 
     font-size: 1.8rem;
-    color: #ccc; /* Default star color */
+    color: #ccc; 
 }
 
 .Ricordi-Container .stars .star {
@@ -2724,48 +2660,45 @@ hr {
 
 .Ricordi-Container .stars .star:hover {
     transform: scale(1.1);
-    color: orange; /* Hover effect */
+    color: orange; 
 }
 
-/* Reset color for stars after the hovered one */
 .Ricordi-Container .stars .star:hover ~ .star {
     color: #ccc;
 }
 
 .Ricordi-Container .stars .star.active {
-    color: #ffc107; /* Gold color for active stars */
+    color: #ffc107; 
 }
 
-/* Static Stars (for when the user has already voted) */
 .Ricordi-Container .stars-display {
-    display: inline-block; /* To align with text */
-    vertical-align: middle; /* Align stars with text vertically */
+    display: inline-block; 
+    vertical-align: middle; 
     margin-left: 5px;
-    font-size: 1.8rem; /* Consistent size with interactive stars */
-    color: #ffc107; /* Always gold for active stars in display mode */
+    font-size: 1.8rem; 
+    color: #ffc107; 
 }
 
 .Ricordi-Container .stars-display .star-static {
     margin: 0 2px;
-    cursor: default; /* No pointer cursor for static stars */
-    transition: none; /* No transition for static stars */
+    cursor: default; 
+    transition: none;
 }
 
 .Ricordi-Container .stars-display .star-static:not(.active) {
-    color: #ccc; /* Unfilled stars in a static display */
+    color: #ccc; 
 }
 
 .Ricordi-Container .voted-message {
-    margin-top: 5px; /* Adjust spacing */
+    margin-top: 5px; 
     font-size: 0.9em;
-    color: var(--text-medium); /* Use a consistent text color */
+    color: var(--text-medium); 
     font-style: italic;
-    display: inline-block; /* To align with stars-display */
+    display: inline-block; 
     vertical-align: middle;
     margin-left: 5px;
 }
 
-/* --- BUTTON & UTILITY STYLES --- */
 .Ricordi-Container button {
     background-color: var(--primary-accent);
     color: white;
@@ -2786,7 +2719,7 @@ hr {
 }
 
 .Ricordi-Container .error-message {
-    color: #ff4d4d; /* A clear error red */
+    color: #ff4d4d; 
     font-weight: bold;
     margin-bottom: 15px;
     text-align: center;
@@ -2798,10 +2731,9 @@ hr {
 .Ricordi-Container .section-divider {
     margin: 40px 0;
     border: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Lighter divider for dark theme */
+    border-top: 1px solid rgba(255, 255, 255, 0.1); 
 }
 
-/* --- MEDIA QUERIES --- */
 @media (max-width: 768px) {
     .Ricordi-Container {
         margin: 20px auto;

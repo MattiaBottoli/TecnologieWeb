@@ -62,14 +62,13 @@ export default function PrenotazioneEscursione() {
   const today = new Date().toISOString().split('T')[0];
 
 useEffect(() => {
-  if (loading) return; // aspetta che il contesto finisca di caricare
+  if (loading) return;
 
   if (!isLoggedIn) {
     router.push("/registrati");
     return;
   }
 
-  // fetch solo se loggato
   const fetchData = async () => {
     try {
       const resPercorsi = await fetch("http://localhost:5000/api/percorsi");
@@ -113,7 +112,6 @@ useEffect(() => {
     event.preventDefault();
     setError("");
 
-    // Ottieni gli ID da salvare
     const nomePercorso = percorsi.find(p => p._id === selectedPercorso);
     const nomeBivacco = bivacchi.find(b => b._id === selectedBivacco);
 

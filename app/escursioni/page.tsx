@@ -39,7 +39,6 @@ export default function EscursioniUnificate() {
   const [deleteMode, setDeleteMode] = useState<string | null>(null);
 
   useEffect(() => {
-    // Recupera escursioni pubbliche
     const fetchEscursioni = async () => {
       try {
         const response = await fetch("http://localhost:5000/api/escursioni");
@@ -58,7 +57,6 @@ export default function EscursioniUnificate() {
   useEffect(() => {
     if (!isLoggedIn) return;
 
-    // Recupera escursioni personali
     fetch("http://localhost:5000/api/prenotazioni", {
       headers: {
         "Content-Type": "application/json",
